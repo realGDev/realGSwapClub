@@ -1,11 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router, HashRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import MApp from "./components/MApp";
+import App from "./components/MApp";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-ReactDOM.render(<MApp />, document.getElementById("root"));
+// ReactDOM.render(<MApp />, document.getElementById("root"));
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -4,6 +4,7 @@ import React, { Component } from "react";
 // import Countdown from "react-countdown";
 
 import Web3 from "web3";
+import { useHistory } from "react-router-dom";
 
 import pug from "./assets/gangster.png";
 
@@ -99,7 +100,7 @@ class NavBar extends Component {
             "radial-gradient(100% 100% at 0px 0px, black, transparent), orange",
         }}
       >
-        <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="/about">
+        <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="/about#">
           <img src={pug} className="App-logo" alt="logo" height="65" />
           <b>
             {" "}
@@ -109,7 +110,7 @@ class NavBar extends Component {
         </a>
         <div className="nav-wrapper">
           <div className="topbar-nav no-select">
-            <a class={"item clickable "} href="/farms">
+            <a class={"item clickable "} href="#/farms">
               <font color="ec6998">
                 G<font size="1">$</font>
               </font>
@@ -118,7 +119,7 @@ class NavBar extends Component {
             {/* <a class="item clickable" href="/zap">
                 Swap
               </a> */}
-            <a class="item clickable" href="/lottery">
+            <a class="item clickable" href="#/lottery">
               <font color="ec6998">
                 G<font size="1">$</font>
               </font>

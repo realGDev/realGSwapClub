@@ -255,10 +255,11 @@ class About extends Component {
                   <span class="title" align="center">
                     <font color="ec6998">
                       <i>
-                        Participating is just 0,5 EWT (less than 2,75$) so the
-                        contribution is small compared with the{" "}
+                        Participating is just{" "}
+                        <font color="white">0,5 EWT </font> (less than 2,75$) so
+                        the contribution is small compared with the{" "}
                         <font color="white">G</font>$
-                        <font color="white">wap</font>
+                        <font color="white">wap </font>
                         <font color="white">POT</font> <br />
                         The biggest <font color="white">Reward Prize</font> ever
                         emmited in EWC, keep that in main.

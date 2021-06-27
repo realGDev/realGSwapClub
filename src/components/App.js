@@ -41,7 +41,7 @@ import ammo from "./assets/ammo.png";
 //   </BrowserRouter>
 // );
 
-class App extends Component {
+class Home extends Component {
   async componentWillMount() {
     await this.loadBlockchainData(this.props.dispatch);
   }
@@ -1120,4 +1120,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Home;
