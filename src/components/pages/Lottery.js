@@ -13,7 +13,6 @@ import gangster from "../assets/gangster.png";
 import ewt from "../assets/ewt.png";
 import ammo from "../assets/ammo.png";
 import gngLotto from "../assets/gngLotto.png";
-import premium from "../assets/app/premium.png";
 
 const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
