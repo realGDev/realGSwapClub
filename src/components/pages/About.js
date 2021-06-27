@@ -9,6 +9,7 @@ import gangster from "../assets/gangster.png";
 import ewt from "../assets/ewt.png";
 import ammo from "../assets/ammo.png";
 import gngLotto from "../assets/gngLotto.png";
+import promoAbout from "../assets/promoAbout.png";
 // import LotteryContract from "../../abis/Lottery.json";
 
 // import gangster from "../assets/gangster.png";
@@ -388,15 +389,7 @@ class About extends Component {
               justifyContent: "center",
             }}
           >
-            <div class="pot-item empty ">
-              <img src={gngLotto} alt="cooking" />
-              <font color="grey">
-                <span>More Coming soon</span>
-              </font>
-              <font color="grey">
-                <span>This is just the begining</span>{" "}
-              </font>
-            </div>
+            <img className="home-card-image" src={promoAbout} />
           </div>
         </div>
 

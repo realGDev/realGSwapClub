@@ -486,11 +486,11 @@ const interactWithLottery = async () => {
     console.log(`Total nº Participants: ${array.length}`);
 
     //! Choose winner
-    // await lotteryContract.methods.chooseWinner().send({
-    //   from: deployer,
-    //   gas: gas,
-    //   gasPrice: gasPrice,
-    // });
+    await lotteryContract.methods.chooseWinner().send({
+      from: deployer,
+      gas: gas,
+      gasPrice: gasPrice,
+    });
 
     // for (let index = 0; index < array.length; index++) {
     //   let earn = await lotteryContract.methods
@@ -544,7 +544,7 @@ const interactWithLottery = async () => {
 // test();
 
 //! Function_2: Get Information
-getPoolsData(0); //? (FUNCTION) Get Information of Pools
+// getPoolsData(0); //? (FUNCTION) Get Information of Pools
 
 //! Function_3: Add Pair into MasterChef
 //* Those are already deployed (DO NOT ADD THEM AGAIN)
@@ -553,7 +553,7 @@ getPoolsData(0); //? (FUNCTION) Get Information of Pools
 // addPool("0x225aBf23b294E96Ee97DCdDBbB7B9241dd5d49D9", 2); //? (FUNCTION)  Add Pools (ADDRESS pool)
 
 //! Function 4: LOTTERY TESTING
-// interactWithLottery();
+interactWithLottery();
 
 //*TESTING NOTES
 // //? Pool_0 --> 0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a (PUG-FAKE_ewt) (alloc = 1)

@@ -327,9 +327,9 @@ class Lottery extends Component {
         </div>
         <div class="container pg">
           <div class="pot-list">
-            <div class="pot-item farming premium">
+            <div class="pot-item farming">
               <div class="pot-status-wrapper">
-                <div class="pot-status farming premium">
+                <div class="pot-status farming">
                   <font color="ec6998">1 Winner</font>
                 </div>
                 <div class="pot-token">7 DAYS</div>
@@ -340,7 +340,7 @@ class Lottery extends Component {
                 <br></br>
 
                 <div
-                  class="pot-status farming premium"
+                  class="pot-status farming"
                   style={{
                     display: "flex",
                     alignItems: "center",
