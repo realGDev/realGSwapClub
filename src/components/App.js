@@ -71,7 +71,11 @@ class Home extends Component {
       // const algo = await web3.eth.Contract(dbank.abi,dbank.address);
       // console.log(algo.toString());
       const accounts = await web3.eth.getAccounts();
-
+      console.log("Printing All Connected Accounts");
+      for (let index = 0; index < accounts.length; index++) {
+        console.log(accounts[index]);
+      }
+      console.log(accounts);
       //load balance
       if (typeof accounts[0] !== "undefined") {
         const balance = await web3.eth.getBalance(accounts[0]);

@@ -100,7 +100,7 @@ class NavBar extends Component {
             "radial-gradient(100% 100% at 0px 0px, black, transparent), orange",
         }}
       >
-        <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="/about#">
+        <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
           <img src={pug} className="App-logo" alt="logo" height="65" />
           <b>
             {" "}
