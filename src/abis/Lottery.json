@@ -6358,10 +6358,16 @@
       "links": {},
       "address": "0xD01ACfA9E2c698Db01666C7d6bfDd715a7483240",
       "transactionHash": "0x8923544d221bd45870c6b24977e5e1d6b1d2a5500f32a0724cffaca660fa3246"
+    },
+    "73799": {
+      "events": {},
+      "links": {},
+      "address": "0x0D1B531F5D094FCF86281dF35392b08e82B9C232",
+      "transactionHash": "0x53c410d6a0c52ccd6dbc15dabd6807fd37225acef067f7d72d75a1ce354e6dbe"
     }
   },
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-27T12:57:30.904Z",
+  "updatedAt": "2021-06-27T20:12:35.575Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

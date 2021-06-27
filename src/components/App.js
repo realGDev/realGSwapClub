@@ -46,20 +46,6 @@ class Home extends Component {
     await this.loadBlockchainData(this.props.dispatch);
   }
 
-  // async loadContract(contact) {
-  //   if (contract == 'PUG') {
-  //     return await web3.eth.Contract();
-  //   } else if (contract == 'EWT') {
-  //     return await web3.eth.Contract();
-
-  //   } else if (contract == 'SUSU') {
-  //     return await web3.eth.Contract();
-
-  //   } else {
-  //     console.log('What the fuck are you loading?!');
-  //   }
-  // }
-
   async loadBlockchainData(dispatch) {
     if (typeof window.ethereum !== "undefined") {
       const web3 = new Web3(window.ethereum);
