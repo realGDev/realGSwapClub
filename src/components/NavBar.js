@@ -191,11 +191,9 @@ class NavBar extends Component {
     if (typeof window.ethereum !== "undefined") {
       const web3 = new Web3(window.ethereum);
       const netId = await web3.eth.net.getId();
+      const pugAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
       const blockAc = await web3.eth.getBlockNumber();
-      const pugContract = new web3.eth.Contract(
-        tokenABI,
-        "0x59b6196e41c118dfF75961257b882e86b915a0e8"
-      );
+      const pugContract = new web3.eth.Contract(tokenABI, pugAddress);
 
       console.log(netId);
       console.log(`Block: ${blockAc}`);
@@ -207,14 +205,21 @@ class NavBar extends Component {
       if (typeof accounts[0] !== "undefined") {
         const balance = await web3.eth.getBalance(accounts[0]);
         const pugBalance = await pugContract.methods
-          .balanceOf(this.state.account)
+          .balanceOf(accounts[0])
           .call();
+        const pgBal = web3.utils.fromWei(pugBalance);
+        const round_pug_balance = (+pgBal).toFixed(2);
+        const gangster_pug_balance =
+          round_pug_balance / 100000 > 1
+            ? (+(round_pug_balance / 1000)).toFixed(2)
+            : 0;
 
         this.setState({
           account: accounts[0],
           balance: web3.utils.fromWei(balance),
           web3: web3,
-          pugBalance: pugBalance,
+          round_pug_balance: round_pug_balance,
+          gangster_pug_balance: gangster_pug_balance,
         });
       } else {
         window.alert("Please login with MetaMask");
@@ -228,13 +233,13 @@ class NavBar extends Component {
       }
     } else {
       const result = await window.ethereum.enable();
-      console.log(result);
-      console.log(result);
-      console.log(result);
-      console.log(result);
-      console.log(result);
-      console.log(result);
-      console.log(result);
+      // console.log(result);
+      // console.log(result);
+      // console.log(result);
+      // console.log(result);
+      // console.log(result);
+      // console.log(result);
+      // console.log(result);
       window.location.reload();
 
       //! AQUI
@@ -252,6 +257,8 @@ class NavBar extends Component {
       web3: "undefined",
       page: "about",
       pugBalance: 0,
+      round_pug_balance: 0,
+      gangster_pug_balance: 0,
     };
   }
 
@@ -327,7 +334,7 @@ class NavBar extends Component {
                 <b>
                   <font color="ec6998">PUG:</font>
                 </b>{" "}
-                0,0020
+                0.0020
                 <b>$</b>
               </font>
             </div>
@@ -339,9 +346,54 @@ class NavBar extends Component {
           <span>
             <font color="ec6998"> M</font>
             <font color="white">y PUG</font>
-            <div>{this.state.pugBalance}</div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <b>
+                <font color="ec6998">
+                  {" "}
+                  {this.state.gangster_pug_balance != 0
+                    ? this.state.gangster_pug_balance + " "
+                    : this.state.round_pug_balance}
+                </font>{" "}
+              </b>
+              ,
+              <i>
+                <font color="white">
+                  {this.state.gangster_pug_balance != 0 ? "K" : ""}
+                </font>
+              </i>
+            </div>
           </span>
         </div>
+        {/* <div>
+          <span>
+            <font color="ec6998"> M</font>
+            <font color="white">y AMMO</font>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <font color="ec6998">
+                {" "}
+                {this.state.gangster_pug_balance != 0
+                  ? this.state.gangster_pug_balance + " "
+                  : this.state.round_pug_balance}
+              </font>{" "}
+              ,
+              <font color="white">
+                {this.state.gangster_pug_balance != 0 ? "K" : ""}
+              </font>
+            </div>
+          </span>
+        </div> */}
         <a>
           {" "}
           <div
