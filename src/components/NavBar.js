@@ -71,7 +71,18 @@ class NavBar extends Component {
         window.alert("Contracts not deployed to the current network");
       }
     } else {
-      window.alert("Please install MetaMask");
+      const result = await window.ethereum.enable();
+      console.log(result);
+      console.log(result);
+      console.log(result);
+      console.log(result);
+      console.log(result);
+      console.log(result);
+      console.log(result);
+      window.location.reload();
+
+      //! AQUI
+      // window.alert("Please install MetaMask");
     }
   }
   constructor(props) {
