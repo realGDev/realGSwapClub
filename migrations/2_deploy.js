@@ -38,7 +38,7 @@ module.exports = async function (deployer, _network, addresses) {
   console.log("Working on Testing Enviroment 👁‍🗨");
   const [admin, _] = addresses;
   //   const dias = 7;
-
+  console.log(`Managing Deployment through: ${admin}`);
   //   //!	This is for testing porpuses
 
   //   console.log(admin.toString());
@@ -78,12 +78,13 @@ module.exports = async function (deployer, _network, addresses) {
   //   await sushiToken.transferOwnership(masterChef.address);
 
   //! This is LOOTTERY SHIT
+
   await deployer.deploy(
     Lotto,
     "G$wap Lotto", //? Parameter 1 --> NameLottery (AMMO)
     "gLOTTO", //? Parameter 1 --> Symbol
     "250000", //? Parameter 1 --> Nº of Tickets
-    addresses[0] //? Parameter 1 --> Addresses Fee
+    admin //? Parameter 1 --> Addresses Fee
   );
 
   const lotto = await Lotto.deployed();

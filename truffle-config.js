@@ -64,7 +64,7 @@ module.exports = {
         );
       },
       gas: 8000000,
-      gasPrice: 26000000, // 5 gwei
+      gasPrice: 2100000, // 5 gwei
       network_id: 246,
     },
     volta: {
