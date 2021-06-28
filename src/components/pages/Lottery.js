@@ -6,8 +6,10 @@ import Countdown from "react-countdown";
 import Web3 from "web3";
 
 import LotteryContract from "../../abis/Lottery.json";
-import Token from "../../abis/SusuToken.json";
-import MasterChef from "../../abis/MasterChef.json";
+
+//!AQUI
+// import Token from "../../abis/SusuToken.json";
+// import MasterChef from "../../abis/MasterChef.json";
 
 import gangster from "../assets/gangster.png";
 import ewt from "../assets/ewt.png";
@@ -100,21 +102,25 @@ class Lottery extends Component {
           .winnings(this.state.account)
           .call();
         winDisp_0 = winDisp_0;
-        const ammoContract = new web3.eth.Contract(
-          Token.abi,
-          Token.networks[netId].address
-        );
-        const ammoAddress = Token.networks[netId].address;
-        const masterChef = new web3.eth.Contract(
-          MasterChef.abi,
-          MasterChef.networks[netId].address
-        );
-        this.setState({
-          winDisp_0: winDisp_0,
-          ammo: ammoContract,
-          ammoAddress: ammoAddress,
-          masterChef: masterChef,
-        });
+
+        //!AQUI
+        // const ammoContract = new web3.eth.Contract(
+        //   Token.abi,
+        //   Token.networks[netId].address
+        // );
+        // const ammoAddress = Token.networks[netId].address;
+        // const masterChef = new web3.eth.Contract(
+        //   MasterChef.abi,
+        //   MasterChef.networks[netId].address
+        // );
+        // this.setState({
+        //   winDisp_0: winDisp_0,
+        //   ammo: ammoContract,
+        //   ammoAddress: ammoAddress,
+        //   masterChef: masterChef,
+        // });
+
+        //! AQUI-end-
       } catch (e) {
         console.log("Error", e);
         window.alert("Contracts not deployed to the current network");
@@ -214,15 +220,18 @@ class Lottery extends Component {
           const gas = new this.state.web3.utils.BN("6000000");
           const gasPrice = new this.state.web3.utils.BN("100000");
 
-          const ammoAddress = this.state.ammoAddress;
-          console.log(ammoAddress);
-          const currentAmmoBalance = await this.state.ammo.methods
-            .balanceOf(this.state.account)
-            .call();
-          const fee = new this.state.web3.utils.BN("50000000000000000000");
-          const feeAddress = await this.state.masterChef.methods
-            .getFeeAddress()
-            .call();
+          //!AQUI
+          // const ammoAddress = this.state.ammoAddress;
+          // console.log(ammoAddress);
+          // const currentAmmoBalance = await this.state.ammo.methods
+          //   .balanceOf(this.state.account)
+          //   .call();
+          // const fee = new this.state.web3.utils.BN("50000000000000000000");
+          // const feeAddress = await this.state.masterChef.methods
+          //   .getFeeAddress()
+          //   .call();
+          //!AQUI-end--
+
           this.setState({ contest_0_winner: true });
           //* Fee
           // await this.state.ammo.methods.transfer(feeAddress, fee).send({
