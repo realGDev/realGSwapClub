@@ -21,7 +21,7 @@ const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 // const startContest_0 = new Date(2021, 6, 27);
 const startContest_1 = new Date(2021, 6, 28, 5, 30, 0, 0);
 
-const endContest_0 = new Date(2021, 6, 10, 0, 0, 0, 0);
+const endContest_0 = new Date(2021, 5, 10, 0, 0, 0, 0);
 // const endContest_0 = new Date(2021, 5, 10, 0, 0, 0, 0);
 // const endContest_1 = new Date(2021, 7, 10);
 

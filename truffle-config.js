@@ -3,7 +3,7 @@ require("babel-polyfill");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 require("dotenv").config();
 
-const mnemonic = [process.env.MNEMONIC];
+// const mnemonic = [process.env.MNEMONIC];
 
 module.exports = {
   networks: {
@@ -59,7 +59,7 @@ module.exports = {
     ewc: {
       provider: function () {
         return new HDWalletProvider(
-          mnemonic, // Array of account private keys
+          [process.env.MNEMONIC], // Array of account private keys
           "https://rpc.energyweb.org"
         );
       },
@@ -70,7 +70,7 @@ module.exports = {
     volta: {
       provider: function () {
         return new HDWalletProvider(
-          mnemonic, // Array of account private keys
+          [process.env.MNEMONIC], // Array of account private keys
           "https://volta-rpc.energyweb.org"
         );
       },

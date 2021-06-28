@@ -3,6 +3,7 @@ const MasterChefContract = require("./src/abis/MasterChef.json");
 const Ewt_Contract = require("./src/abis/Ewt_lp.json");
 const SusuContract = require("./src/abis/SusuToken.json");
 const LotteryContract = require("./src/abis/Lottery.json");
+const HDWalletProvider = require("@truffle/hdwallet-provider");
 
 require("dotenv").config();
 
@@ -407,6 +408,84 @@ const getPoolsData = async (pid) => {
   }
 };
 
+const chooseWinnerLottoEwt = async () => {
+  let provider = new HDWalletProvider(
+    [process.env.MNEMONIC],
+    "https://rpc.energyweb.org"
+  );
+
+  const web3 = new Web3(provider);
+
+  const id = await web3.eth.net.getId();
+  const deployedNetwork = LotteryContract.networks[id];
+  const lotteryContract = new web3.eth.Contract(
+    LotteryContract.abi,
+    LotteryContract.networks[id].address
+  );
+
+  //! Deployer address --> change to REAL address
+
+  const addresses = await web3.eth.getAccounts();
+  console.log(`Purhasing through Address: ${addresses[0]}`);
+  const deployer = addresses[0];
+  const buyingAmount = new web3.utils.BN("500000000000000000");
+  const gas = new web3.utils.BN("6000000");
+  const gasPrice = new web3.utils.BN("1");
+  const commiPre = web3.eth.getBalance(addresses[0]);
+
+  try {
+    const lotBal = await web3.eth.getBalance(
+      LotteryContract.networks[id].address
+    );
+
+    const leng = await lotteryContract.methods.ticketsLength().call();
+    console.log(`The TOTAL Nº Of Purchased gLotto: ${leng.toString()}`);
+    console.log(`TOTAL JACKPOT: ${web3.utils.fromWei(lotBal)} EWT`);
+
+    //* SNAPSHOT DE TOTS ELS PARTICIPANTS
+    console.log("PARTICIPANTS:\n");
+    let array = [];
+    let trobat = false;
+    for (let index = 0; index < leng; index++) {
+      const participant = await lotteryContract.methods.tickets(index).call();
+      for (let j = 0; j < array.length; j++) {
+        if (participant == array[j]) {
+          trobat = true;
+        }
+      }
+      if (trobat != true) {
+        console.log(participant);
+        array.push(participant);
+      }
+      trobat = false;
+    }
+    console.log(array);
+    console.log(`Total nº Participants: ${array.length}`);
+
+    //! Choose winner
+    await lotteryContract.methods.chooseWinner().send({
+      from: deployer,
+      gas: gas,
+      gasPrice: gasPrice,
+    });
+
+    const commiPost = await web3.eth.getBalance(deployer);
+
+    const commiEarn =
+      web3.utils.fromWei(commiPost) - web3.utils.fromWei(commiPre);
+    console.log(`G$wap gets rewarded with: ${commiEarn}`);
+
+    console.log(
+      web3.utils.fromWei(
+        await web3.eth.getBalance(lotteryContract.options.address)
+      )
+    );
+  } catch (error) {
+    console.log("MY ERROR: ");
+    console.log(error.toString());
+  }
+};
+
 const interactWithLottery = async () => {
   const web3 = new Web3("http://localhost:9545");
 
@@ -419,11 +498,11 @@ const interactWithLottery = async () => {
 
   //! Deployer address --> change to REAL address
 
-  const addresses = await web3.eth.getAccounts();
-  console.log(`Purhasing through Address: ${addresses[1]}`);
-  const deployer = addresses[0];
-  const comissioner = addresses[1];
-  const buyer = addresses[2];
+  // const addresses = await web3.eth.getAccounts();
+  // console.log(`Purhasing through Address: ${addresses[1]}`);
+  // const deployer = addresses[0];
+  // const comissioner = addresses[1];
+  // const buyer = addresses[2];
   const buyingAmount = new web3.utils.BN("500000000000000000");
   const gas = new web3.utils.BN("6000000");
   const gasPrice = new web3.utils.BN("3");
@@ -535,28 +614,44 @@ const interactWithLottery = async () => {
 };
 
 //TODO: FUNCTION REPOSITORY
+//! Mainnet
+chooseWinnerLottoEwt();
+
+//! (end) Mainnet
 
 //     EXECUTABLE FUNCTIONS
 //*    Important to READ
 //?    Code clarifications
 
-//! Function_1: Testing
+//* Function_1: Testing
 // test();
 
-//! Function_2: Get Information
+//* Function_2: Get Information
 // getPoolsData(0); //? (FUNCTION) Get Information of Pools
 
-//! Function_3: Add Pair into MasterChef
+//* Function_3: Add Pair into MasterChef
 //* Those are already deployed (DO NOT ADD THEM AGAIN)
 //TODO pid --> (0): '','PUG-WEWT', 25
 //TODO pid --> (1): '','PUG-SUSU', 10
 // addPool("0x225aBf23b294E96Ee97DCdDBbB7B9241dd5d49D9", 2); //? (FUNCTION)  Add Pools (ADDRESS pool)
 
-//! Function 4: LOTTERY TESTING
-interactWithLottery();
+//* Function 4: LOTTERY TESTING
+// interactWithLottery();
 
-//*TESTING NOTES
-// //? Pool_0 --> 0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a (PUG-FAKE_ewt) (alloc = 1)
-// //? Pool_1 --> 0x225aBf23b294E96Ee97DCdDBbB7B9241dd5d49D9 (PUG-AMMO) (alloc = 2)
+//? TESTING NOTES
+// // Pool_0 --> 0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a (PUG-FAKE_ewt) (alloc = 1)
+// // Pool_1 --> 0x225aBf23b294E96Ee97DCdDBbB7B9241dd5d49D9 (PUG-AMMO) (alloc = 2)
 
-//? Pool_2 --> 0xc61500fa1bfa61312c71393a202149bac9ce1de4 (PUG-EWT) (alloc = 1)
+// Pool_2 --> 0xc61500fa1bfa61312c71393a202149bac9ce1de4 (PUG-EWT) (alloc = 1)
+
+//* Real SHIT FUNCTIONS -----------------
+
+//* In order to operate with a wallet -->
+
+//! Així es pot fer servir una wallet (cal importar la priv Key a .env + incloure'l al gitignore)
+// const HDWalletProvider = require("@truffle/hdwallet-provider");
+// const Web3 = require("web3");
+// let provider = new HDWalletProvider(
+//   [process.env.MNEMONIC],
+//   "https://rpc.energyweb.org"
+// );
