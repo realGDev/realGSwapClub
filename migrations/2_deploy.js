@@ -1,16 +1,17 @@
 const { networks } = require("../truffle-config");
 
-const SushiToken = artifacts.require("SusuToken.sol");
-const MasterChef = artifacts.require("MasterChef.sol");
+// const SushiToken = artifacts.require("SusuToken.sol");
+// const MasterChef = artifacts.require("MasterChef.sol");
 
-//?Fake Tokens
-const Ewt_lp = artifacts.require("Ewt_lp.sol");
-const Ammo_lp = artifacts.require("Ammo_lp.sol");
+// //?Fake Tokens
+// const Ewt_lp = artifacts.require("Ewt_lp.sol");
+// const Ammo_lp = artifacts.require("Ammo_lp.sol");
 const RealG = artifacts.require("RealG.sol");
+const Ej = artifacts.require("Ej.sol");
 //? End: Fake Tokens
 
 //? Lottery
-const Lotto = artifacts.require("Lottery.sol");
+// const Lotto = artifacts.require("Lottery.sol");
 //? End:  Lottery
 
 //TODO: PRODUCTION
@@ -47,7 +48,7 @@ module.exports = async function (deployer, _network, addresses) {
   //   await deployer.deploy(SushiToken);
   //   const sushiToken = await SushiToken.deployed();
 
-  //   //!Faucet fake token
+  //   //*Faucet fake token
   //   await deployer.deploy(Ewt_lp);
   //   await deployer.deploy(Ammo_lp);
   //   const lp_ewt = await Ewt_lp.deployed();
@@ -58,13 +59,15 @@ module.exports = async function (deployer, _network, addresses) {
   //   console.log(lp_ewt.address);
   //   await lp_ewt.faucet(admin, web3.utils.toWei("10000"));
   //   await lp_ammo.faucet(admin, web3.utils.toWei("10000"));
-  //   //!END: Faucet fake token
+  //   //*END: Faucet fake token
 
   //   //? Establish start and end of PLUS ULTRA rewards
   //   const blockDeploy = await web3.eth.getBlockNumber();
   //   const futureBlock = blockDeploy + (dias * 24 * 60 * 60) / 6.5;
   //   const myBignumber = new web3.utils.BN(futureBlock);
   //   console.log(myBignumber.toString());
+
+  //! MasterChef & AMMO SC Deploy
 
   //   await deployer.deploy(
   //     MasterChef, //Contract,
@@ -77,6 +80,7 @@ module.exports = async function (deployer, _network, addresses) {
   //   );
   //   const masterChef = await MasterChef.deployed();
   //   await sushiToken.transferOwnership(masterChef.address);
+  //! ---end--- MasterChef & AMMO SC Deploy
 
   //! LOOTTERY SC Deploy
   // await deployer.deploy(
@@ -91,9 +95,12 @@ module.exports = async function (deployer, _network, addresses) {
   // console.log(lotto.address);
   //! --end-- LOOTTERY SC Deploy
 
-  //! rG SC Deploy
-  await deployer.deploy(RealG, 15000000);
-  const realG = await RealG.deployed();
-  console.log(`Your RealG Token is deployed at address: ${realG.address}`);
-  //! --end-- rG SC Deploy
+  //! rG & Ej SC Deploy
+  // await deployer.deploy(RealG, 15000000);
+  // const realG = await RealG.deployed();
+  // console.log(`Your RealG Token is deployed at address: ${realG.address}`);
+  // await deployer.deploy(Ej, 15000000);
+  // const ej = await Ej.deployed();
+  // console.log(`Your RealG Token is deployed at address: ${ej.address}`);
+  //! --end-- rG & Ej SC Deploy
 };
