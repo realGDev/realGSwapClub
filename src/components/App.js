@@ -448,88 +448,214 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="root">
-        <div className="text-monospace">
-          <br></br>
-          <div className="page" style={{ background: "black" }}>
+      <div>
+        <div className="root">
+          <div className="text-monospace">
             <br></br>
-            <br></br>
-            <div class="pot-banner">
-              <div class="wrapper">
-                <div class="banner-wrapper">
-                  <div class="txt-wrapper">
-                    <span class="title">G$WAP Farming</span>
-                    <span class="sub-title">
-                      <font color="white">
-                        The G$wap Farming is for those who support @mogpug
-                        ($PUG) from the begining. Gangsters take care of other
-                        Gangsters, at least Pug Gangsters do.
-                      </font>
-                    </span>
-                    <br></br>
-                    <div>
-                      <span class="title" align="right">
+            <div className="page" style={{ background: "black" }}>
+              <br></br>
+              <br></br>
+              <div class="pot-banner">
+                <div class="wrapper">
+                  <div class="banner-wrapper">
+                    <div class="txt-wrapper">
+                      <span class="title">G$WAP Farming</span>
+                      <span class="sub-title">
                         <font color="white">
-                          <b>
-                            <i>Eat, Fuck & Farm like a Gangster</i>
-                          </b>
+                          The G$wap Farming is for those who support @mogpug
+                          ($PUG) from the begining. Gangsters take care of other
+                          Gangsters, at least Pug Gangsters do.
                         </font>
                       </span>
+                      <br></br>
+                      <div>
+                        <span class="title" align="right">
+                          <font color="white">
+                            <b>
+                              <i>Eat, Fuck & Farm like a Gangster</i>
+                            </b>
+                          </font>
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <br></br>
-            <div
-              class="page-content"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div class="container pg">
-                <div class="farms-list-wrapper">
-                  {/* EWT-PUG FARM */}
-                  <div class="balance" align="left">
-                    <span class="label">
-                      <font color="white">WALLET BALANCE:</font>
-                    </span>
-                    <span class="value">
-                      <font color="white">
-                        {this.state.ewt_clp_wallet_balance}
-                      </font>
-                    </span>
-                  </div>
+              <br></br>
+              <div
+                class="page-content"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div class="container pg">
+                  <div class="farms-list-wrapper">
+                    {/* EWT-PUG FARM */}
+                    <div class="balance" align="left">
+                      <span class="label">
+                        <font color="white">WALLET BALANCE:</font>
+                      </span>
+                      <span class="value">
+                        <font color="white">
+                          {this.state.ewt_clp_wallet_balance}
+                        </font>
+                      </span>
+                    </div>
 
-                  <div class="section staked">
-                    <div class="wrapper_important_pairs">
-                      <main role="main" className="farm-list">
+                    <div class="section staked">
+                      <div class="wrapper_important_pairs">
+                        <main role="main" className="farm-list">
+                          <div class="row">
+                            <div class="farms-card-item clickable">
+                              <div class="icon">
+                                <div
+                                  class="card-icon no-select"
+                                  style={{ height: "90px", width: "90px" }}
+                                >
+                                  <img src={pugEwtt} alt="icon" />
+                                </div>
+                              </div>
+                              <div></div>
+                              <div class="label" align="right">
+                                <span>
+                                  $<font color="white">PUG-EWT</font>
+                                </span>
+                              </div>
+                              <div class="rates">
+                                <span class="apy">
+                                  {this.state.reward_ewt_pdt_ammo == 0
+                                    ? "$AMMO"
+                                    : `$${this.state.reward_ewt_pdt_ammo}`}
+                                </span>
+                                <span class="description">
+                                  {this.state.reward_ewt_pdt_ammo == 0
+                                    ? "Earn"
+                                    : `$AMMO`}
+                                </span>
+                              </div>
+                              <div class="details return" align="right">
+                                <div
+                                  class="bunny-button clickable no-select"
+                                  onClick={(e) => this.withdraw_ewt_clp(e)}
+                                >
+                                  <div class="content">
+                                    <font
+                                      color={
+                                        this.state.depo_clp_ewt_amount != 0
+                                          ? "white"
+                                          : "gray"
+                                      }
+                                    >
+                                      WITHDRAW
+                                    </font>
+                                    <div class="subtext"></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="details total" align="right">
+                                <span class="label">Deposited:</span>
+                                <span class="value">
+                                  {this.state.depo_clp_ewt_amount} EWT-PUG
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <br></br>
+                        </main>
+
+                        {/* Operating BOX */}
+                        <div
+                          class="token-input"
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <div
+                            class="token-input-wrapper"
+                            style={{ width: "55%" }}
+                          >
+                            <input
+                              class="token-input"
+                              placeholder={
+                                this.state.input_lp_ewt == 0
+                                  ? "0.0"
+                                  : this.state.input_lp_ewt
+                              }
+                              onChange={this.ChangeCLP_EWT_Amount}
+                            />
+                            <span class="token-input-symbol no-select">
+                              PUG-EWT CLP
+                            </span>
+                            <div
+                              class="token-input-max clickable"
+                              onClick={(e) => this.ChangeCLP_EWT_Amount(e)}
+                            >
+                              MAX
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="farm-detail-control-action-wrapper"
+                        style={{ height: "5px" }}
+                      >
                         <div class="row">
-                          <div class="farms-card-item clickable">
+                          <div
+                            class="bunny-button clickable no-select"
+                            onClick={(e) =>
+                              this.deposit_ewt_clp(this.state.input_lp_ewt)
+                            }
+                          >
+                            <div class="content">
+                              <font color="white">DEPOSIT</font>
+                              <div class="subtext"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* PUG AMMO */}
+                      <main role="main" className="farm-list">
+                        <div class="balance" align="left">
+                          <span class="label">
+                            <font color="white">WALLET BALANCE:</font>
+                          </span>
+                          <span class="value">
+                            <font color="white">
+                              {this.state.ammo_clp_wallet_balance}
+                            </font>
+                          </span>
+                        </div>
+
+                        <div class="row">
+                          <div class="farms-card-item">
                             <div class="icon">
                               <div
                                 class="card-icon no-select"
                                 style={{ height: "90px", width: "90px" }}
                               >
-                                <img src={pugEwtt} alt="icon" />
+                                <img src={pugAmmo} alt="icon" />
                               </div>
                             </div>
                             <div></div>
                             <div class="label" align="right">
                               <span>
-                                $<font color="white">PUG-EWT</font>
+                                $<font color="white">PUG-AMMO</font>
                               </span>
                             </div>
                             <div class="rates">
                               <span class="apy">
-                                {this.state.reward_ewt_pdt_ammo == 0
+                                {this.state.reward_ammo_pdt_ammo == 0
                                   ? "$AMMO"
-                                  : `$${this.state.reward_ewt_pdt_ammo}`}
+                                  : `$${this.state.reward_ammo_pdt_ammo}`}
                               </span>
                               <span class="description">
-                                {this.state.reward_ewt_pdt_ammo == 0
+                                {this.state.reward_ammo_pdt_ammo == 0
                                   ? "Earn"
                                   : `$AMMO`}
                               </span>
@@ -537,12 +663,12 @@ class Home extends Component {
                             <div class="details return" align="right">
                               <div
                                 class="bunny-button clickable no-select"
-                                onClick={(e) => this.withdraw_ewt_clp(e)}
+                                onClick={(e) => this.withdraw_ammo_clp(e)}
                               >
                                 <div class="content">
                                   <font
                                     color={
-                                      this.state.depo_clp_ewt_amount != 0
+                                      this.state.depo_clp_ammo_amount != 0
                                         ? "white"
                                         : "gray"
                                     }
@@ -556,14 +682,13 @@ class Home extends Component {
                             <div class="details total" align="right">
                               <span class="label">Deposited:</span>
                               <span class="value">
-                                {this.state.depo_clp_ewt_amount} EWT-PUG
+                                {this.state.depo_clp_ammo_amount} AMMO-PUG
                               </span>
                             </div>
                           </div>
                         </div>
                         <br></br>
                       </main>
-
                       {/* Operating BOX */}
                       <div
                         class="token-input"
@@ -580,18 +705,18 @@ class Home extends Component {
                           <input
                             class="token-input"
                             placeholder={
-                              this.state.input_lp_ewt == 0
+                              this.state.input_lp_ammo == 0
                                 ? "0.0"
-                                : this.state.input_lp_ewt
+                                : this.state.input_lp_ammo
                             }
-                            onChange={this.ChangeCLP_EWT_Amount}
+                            onChange={this.ChangeCLP_AMMO_Amount}
                           />
                           <span class="token-input-symbol no-select">
-                            PUG-EWT CLP
+                            PUG-AMMO CLP
                           </span>
                           <div
                             class="token-input-max clickable"
-                            onClick={(e) => this.ChangeCLP_EWT_Amount(e)}
+                            onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
                           >
                             MAX
                           </div>
@@ -599,243 +724,242 @@ class Home extends Component {
                       </div>
                     </div>
 
-                    <div
-                      class="farm-detail-control-action-wrapper"
-                      style={{ height: "5px" }}
-                    >
-                      <div class="row">
-                        <div
-                          class="bunny-button clickable no-select"
-                          onClick={(e) =>
-                            this.deposit_ewt_clp(this.state.input_lp_ewt)
-                          }
-                        >
-                          <div class="content">
-                            <font color="white">DEPOSIT</font>
-                            <div class="subtext"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* PUG AMMO */}
-                    <main role="main" className="farm-list">
-                      <div class="balance" align="left">
-                        <span class="label">
-                          <font color="white">WALLET BALANCE:</font>
-                        </span>
-                        <span class="value">
-                          <font color="white">
-                            {this.state.ammo_clp_wallet_balance}
-                          </font>
-                        </span>
-                      </div>
-
-                      <div class="row">
-                        <div class="farms-card-item">
-                          <div class="icon">
-                            <div
-                              class="card-icon no-select"
-                              style={{ height: "90px", width: "90px" }}
-                            >
-                              <img src={pugAmmo} alt="icon" />
+                    <div class="card-content">
+                      <div class="farm-detail-control-action-wrapper">
+                        <div class="row">
+                          <div
+                            class="bunny-button clickable no-select"
+                            onClick={(e) =>
+                              this.deposit_ammo_clp(this.state.input_lp_ammo)
+                            }
+                          >
+                            <div class="content">
+                              <font color="white">DEPOSIT</font>
+                              <div class="subtext"></div>
                             </div>
                           </div>
-                          <div></div>
-                          <div class="label" align="right">
-                            <span>
-                              $<font color="white">PUG-AMMO</font>
-                            </span>
-                          </div>
-                          <div class="rates">
-                            <span class="apy">
-                              {this.state.reward_ammo_pdt_ammo == 0
-                                ? "$AMMO"
-                                : `$${this.state.reward_ammo_pdt_ammo}`}
-                            </span>
-                            <span class="description">
-                              {this.state.reward_ammo_pdt_ammo == 0
-                                ? "Earn"
-                                : `$AMMO`}
-                            </span>
-                          </div>
-                          <div class="details return" align="right">
-                            <div
-                              class="bunny-button clickable no-select"
-                              onClick={(e) => this.withdraw_ammo_clp(e)}
-                            >
-                              <div class="content">
-                                <font
-                                  color={
-                                    this.state.depo_clp_ammo_amount != 0
-                                      ? "white"
-                                      : "gray"
-                                  }
-                                >
-                                  WITHDRAW
-                                </font>
-                                <div class="subtext"></div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="details total" align="right">
-                            <span class="label">Deposited:</span>
-                            <span class="value">
-                              {this.state.depo_clp_ammo_amount} AMMO-PUG
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <br></br>
-                    </main>
-                    {/* Operating BOX */}
-                    <div
-                      class="token-input"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <div class="token-input-wrapper" style={{ width: "55%" }}>
-                        <input
-                          class="token-input"
-                          placeholder={
-                            this.state.input_lp_ammo == 0
-                              ? "0.0"
-                              : this.state.input_lp_ammo
-                          }
-                          onChange={this.ChangeCLP_AMMO_Amount}
-                        />
-                        <span class="token-input-symbol no-select">
-                          PUG-AMMO CLP
-                        </span>
-                        <div
-                          class="token-input-max clickable"
-                          onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
-                        >
-                          MAX
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <div class="card-content">
-                    <div class="farm-detail-control-action-wrapper">
-                      <div class="row">
-                        <div
-                          class="bunny-button clickable no-select"
-                          onClick={(e) =>
-                            this.deposit_ammo_clp(this.state.input_lp_ammo)
-                          }
-                        >
-                          <div class="content">
-                            <font color="white">DEPOSIT</font>
-                            <div class="subtext"></div>
+                  {/* USDC-PUG FARM */}
+
+                  <main role="main" className="farm-list">
+                    <div class="balance" align="left">
+                      <span class="label">
+                        <font color="white">WALLET BALANCE:</font>
+                      </span>
+                      <span class="value">
+                        <font color="white">
+                          {this.state.ammo_clp_wallet_balance}
+                        </font>
+                      </span>
+                    </div>
+
+                    <div class="row">
+                      <div class="farms-card-item">
+                        <div class="icon">
+                          <div
+                            class="card-icon no-select"
+                            style={{ height: "90px", width: "90px" }}
+                          >
+                            <img src={pugUsdc} alt="icon" />
                           </div>
                         </div>
+                        <div></div>
+                        <div class="label" align="right">
+                          <span>$PUG-USDC</span>
+                        </div>
+                        <div class="rates">
+                          <span class="apy">
+                            {this.state.reward_ammo_pdt_ammo == 0
+                              ? "$AMMO"
+                              : `$${this.state.reward_ammo_pdt_ammo}`}
+                          </span>
+                          <span class="description">
+                            {this.state.reward_ammo_pdt_ammo == 0
+                              ? "Earn"
+                              : `$AMMO`}
+                          </span>
+                        </div>
+                        <div class="details return" align="right">
+                          <div
+                            class="bunny-button clickable no-select"
+                            onClick={(e) => this.withdraw_ammo_clp(e)}
+                          >
+                            <div class="content">
+                              <font
+                                color={
+                                  this.state.depo_clp_ammo_amount != 0
+                                    ? "white"
+                                    : "gray"
+                                }
+                              >
+                                WITHDRAW
+                              </font>
+                              <div class="subtext"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="details total" align="right">
+                          <span class="label">Deposited:</span>
+                          <span class="value">
+                            {this.state.depo_clp_ammo_amount} USDC-PUG
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <br></br>
+                  </main>
+                  {/* Operating BOX */}
+                  <div
+                    class="token-input"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div class="token-input-wrapper" style={{ width: "75%" }}>
+                      <input
+                        class="token-input"
+                        placeholder={
+                          this.state.input_lp_ammo == 0
+                            ? "0.0"
+                            : this.state.input_lp_ammo
+                        }
+                        onChange={this.ChangeCLP_AMMO_Amount}
+                      />
+                      <span class="token-input-symbol no-select">
+                        PUG-USDC CLP
+                      </span>
+                      <div
+                        class="token-input-max clickable"
+                        onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
+                      >
+                        MAX
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* USDC-PUG FARM */}
-
-                <main role="main" className="farm-list">
-                  <div class="balance" align="left">
-                    <span class="label">
-                      <font color="white">WALLET BALANCE:</font>
-                    </span>
-                    <span class="value">
-                      <font color="white">
-                        {this.state.ammo_clp_wallet_balance}
-                      </font>
-                    </span>
-                  </div>
-
-                  <div class="row">
-                    <div class="farms-card-item">
-                      <div class="icon">
-                        <div
-                          class="card-icon no-select"
-                          style={{ height: "90px", width: "90px" }}
-                        >
-                          <img src={pugUsdc} alt="icon" />
+                <div class="card-content">
+                  <div
+                    class="farm-detail-control-action-wrapper"
+                    align="center"
+                    style={{ height: "5px" }}
+                  >
+                    <div class="row">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) =>
+                          this.deposit_ammo_clp(this.state.input_lp_ammo)
+                        }
+                      >
+                        <div class="content" align="center">
+                          <font color="white">DEPOSIT</font>
+                          <div class="subtext"></div>
                         </div>
-                      </div>
-                      <div></div>
-                      <div class="label" align="right">
-                        <span>$PUG-USDC</span>
-                      </div>
-                      <div class="rates">
-                        <span class="apy">
-                          {this.state.reward_ammo_pdt_ammo == 0
-                            ? "$AMMO"
-                            : `$${this.state.reward_ammo_pdt_ammo}`}
-                        </span>
-                        <span class="description">
-                          {this.state.reward_ammo_pdt_ammo == 0
-                            ? "Earn"
-                            : `$AMMO`}
-                        </span>
-                      </div>
-                      <div class="details return" align="right">
-                        <div
-                          class="bunny-button clickable no-select"
-                          onClick={(e) => this.withdraw_ammo_clp(e)}
-                        >
-                          <div class="content">
-                            <font
-                              color={
-                                this.state.depo_clp_ammo_amount != 0
-                                  ? "white"
-                                  : "gray"
-                              }
-                            >
-                              WITHDRAW
-                            </font>
-                            <div class="subtext"></div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="details total" align="right">
-                        <span class="label">Deposited:</span>
-                        <span class="value">
-                          {this.state.depo_clp_ammo_amount} USDC-PUG
-                        </span>
                       </div>
                     </div>
                   </div>
-                  <br></br>
-                </main>
-                {/* Operating BOX */}
-                <div
-                  class="token-input"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <div class="token-input-wrapper" style={{ width: "75%" }}>
-                    <input
-                      class="token-input"
-                      placeholder={
-                        this.state.input_lp_ammo == 0
-                          ? "0.0"
-                          : this.state.input_lp_ammo
-                      }
-                      onChange={this.ChangeCLP_AMMO_Amount}
-                    />
-                    <span class="token-input-symbol no-select">
-                      PUG-USDC CLP
-                    </span>
-                    <div
-                      class="token-input-max clickable"
-                      onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
-                    >
-                      MAX
+                </div>
+              </div>
+              {/* WBNB-PUG FARM */}
+
+              <main role="main" className="farm-list">
+                <div class="balance" align="left">
+                  <span class="label">
+                    <font color="white">WALLET BALANCE:</font>
+                  </span>
+                  <span class="value">
+                    <font color="white">
+                      {this.state.ammo_clp_wallet_balance}
+                    </font>
+                  </span>
+                </div>
+
+                <div class="row">
+                  <div class="farms-card-item">
+                    <div class="icon">
+                      <div
+                        class="card-icon no-select"
+                        style={{ height: "90px", width: "90px" }}
+                      >
+                        <img src={pugBnb} alt="icon" />
+                      </div>
                     </div>
+                    <div></div>
+                    <div class="label" align="right">
+                      <span>$PUG-BNB</span>
+                    </div>
+                    <div class="rates">
+                      <span class="apy">
+                        {this.state.reward_ammo_pdt_ammo == 0
+                          ? "$AMMO"
+                          : `$${this.state.reward_ammo_pdt_ammo}`}
+                      </span>
+                      <span class="description">
+                        {this.state.reward_ammo_pdt_ammo == 0
+                          ? "Earn"
+                          : `$AMMO`}
+                      </span>
+                    </div>
+                    <div class="details return" align="right">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) => this.withdraw_ammo_clp(e)}
+                      >
+                        <div class="content">
+                          <font
+                            color={
+                              this.state.depo_clp_ammo_amount != 0
+                                ? "white"
+                                : "gray"
+                            }
+                          >
+                            WITHDRAW
+                          </font>
+                          <div class="subtext"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="details total" align="right">
+                      <span class="label">Deposited:</span>
+                      <span class="value">
+                        {this.state.depo_clp_ammo_amount} BNB-PUG
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <br></br>
+              </main>
+              {/* Operating BOX */}
+              <div
+                class="token-input"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div class="token-input-wrapper" style={{ width: "75%" }}>
+                  <input
+                    class="token-input"
+                    placeholder={
+                      this.state.input_lp_ammo == 0
+                        ? "0.0"
+                        : this.state.input_lp_ammo
+                    }
+                    onChange={this.ChangeCLP_AMMO_Amount}
+                  />
+                  <span class="token-input-symbol no-select">PUG-BNB CLP</span>
+                  <div
+                    class="token-input-max clickable"
+                    onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
+                  >
+                    MAX
                   </div>
                 </div>
               </div>
@@ -861,248 +985,133 @@ class Home extends Component {
                   </div>
                 </div>
               </div>
-            </div>
-            {/* WBNB-PUG FARM */}
 
-            <main role="main" className="farm-list">
-              <div class="balance" align="left">
-                <span class="label">
-                  <font color="white">WALLET BALANCE:</font>
-                </span>
-                <span class="value">
-                  <font color="white">
-                    {this.state.ammo_clp_wallet_balance}
-                  </font>
-                </span>
-              </div>
+              {/* WBNB-PUG FARM */}
 
-              <div class="row">
-                <div class="farms-card-item">
-                  <div class="icon">
-                    <div
-                      class="card-icon no-select"
-                      style={{ height: "90px", width: "90px" }}
-                    >
-                      <img src={pugBnb} alt="icon" />
+              <main role="main" className="farm-list">
+                <div class="balance" align="left">
+                  <span class="label">
+                    <font color="white">WALLET BALANCE:</font>
+                  </span>
+                  <span class="value">
+                    <font color="white">
+                      {this.state.ammo_clp_wallet_balance}
+                    </font>
+                  </span>
+                </div>
+
+                <div class="row">
+                  <div class="farms-card-item">
+                    <div class="icon">
+                      <div
+                        class="card-icon no-select"
+                        style={{ height: "90px", width: "90px" }}
+                      >
+                        <img src={pugSusu} alt="icon" />
+                      </div>
+                    </div>
+                    <div></div>
+                    <div class="label" align="right">
+                      <span>$PUG-SUSU</span>
+                    </div>
+                    <div class="rates">
+                      <span class="apy">
+                        {this.state.reward_ammo_pdt_ammo == 0
+                          ? "$AMMO"
+                          : `$${this.state.reward_ammo_pdt_ammo}`}
+                      </span>
+                      <span class="description">
+                        {this.state.reward_ammo_pdt_ammo == 0
+                          ? "Earn"
+                          : `$AMMO`}
+                      </span>
+                    </div>
+                    <div class="details return" align="right">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) => this.withdraw_ammo_clp(e)}
+                      >
+                        <div class="content">
+                          <font
+                            color={
+                              this.state.depo_clp_ammo_amount != 0
+                                ? "white"
+                                : "gray"
+                            }
+                          >
+                            WITHDRAW
+                          </font>
+                          <div class="subtext"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="details total" align="right">
+                      <span class="label">Deposited:</span>
+                      <span class="value">
+                        {this.state.depo_clp_ammo_amount} SUSU-PUG
+                      </span>
                     </div>
                   </div>
-                  <div></div>
-                  <div class="label" align="right">
-                    <span>$PUG-BNB</span>
+                </div>
+                <br></br>
+              </main>
+              {/* Operating BOX */}
+              <div
+                class="token-input"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div class="token-input-wrapper" style={{ width: "75%" }}>
+                  <input
+                    class="token-input"
+                    placeholder={
+                      this.state.input_lp_ammo == 0
+                        ? "0.0"
+                        : this.state.input_lp_ammo
+                    }
+                    onChange={this.ChangeCLP_AMMO_Amount}
+                  />
+                  <span class="token-input-symbol no-select">PUG-SUSU CLP</span>
+                  <div
+                    class="token-input-max clickable"
+                    onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
+                  >
+                    MAX
                   </div>
-                  <div class="rates">
-                    <span class="apy">
-                      {this.state.reward_ammo_pdt_ammo == 0
-                        ? "$AMMO"
-                        : `$${this.state.reward_ammo_pdt_ammo}`}
-                    </span>
-                    <span class="description">
-                      {this.state.reward_ammo_pdt_ammo == 0 ? "Earn" : `$AMMO`}
-                    </span>
-                  </div>
-                  <div class="details return" align="right">
+                </div>
+              </div>
+
+              <div class="card-content">
+                <div
+                  class="farm-detail-control-action-wrapper"
+                  align="center"
+                  style={{ height: "5px" }}
+                >
+                  <div class="row">
                     <div
                       class="bunny-button clickable no-select"
-                      onClick={(e) => this.withdraw_ammo_clp(e)}
+                      onClick={(e) =>
+                        this.deposit_ammo_clp(this.state.input_lp_ammo)
+                      }
                     >
-                      <div class="content">
-                        <font
-                          color={
-                            this.state.depo_clp_ammo_amount != 0
-                              ? "white"
-                              : "gray"
-                          }
-                        >
-                          WITHDRAW
-                        </font>
+                      <div class="content" align="center">
+                        <font color="white">DEPOSIT</font>
                         <div class="subtext"></div>
                       </div>
                     </div>
                   </div>
-                  <div class="details total" align="right">
-                    <span class="label">Deposited:</span>
-                    <span class="value">
-                      {this.state.depo_clp_ammo_amount} BNB-PUG
-                    </span>
-                  </div>
                 </div>
               </div>
+
               <br></br>
-            </main>
-            {/* Operating BOX */}
-            <div
-              class="token-input"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div class="token-input-wrapper" style={{ width: "75%" }}>
-                <input
-                  class="token-input"
-                  placeholder={
-                    this.state.input_lp_ammo == 0
-                      ? "0.0"
-                      : this.state.input_lp_ammo
-                  }
-                  onChange={this.ChangeCLP_AMMO_Amount}
-                />
-                <span class="token-input-symbol no-select">PUG-BNB CLP</span>
-                <div
-                  class="token-input-max clickable"
-                  onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
-                >
-                  MAX
-                </div>
-              </div>
-            </div>
 
-            <div class="card-content">
-              <div
-                class="farm-detail-control-action-wrapper"
-                align="center"
-                style={{ height: "5px" }}
-              >
-                <div class="row">
-                  <div
-                    class="bunny-button clickable no-select"
-                    onClick={(e) =>
-                      this.deposit_ammo_clp(this.state.input_lp_ammo)
-                    }
-                  >
-                    <div class="content" align="center">
-                      <font color="white">DEPOSIT</font>
-                      <div class="subtext"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* WBNB-PUG FARM */}
-
-            <main role="main" className="farm-list">
-              <div class="balance" align="left">
-                <span class="label">
-                  <font color="white">WALLET BALANCE:</font>
-                </span>
-                <span class="value">
-                  <font color="white">
-                    {this.state.ammo_clp_wallet_balance}
-                  </font>
-                </span>
-              </div>
-
-              <div class="row">
-                <div class="farms-card-item">
-                  <div class="icon">
-                    <div
-                      class="card-icon no-select"
-                      style={{ height: "90px", width: "90px" }}
-                    >
-                      <img src={pugSusu} alt="icon" />
-                    </div>
-                  </div>
-                  <div></div>
-                  <div class="label" align="right">
-                    <span>$PUG-SUSU</span>
-                  </div>
-                  <div class="rates">
-                    <span class="apy">
-                      {this.state.reward_ammo_pdt_ammo == 0
-                        ? "$AMMO"
-                        : `$${this.state.reward_ammo_pdt_ammo}`}
-                    </span>
-                    <span class="description">
-                      {this.state.reward_ammo_pdt_ammo == 0 ? "Earn" : `$AMMO`}
-                    </span>
-                  </div>
-                  <div class="details return" align="right">
-                    <div
-                      class="bunny-button clickable no-select"
-                      onClick={(e) => this.withdraw_ammo_clp(e)}
-                    >
-                      <div class="content">
-                        <font
-                          color={
-                            this.state.depo_clp_ammo_amount != 0
-                              ? "white"
-                              : "gray"
-                          }
-                        >
-                          WITHDRAW
-                        </font>
-                        <div class="subtext"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="details total" align="right">
-                    <span class="label">Deposited:</span>
-                    <span class="value">
-                      {this.state.depo_clp_ammo_amount} SUSU-PUG
-                    </span>
-                  </div>
-                </div>
-              </div>
               <br></br>
-            </main>
-            {/* Operating BOX */}
-            <div
-              class="token-input"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div class="token-input-wrapper" style={{ width: "75%" }}>
-                <input
-                  class="token-input"
-                  placeholder={
-                    this.state.input_lp_ammo == 0
-                      ? "0.0"
-                      : this.state.input_lp_ammo
-                  }
-                  onChange={this.ChangeCLP_AMMO_Amount}
-                />
-                <span class="token-input-symbol no-select">PUG-SUSU CLP</span>
-                <div
-                  class="token-input-max clickable"
-                  onClick={(e) => this.ChangeCLP_AMMO_Amount(e)}
-                >
-                  MAX
-                </div>
-              </div>
+
+              <br></br>
             </div>
-
-            <div class="card-content">
-              <div
-                class="farm-detail-control-action-wrapper"
-                align="center"
-                style={{ height: "5px" }}
-              >
-                <div class="row">
-                  <div
-                    class="bunny-button clickable no-select"
-                    onClick={(e) =>
-                      this.deposit_ammo_clp(this.state.input_lp_ammo)
-                    }
-                  >
-                    <div class="content" align="center">
-                      <font color="white">DEPOSIT</font>
-                      <div class="subtext"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <br></br>
-
-            <br></br>
-
-            <br></br>
           </div>
         </div>
       </div>

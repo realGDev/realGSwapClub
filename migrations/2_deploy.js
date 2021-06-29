@@ -6,6 +6,7 @@ const MasterChef = artifacts.require("MasterChef.sol");
 //?Fake Tokens
 const Ewt_lp = artifacts.require("Ewt_lp.sol");
 const Ammo_lp = artifacts.require("Ammo_lp.sol");
+const RealG = artifacts.require("RealG.sol");
 //? End: Fake Tokens
 
 //? Lottery
@@ -77,17 +78,22 @@ module.exports = async function (deployer, _network, addresses) {
   //   const masterChef = await MasterChef.deployed();
   //   await sushiToken.transferOwnership(masterChef.address);
 
-  //! This is LOOTTERY SHIT
+  //! LOOTTERY SC Deploy
+  // await deployer.deploy(
+  //   Lotto,
+  //   "G$wap Lotto", //? Parameter 1 --> NameLottery (AMMO)
+  //   "gLOTTO", //? Parameter 1 --> Symbol
+  //   "250000", //? Parameter 1 --> Nº of Tickets
+  //   admin //? Parameter 1 --> Addresses Fee
+  // );
+  // const lotto = await Lotto.deployed();
+  // console.log("G$wap Lottery Address");
+  // console.log(lotto.address);
+  //! --end-- LOOTTERY SC Deploy
 
-  await deployer.deploy(
-    Lotto,
-    "G$wap Lotto", //? Parameter 1 --> NameLottery (AMMO)
-    "gLOTTO", //? Parameter 1 --> Symbol
-    "250000", //? Parameter 1 --> Nº of Tickets
-    admin //? Parameter 1 --> Addresses Fee
-  );
-
-  const lotto = await Lotto.deployed();
-  console.log("G$wap Lottery Address");
-  console.log(lotto.address);
+  //! rG SC Deploy
+  await deployer.deploy(RealG, 15000000);
+  const realG = await RealG.deployed();
+  console.log(`Your RealG Token is deployed at address: ${realG.address}`);
+  //! --end-- rG SC Deploy
 };
