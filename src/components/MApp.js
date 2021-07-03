@@ -13,6 +13,7 @@ import {
 import Home from "./App";
 import Lottery from "./pages/Lottery";
 import About from "./pages/About";
+import Stake from "./pages/Staking";
 import NavBar from "./NavBar";
 
 class App extends React.Component {
@@ -24,6 +25,9 @@ class App extends React.Component {
           <Switch>
             <Route path="/" exact>
               <About />
+            </Route>
+            <Route path="/stake" exact>
+              <Stake />
             </Route>
             <Route path="/farms" exact>
               <Home />

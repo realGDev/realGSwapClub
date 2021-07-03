@@ -66,12 +66,11 @@ contract MasterChef is Ownable {
     // FEE address.
     address public feeAddress;
     // Bonus muliplier for early sushi makers.
-    uint256 public constant BONUS_MULTIPLIER = 10;
+    uint256 public bonus_multiplier;
     // The migrator contract. It has a lot of power. Can only be set through governance (owner).
     IMigratorChef public migrator;
     // Info of each pool.
     PoolInfo[] public poolInfo;
-
 
     // Info of each user that stakes LP tokens.
     mapping(uint256 => mapping(address => UserInfo)) public userInfo;
@@ -93,7 +92,8 @@ contract MasterChef is Ownable {
         uint256 _sushiPerBlock,
         uint256 _startBlock,
         uint256 _bonusEndBlock,
-        address _feeAddress
+        address _feeAddress,
+        uint256 _bonus_multiplier
     ) public {
         sushi = _sushi;
         devaddr = _devaddr;
@@ -101,16 +101,14 @@ contract MasterChef is Ownable {
         bonusEndBlock = _bonusEndBlock;
         startBlock = _startBlock;
         feeAddress = _feeAddress;
-
+        bonus_multiplier = _bonus_multiplier;
     }
 
     function poolLength() external view returns (uint256) {
-
         return poolInfo.length;
     }
 
     function getFeeAddress() external view returns (address) {
-
         return feeAddress;
     }
 
@@ -124,8 +122,9 @@ contract MasterChef is Ownable {
         if (_withUpdate) {
             massUpdatePools();
         }
-        uint256 lastRewardBlock =
-            block.number > startBlock ? block.number : startBlock;
+        uint256 lastRewardBlock = block.number > startBlock
+            ? block.number
+            : startBlock;
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
         poolInfo.push(
             PoolInfo({
@@ -176,12 +175,12 @@ contract MasterChef is Ownable {
         returns (uint256)
     {
         if (_to <= bonusEndBlock) {
-            return _to.sub(_from).mul(BONUS_MULTIPLIER);
+            return _to.sub(_from).mul(bonus_multiplier);
         } else if (_from >= bonusEndBlock) {
             return _to.sub(_from);
         } else {
             return
-                bonusEndBlock.sub(_from).mul(BONUS_MULTIPLIER).add(
+                bonusEndBlock.sub(_from).mul(bonus_multiplier).add(
                     _to.sub(bonusEndBlock)
                 );
         }
@@ -198,12 +197,14 @@ contract MasterChef is Ownable {
         uint256 accSushiPerShare = pool.accSushiPerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
         if (block.number > pool.lastRewardBlock && lpSupply != 0) {
-            uint256 multiplier =
-                getMultiplier(pool.lastRewardBlock, block.number);
-            uint256 sushiReward =
-                multiplier.mul(sushiPerBlock).mul(pool.allocPoint).div(
-                    totalAllocPoint
-                );
+            uint256 multiplier = getMultiplier(
+                pool.lastRewardBlock,
+                block.number
+            );
+            uint256 sushiReward = multiplier
+            .mul(sushiPerBlock)
+            .mul(pool.allocPoint)
+            .div(totalAllocPoint);
             accSushiPerShare = accSushiPerShare.add(
                 sushiReward.mul(1e12).div(lpSupply)
             );
@@ -231,10 +232,10 @@ contract MasterChef is Ownable {
             return;
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-        uint256 sushiReward =
-            multiplier.mul(sushiPerBlock).mul(pool.allocPoint).div(
-                totalAllocPoint
-            );
+        uint256 sushiReward = multiplier
+        .mul(sushiPerBlock)
+        .mul(pool.allocPoint)
+        .div(totalAllocPoint);
         sushi.mint(devaddr, sushiReward.div(10));
         sushi.mint(address(this), sushiReward);
         pool.accSushiPerShare = pool.accSushiPerShare.add(
@@ -249,10 +250,11 @@ contract MasterChef is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         updatePool(_pid);
         if (user.amount > 0) {
-            uint256 pending =
-                user.amount.mul(pool.accSushiPerShare).div(1e12).sub(
-                    user.rewardDebt
-                );
+            uint256 pending = user
+            .amount
+            .mul(pool.accSushiPerShare)
+            .div(1e12)
+            .sub(user.rewardDebt);
             safeSushiTransfer(msg.sender, pending);
         }
         pool.lpToken.safeTransferFrom(
@@ -271,10 +273,9 @@ contract MasterChef is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         require(user.amount >= _amount, "withdraw: not good");
         updatePool(_pid);
-        uint256 pending =
-            user.amount.mul(pool.accSushiPerShare).div(1e12).sub(
-                user.rewardDebt
-            );
+        uint256 pending = user.amount.mul(pool.accSushiPerShare).div(1e12).sub(
+            user.rewardDebt
+        );
         safeSushiTransfer(msg.sender, pending);
         user.amount = user.amount.sub(_amount);
         user.rewardDebt = user.amount.mul(pool.accSushiPerShare).div(1e12);
@@ -311,5 +312,10 @@ contract MasterChef is Ownable {
     // Update fee address by the previous dev.
     function fee(address _feeAddress) public onlyOwner {
         feeAddress = _feeAddress;
+    }
+
+    // Update Multiplier Bonus.
+    function changeMultiplier(uint256 _newMult) public onlyOwner {
+        bonus_multiplier = _newMult;
     }
 }

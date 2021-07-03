@@ -7,6 +7,7 @@ import Web3 from "web3";
 import { useHistory } from "react-router-dom";
 
 import pug from "./assets/gangster.png";
+import { Switch } from "antd";
 
 // import LotteryContract from "../../abis/Lottery.json";
 
@@ -191,9 +192,15 @@ class NavBar extends Component {
     if (typeof window.ethereum !== "undefined") {
       const web3 = new Web3(window.ethereum);
       const netId = await web3.eth.net.getId();
-      const pugAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
+      // const pugAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
       const blockAc = await web3.eth.getBlockNumber();
-      const pugContract = new web3.eth.Contract(tokenABI, pugAddress);
+      // const pugContract = new web3.eth.Contract(tokenABI, pugAddress);
+      let pugPrice;
+      await fetch("https://us-central1-gswap-27c0a.cloudfunctions.net/pugPrice")
+        .then((res) => res.json())
+        .then((data) => {
+          pugPrice = data;
+        });
 
       console.log(netId);
       console.log(`Block: ${blockAc}`);
@@ -204,22 +211,23 @@ class NavBar extends Component {
       //load balance
       if (typeof accounts[0] !== "undefined") {
         const balance = await web3.eth.getBalance(accounts[0]);
-        const pugBalance = await pugContract.methods
-          .balanceOf(accounts[0])
-          .call();
-        const pgBal = web3.utils.fromWei(pugBalance);
-        const round_pug_balance = (+pgBal).toFixed(2);
-        const gangster_pug_balance =
-          round_pug_balance / 100000 > 1
-            ? (+(round_pug_balance / 1000)).toFixed(2)
-            : 0;
+        // const pugBalance = await pugContract.methods
+        //   .balanceOf(accounts[0])
+        //   .call();
+        // const pgBal = web3.utils.fromWei(pugBalance);
+        // const round_pug_balance = (+pgBal).toFixed(2);
+        // const gangster_pug_balance =
+        //   round_pug_balance / 100000 > 1
+        //     ? (+(round_pug_balance / 1000)).toFixed(2)
+        //     : 0;
 
         this.setState({
           account: accounts[0],
           balance: web3.utils.fromWei(balance),
           web3: web3,
-          round_pug_balance: round_pug_balance,
-          gangster_pug_balance: gangster_pug_balance,
+          pugPrice: pugPrice,
+          // round_pug_balance: round_pug_balance,
+          // gangster_pug_balance: gangster_pug_balance,
         });
       } else {
         window.alert("Please login with MetaMask");
@@ -255,15 +263,19 @@ class NavBar extends Component {
       contest_0_winner: null,
       account: "",
       web3: "undefined",
-      page: "about",
-      pugBalance: 0,
-      round_pug_balance: 0,
-      gangster_pug_balance: 0,
+      farm: "about",
+      // pugBalance: 0,
+      // round_pug_balance: 0,
+      // gangster_pug_balance: 0,
     };
   }
 
-  changePage = (e, page) => {
-    this.setState({ page: page });
+  isFarm = (e, farm) => {
+    if (farm) {
+      this.setState({ farm: true });
+    } else {
+      this.setState({ famr: false });
+    }
   };
 
   render() {
@@ -276,15 +288,22 @@ class NavBar extends Component {
         }}
       >
         <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
-          <img src={pug} className="App-logo" alt="logo" height="65" />
+          <img src={pug} className="App-logo" alt="logo" height="70" />
           <b>
             {" "}
-            G<font color="ex6998">$</font>wap
+            G<font color="ex6998">$</font>
+            wap
           </b>
           <div className="content"></div>
         </a>
         <div className="nav-wrapper">
           <div className="topbar-nav no-select">
+            <a class={"item clickable "} href="#/stake">
+              <font color="ec6998">
+                G<font size="1">$</font>
+              </font>
+              Stake
+            </a>
             <a class={"item clickable "} href="#/farms">
               <font color="ec6998">
                 G<font size="1">$</font>
@@ -329,15 +348,21 @@ class NavBar extends Component {
           rel="noopener noreferrer"
         >
           <div>
-            <div class="bunny-price clickable">
-              <font color="white">
-                <b>
-                  <font color="ec6998">PUG:</font>
-                </b>{" "}
-                0.0020
-                <b>$</b>
-              </font>
-            </div>
+            {this.farm ? (
+              <div class="bunny-price clickable">
+                <Switch />
+              </div>
+            ) : (
+              <div class="bunny-price clickable">
+                <font color="white">
+                  <b>
+                    <font color="ec6998">PUG:</font>
+                  </b>{" "}
+                  {this.pugPrice}
+                  <b>$</b>
+                </font>
+              </div>
+            )}
           </div>
 
           <div class="account-button no-select"></div>
@@ -354,19 +379,9 @@ class NavBar extends Component {
               }}
             >
               <b>
-                <font color="ec6998">
-                  {" "}
-                  {this.state.gangster_pug_balance != 0
-                    ? this.state.gangster_pug_balance + " "
-                    : this.state.round_pug_balance}
-                </font>{" "}
+                <font color="ec6998">Pollazzo</font>{" "}
               </b>
-              ,
-              <i>
-                <font color="white">
-                  {this.state.gangster_pug_balance != 0 ? "K" : ""}
-                </font>
-              </i>
+              ,<i></i>
             </div>
           </span>
         </div>

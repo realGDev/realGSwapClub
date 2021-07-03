@@ -13,8 +13,9 @@ import LotteryContract from "../../abis/Lottery.json";
 
 import gangster from "../assets/gangster.png";
 import ewt from "../assets/ewt.png";
-import ammo from "../assets/ammo.png";
+// import ammo from "../assets/ammo.png";
 import gngLotto from "../assets/gngLotto.png";
+import gLotto from "../assets/gLotto.png";
 
 const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 
@@ -318,7 +319,7 @@ class Lottery extends Component {
                 <br></br>
                 <br></br>
                 <br></br>
-                <span class="title">G$WAP Opening Jackpot</span>
+                <span class="title">Opening Jackpot</span>
                 <span class="sub-title">
                   <font color="white">
                     The G$wap Pot is the first EWC Pot platform. We aim that
@@ -422,7 +423,7 @@ class Lottery extends Component {
                         class="card-icon no-select"
                         style={{ height: "90px", width: "90px" }}
                       >
-                        <img src={gangster} alt="icon" />
+                        <img src={gLotto} alt="icon" />
                       </div>
                     </div>
                     <div></div>

@@ -168,40 +168,62 @@ const test = async () => {
   // console.log(mySeed);
   const id = await web3.eth.net.getId();
   console.log(id);
-  const ewt_lp = new web3.eth.Contract(
-    Ewt_Contract.abi,
-    Ewt_Contract.networks[id].address
-  );
-  const susu = new web3.eth.Contract(
-    SusuContract.abi,
-    SusuContract.networks[id].address
-  );
-  console.log(SusuContract.networks[id].address);
-  console.log(SusuContract.networks[id].address);
-  console.log(SusuContract.networks[id].address);
-  console.log(SusuContract.networks[id].address);
-  console.log(SusuContract.networks[id].address);
-  const totalSup = await susu.methods.totalSupply().call();
-  console.log(web3.utils.fromWei(totalSup));
-  console.log(web3.utils.fromWei(totalSup));
-  console.log(web3.utils.fromWei(totalSup));
-  console.log(
-    `The Fake Farm Contract Address: ${Ewt_Contract.networks[id].address}`
-  );
-  const deployedNetwork = MasterChefContract.networks[id];
-  const masterContract = new web3.eth.Contract(
-    MasterChefContract.abi,
-    MasterChefContract.networks[id].address
-  );
+  // const ewt_lp = new web3.eth.Contract(
+  //   Ewt_Contract.abi,
+  //   Ewt_Contract.networks[id].address
+  // );
+  // const susu = new web3.eth.Contract(
+  //   SusuContract.abi,
+  //   SusuContract.networks[id].address
+  // );
+  // console.log(SusuContract.networks[id].address);
+  // console.log(SusuContract.networks[id].address);
+  // console.log(SusuContract.networks[id].address);
+  // console.log(SusuContract.networks[id].address);
+  // console.log(SusuContract.networks[id].address);
+  // const totalSup = await susu.methods.totalSupply().call();
+  // console.log(web3.utils.fromWei(totalSup));
+  // console.log(web3.utils.fromWei(totalSup));
+  // console.log(web3.utils.fromWei(totalSup));
+  // console.log(
+  //   `The Fake Farm Contract Address: ${Ewt_Contract.networks[id].address}`
+  // );
+  // const deployedNetwork = MasterChefContract.networks[id];
+  // const masterContract = new web3.eth.Contract(
+  //   MasterChefContract.abi,
+  //   MasterChefContract.networks[id].address
+  // );
 
-  const feeAddress = await masterContract.methods.getFeeAddress().call();
-  console.log(feeAddress);
-  console.log(feeAddress);
-  console.log(feeAddress);
-  console.log(feeAddress);
-  console.log(feeAddress);
-  console.log(feeAddress);
-  console.log(feeAddress);
+  // const feeAddress = await masterContract.methods.getFeeAddress().call();
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+  // console.log(feeAddress);
+
+  const addresses = await web3.eth.getAccounts();
+
+  for (let index = 0; index < 200; index++) {
+    console.log(index + 1);
+    if (index % 2 == 0) {
+      await web3.eth.sendTransaction({
+        from: addresses[0],
+        to: addresses[1],
+        value: web3.utils.toWei("20"),
+      });
+      console.log("A envia a B");
+    } else {
+      await web3.eth.sendTransaction({
+        from: addresses[1],
+        to: addresses[0],
+        value: web3.utils.toWei("20"),
+      });
+      console.log("B envia a A");
+    }
+  }
+  console.log("Palomada Finished");
   // const addingPairContract = new web3.eth.Contract(tokenABI, '0xc61500fa1bfa61312c71393a202149bac9ce1de4');
   // console.log(addingPairContract);
   // console.log('Before adding Pool');
@@ -320,6 +342,29 @@ const test = async () => {
   //     } catch (e) {
   //         console.log(e.toString());
   //     }
+};
+const changeMasterChefMultiplier = async (newNum) => {
+  const web3 = new Web3("http://localhost:9545");
+  // const web3 = new Web3(window.web3.currentProvider);
+
+  // console.log(process.env.MNEMONIC);
+  // const mySeed = [process.env.MNEMONIC];
+  // console.log(mySeed);
+  const id = await web3.eth.net.getId();
+  console.log(id);
+  const masterChef = new web3.eth.Contract(
+    MasterChefContract.abi,
+    MasterChefContract.networks[id].address
+  );
+
+  const addresses = await web3.eth.getAccounts();
+
+  const multi = await masterChef.methods.changeMultiplier(newNum).send({
+    from: addresses[0],
+  });
+
+  console.log(`ANSWER when changing multiplier: ${multi.toString()}`);
+  console.log("Palomada Finished");
 };
 
 //? Function to add Pair to Master Chef --> address Pair, Name Pair, pes de la pool
@@ -498,7 +543,7 @@ const interactWithLottery = async () => {
 
   //! Deployer address --> change to REAL address
 
-  // const addresses = await web3.eth.getAccounts();
+  const addresses = await web3.eth.getAccounts();
   // console.log(`Purhasing through Address: ${addresses[1]}`);
   // const deployer = addresses[0];
   // const comissioner = addresses[1];
@@ -518,13 +563,13 @@ const interactWithLottery = async () => {
     // console.log(lotteryContract.methods);
 
     //! BUY gLOTTO
-    // for (let index = 0; index < 50; index++) {
-    //   await lotteryContract.methods.buy().send({
-    //     from: addresses[0],
-    //     value: buyingAmount,
-    //     gas: gas,
-    //   });
-    // }
+    for (let index = 0; index < 50; index++) {
+      await lotteryContract.methods.buy().send({
+        from: addresses[0],
+        value: buyingAmount,
+        gas: gas,
+      });
+    }
 
     // console.log('----FINISHED PURCHASE');
     const leng = await lotteryContract.methods.ticketsLength().call();
@@ -565,11 +610,11 @@ const interactWithLottery = async () => {
     console.log(`Total nº Participants: ${array.length}`);
 
     //! Choose winner
-    await lotteryContract.methods.chooseWinner().send({
-      from: deployer,
-      gas: gas,
-      gasPrice: gasPrice,
-    });
+    // await lotteryContract.methods.chooseWinner().send({
+    //   from: deployer,
+    //   gas: gas,
+    //   gasPrice: gasPrice,
+    // });
 
     // for (let index = 0; index < array.length; index++) {
     //   let earn = await lotteryContract.methods
@@ -591,16 +636,16 @@ const interactWithLottery = async () => {
     //! WITHDRAW PRICE
     // await lotteryContract.methods.withdraw().send({ from: addresses[3] });
 
-    const buyerBalancePost = await web3.eth.getBalance(address[3]);
-    const commiPost = await web3.eth.getBalance(comissioner);
+    // const buyerBalancePost = await web3.eth.getBalance(address[3]);
+    // const commiPost = await web3.eth.getBalance(comissioner);
 
-    const amountEarn =
-      web3.utils.fromWei(buyerBalancePost) -
-      web3.utils.fromWei(buyerBalancePreWith);
-    console.log(`Buyer gets rewarded with: ${amountEarn}`);
-    const commiEarn =
-      web3.utils.fromWei(commiPost) - web3.utils.fromWei(commiPre);
-    console.log(`G$wap gets rewarded with: ${commiEarn}`);
+    // const amountEarn =
+    //   web3.utils.fromWei(buyerBalancePost) -
+    //   web3.utils.fromWei(buyerBalancePreWith);
+    // console.log(`Buyer gets rewarded with: ${amountEarn}`);
+    // const commiEarn =
+    //   web3.utils.fromWei(commiPost) - web3.utils.fromWei(commiPre);
+    // console.log(`G$wap gets rewarded with: ${commiEarn}`);
 
     console.log(
       web3.utils.fromWei(
@@ -615,7 +660,7 @@ const interactWithLottery = async () => {
 
 //TODO: FUNCTION REPOSITORY
 //! Mainnet
-chooseWinnerLottoEwt();
+// chooseWinnerLottoEwt();
 
 //! (end) Mainnet
 
@@ -633,10 +678,13 @@ chooseWinnerLottoEwt();
 //* Those are already deployed (DO NOT ADD THEM AGAIN)
 //TODO pid --> (0): '','PUG-WEWT', 25
 //TODO pid --> (1): '','PUG-SUSU', 10
-// addPool("0x225aBf23b294E96Ee97DCdDBbB7B9241dd5d49D9", 2); //? (FUNCTION)  Add Pools (ADDRESS pool)
+// addPool("0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
 
 //* Function 4: LOTTERY TESTING
 // interactWithLottery();
+
+//* Function 5: LOTTERY TESTING
+// changeMasterChefMultiplier(0);
 
 //? TESTING NOTES
 // // Pool_0 --> 0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a (PUG-FAKE_ewt) (alloc = 1)
