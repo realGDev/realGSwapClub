@@ -638,7 +638,7 @@ class Lottery extends Component {
                 <span>More Coming soon</span>
               </font>
               <font color="grey">
-                <span>This is just the begining</span>{" "}
+                <span>This is just the beginning</span>{" "}
               </font>
             </div>
           </div>
