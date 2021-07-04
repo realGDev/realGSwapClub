@@ -31,7 +31,7 @@
     "truffle-test-helpers": "^0.2.2",
     "web3": "1.2.6"
   },
-  "homepage": "http://gswap.club",
+  "homepage": "http://gswap.app",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
