@@ -32,7 +32,7 @@ import ammoUsdc from "./assets/ammoUsdc.png";
 import pugUsdc from "./assets/pugUsdc.png";
 import pugBnb from "./assets/pugBnb.png";
 
-const farm_opening = new Date(2021, 6, 6, 15, 0, 0, 0);
+const farm_opening = new Date(2021, 6, 6, 19, 0, 0, 0);
 
 const gs_pair_0 = "AMMO-USDC";
 const pair_0 = "PUG-EWT";
@@ -627,11 +627,12 @@ class Home extends Component {
             .send({
               from: this.state.account,
             });
-          await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+          //* FEE (AMMO)
+          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.pMasterChef.methods.deposit(1, deposit).send({
             from: this.state.account,
@@ -671,11 +672,13 @@ class Home extends Component {
             .send({
               from: this.state.account,
             });
-          await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+
+          //* Fee (AMMO)
+          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.pMasterChef.methods.deposit(2, deposit).send({
             from: this.state.account,
@@ -715,11 +718,13 @@ class Home extends Component {
             .send({
               from: this.state.account,
             });
-          await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+
+          //* FEE (AMMO)
+          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.pMasterChef.methods.deposit(3, deposit).send({
             from: this.state.account,
@@ -1109,7 +1114,7 @@ class Home extends Component {
                     </span>
                     <span class="sub-title">
                       <font color="white">
-                        The G$wap Farming is for those who support @mogpug
+                        The G$wap Farming is for those who support @mobpug
                         ($PUG) from the begining. Gangsters take care of other
                         Gangsters, at least, since I'm Pug Father, I do.
                       </font>
@@ -1124,7 +1129,10 @@ class Home extends Component {
                                 <font size="+1">Starts in: </font>
                                 <font color="white" size="+1">
                                   <i>
-                                    <Countdown date={farm_opening} />
+                                    <Countdown date={farm_opening} />{" "}
+                                    <font color="white" size="1">
+                                      (block:12650236)
+                                    </font>
                                   </i>
                                 </font>
                               </span>
