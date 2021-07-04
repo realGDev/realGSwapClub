@@ -361,7 +361,12 @@ const change_GANGSTER_MasterChefMultiplier = async (newNum) => {
 
 //? Function to add Pair to Master Chef --> address Pair, Name Pair, pes de la pool
 const addPugPool = async (poolAd, alloc) => {
-  const web3 = new Web3("http://localhost:9545");
+  let provider = new HDWalletProvider(
+    [process.env.MNEMONIC],
+    "https://rpc.energyweb.org"
+  );
+
+  const web3 = new Web3(provider);
 
   const poolAddress = poolAd;
   console.log(poolAddress);
@@ -704,6 +709,11 @@ const interactWithLottery = async () => {
 //TODO: FUNCTION REPOSITORY
 //! Mainnet
 // chooseWinnerLottoEwt();
+// addPugPool("", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
+//TODO pid --> (0): '0xc61500fa1bfa61312c71393a202149bac9ce1de4','PUG-WEWT', 3
+//TODO pid --> (1): '0x6a6a9a7215b402771d2a35866a2c445cdc2a4019','PUG-SUSU', 2
+//TODO pid --> (2): '0xdc3323a7cd9bd55660f6a461cd14f91c2668de27','PUG-USDC', 1
+//TODO pid --> (3): '0x9bdb88dff2d0639d4824512152794114f557d411','PUG-WBNB', 1
 
 //! (end) Mainnet
 
@@ -712,16 +722,13 @@ const interactWithLottery = async () => {
 //?    Code clarifications
 
 //* Function_1: Testing
-test();
+// test();
 
 //* Function_2: Get Information
 // getPoolsData(0); //? (FUNCTION) Get Information of Pools
 
 //* Function_3: Add Pair into MasterChef
 //* Those are already deployed (DO NOT ADD THEM AGAIN)
-//TODO pid --> (0): '','PUG-WEWT', 25
-//TODO pid --> (1): '','PUG-SUSU', 10
-// addPugPool("0xAC3cbf2cDAEE413775ad7Ad2941d639aa695f58F", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
 
 // addGangsterPool("0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
 

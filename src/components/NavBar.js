@@ -153,7 +153,7 @@ const tokenABI = [
   },
 ];
 
-const pugContractAddress = "0x6E2aF40FDa1656Cdf48A079a06c8501D687fa1b8";
+const pugContractAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
 
 class NavBar extends Component {
   async componentWillMount() {

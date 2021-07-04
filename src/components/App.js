@@ -54,9 +54,9 @@ const ttl_gs = 2;
 const ammo_usdc_allo = 2;
 
 const ttl_pugs_allo = 7;
-const pug_ewt_allo = 2.5;
+const pug_ewt_allo = 3;
 const pug_susu_allo = 2;
-const pug_usdc_allo = 1.5;
+const pug_usdc_allo = 1;
 const pug_bnb_allo = 1;
 
 const tokenABI = [
