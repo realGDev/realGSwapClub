@@ -869,11 +869,13 @@ class Home extends Component {
           const ammoFeeAddress = await this.state.pMasterChef.methods
             .getFeeAddress()
             .call();
-          await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+
+          //* FEE (AMMO)
+          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.pMasterChef.methods
             .withdraw(1, withdraw)
