@@ -1,7 +1,9 @@
 const Web3 = require("web3");
-const MasterChefContract = require("./src/abis/MasterChef.json");
+const PMasterChefContract = require("./src/abis/PMasterChef.json");
+const GMasterChefContract = require("./src/abis/GMasterChef.json");
 const Ewt_Contract = require("./src/abis/Ewt_lp.json");
 const SusuContract = require("./src/abis/SusuToken.json");
+const GSToken = require("./src/abis/GSToken.json");
 const LotteryContract = require("./src/abis/Lottery.json");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
@@ -168,40 +170,6 @@ const test = async () => {
   // console.log(mySeed);
   const id = await web3.eth.net.getId();
   console.log(id);
-  // const ewt_lp = new web3.eth.Contract(
-  //   Ewt_Contract.abi,
-  //   Ewt_Contract.networks[id].address
-  // );
-  // const susu = new web3.eth.Contract(
-  //   SusuContract.abi,
-  //   SusuContract.networks[id].address
-  // );
-  // console.log(SusuContract.networks[id].address);
-  // console.log(SusuContract.networks[id].address);
-  // console.log(SusuContract.networks[id].address);
-  // console.log(SusuContract.networks[id].address);
-  // console.log(SusuContract.networks[id].address);
-  // const totalSup = await susu.methods.totalSupply().call();
-  // console.log(web3.utils.fromWei(totalSup));
-  // console.log(web3.utils.fromWei(totalSup));
-  // console.log(web3.utils.fromWei(totalSup));
-  // console.log(
-  //   `The Fake Farm Contract Address: ${Ewt_Contract.networks[id].address}`
-  // );
-  // const deployedNetwork = MasterChefContract.networks[id];
-  // const masterContract = new web3.eth.Contract(
-  //   MasterChefContract.abi,
-  //   MasterChefContract.networks[id].address
-  // );
-
-  // const feeAddress = await masterContract.methods.getFeeAddress().call();
-  // console.log(feeAddress);
-  // console.log(feeAddress);
-  // console.log(feeAddress);
-  // console.log(feeAddress);
-  // console.log(feeAddress);
-  // console.log(feeAddress);
-  // console.log(feeAddress);
 
   const addresses = await web3.eth.getAccounts();
 
@@ -343,7 +311,7 @@ const test = async () => {
   //         console.log(e.toString());
   //     }
 };
-const changeMasterChefMultiplier = async (newNum) => {
+const change_PUG_MasterChefMultiplier = async (newNum) => {
   const web3 = new Web3("http://localhost:9545");
   // const web3 = new Web3(window.web3.currentProvider);
 
@@ -353,8 +321,32 @@ const changeMasterChefMultiplier = async (newNum) => {
   const id = await web3.eth.net.getId();
   console.log(id);
   const masterChef = new web3.eth.Contract(
-    MasterChefContract.abi,
-    MasterChefContract.networks[id].address
+    PMasterChefContract.abi,
+    PMasterChefContract.networks[id].address
+  );
+
+  const addresses = await web3.eth.getAccounts();
+
+  const multi = await masterChef.methods.changeMultiplier(newNum).send({
+    from: addresses[0],
+  });
+
+  console.log(`ANSWER when changing multiplier: ${multi.toString()}`);
+  console.log("Palomada Finished");
+};
+
+const change_GANGSTER_MasterChefMultiplier = async (newNum) => {
+  const web3 = new Web3("http://localhost:9545");
+  // const web3 = new Web3(window.web3.currentProvider);
+
+  // console.log(process.env.MNEMONIC);
+  // const mySeed = [process.env.MNEMONIC];
+  // console.log(mySeed);
+  const id = await web3.eth.net.getId();
+  console.log(id);
+  const masterChef = new web3.eth.Contract(
+    PMasterChefContract.abi,
+    PMasterChefContract.networks[id].address
   );
 
   const addresses = await web3.eth.getAccounts();
@@ -368,7 +360,7 @@ const changeMasterChefMultiplier = async (newNum) => {
 };
 
 //? Function to add Pair to Master Chef --> address Pair, Name Pair, pes de la pool
-const addPool = async (poolAd, alloc) => {
+const addPugPool = async (poolAd, alloc) => {
   const web3 = new Web3("http://localhost:9545");
 
   const poolAddress = poolAd;
@@ -376,9 +368,9 @@ const addPool = async (poolAd, alloc) => {
 
   const id = await web3.eth.net.getId();
   console.log(`Adding POOL in Network ${id}`);
-  const deployedNetwork = MasterChefContract.networks[id];
+  const deployedNetwork = PMasterChefContract.networks[id];
   const masterContract = new web3.eth.Contract(
-    MasterChefContract.abi,
+    PMasterChefContract.abi,
     deployedNetwork.address
   );
 
@@ -411,7 +403,58 @@ const addPool = async (poolAd, alloc) => {
     console.log(` INFO:`);
     console.log(data);
   } catch (e) {
-    console.log(`ERROR ADING THE FARMING POOL`);
+    console.log(`ERROR ADING PUG THE FARMING POOL`);
+    console.log(e.toString());
+  }
+
+  const poolLength = await masterContract.methods.poolLength().call();
+  console.log(`Nº Pools (Post-Addition): ${poolLength}`);
+};
+
+const addGangsterPool = async (poolAd, alloc) => {
+  const web3 = new Web3("http://localhost:9545");
+
+  const poolAddress = poolAd;
+  console.log(poolAddress);
+
+  const id = await web3.eth.net.getId();
+  console.log(`Adding POOL in Network ${id}`);
+  const deployedNetwork = GMasterChefContract.networks[id];
+  const masterContract = new web3.eth.Contract(
+    GMasterChefContract.abi,
+    deployedNetwork.address
+  );
+
+  // const addingPairContract = new web3.eth.Contract(tokenABI, poolAddress);
+  // console.log(`\n\nRemember to add in index.js the following pool INFO:\n ${poolAddress}, ${poolName}, ${alloc}\n\n`);
+
+  //! Deployer address --> change to REAL address
+  const addresses = await web3.eth.getAccounts();
+  console.log(`Managing Deployment through Address: ${addresses[2]}`);
+  const deployer = addresses[0];
+
+  const poolLength_0 = await masterContract.methods.poolLength().call();
+  console.log(`Nº Pools (before Addintion): ${poolLength_0.toString()}`);
+
+  try {
+    //TODO: How to add a POOL!
+    console.log(`\n\n--- ADDING POOL ---\n`);
+    await masterContract.methods
+      .add(alloc, poolAddress, true)
+      .send({
+        from: deployer,
+        gas: 800000,
+      })
+      .then((e) => {
+        console.log(`\n--- ADDED TO Master Chef ---\n\n`);
+      });
+
+    // //*Grab pool Info
+    const data = await masterContract.methods.poolInfo(poolLength_0).call();
+    console.log(` INFO:`);
+    console.log(data);
+  } catch (e) {
+    console.log(`ERROR ADING GANGSTER THE FARMING POOL`);
     console.log(e.toString());
   }
 
@@ -427,9 +470,9 @@ const getPoolsData = async (pid) => {
   console.log(poolId);
 
   const id = await web3.eth.net.getId();
-  const deployedNetwork = MasterChefContract.networks[id];
+  const deployedNetwork = PMasterChefContract.networks[id];
   const masterContract = new web3.eth.Contract(
-    MasterChefContract.abi,
+    PMasterChefContract.abi,
     deployedNetwork.address
   );
 
@@ -669,7 +712,7 @@ const interactWithLottery = async () => {
 //?    Code clarifications
 
 //* Function_1: Testing
-// test();
+test();
 
 //* Function_2: Get Information
 // getPoolsData(0); //? (FUNCTION) Get Information of Pools
@@ -678,13 +721,16 @@ const interactWithLottery = async () => {
 //* Those are already deployed (DO NOT ADD THEM AGAIN)
 //TODO pid --> (0): '','PUG-WEWT', 25
 //TODO pid --> (1): '','PUG-SUSU', 10
-// addPool("0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
+// addPugPool("0xAC3cbf2cDAEE413775ad7Ad2941d639aa695f58F", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
+
+// addGangsterPool("0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
 
 //* Function 4: LOTTERY TESTING
 // interactWithLottery();
 
 //* Function 5: LOTTERY TESTING
-// changeMasterChefMultiplier(0);
+// change_PUG_MasterChefMultiplier(0);
+// change_GANGSTER_MasterChefMultiplier
 
 //? TESTING NOTES
 // // Pool_0 --> 0x8234C05b97ea08b76A1FeF3dedFF0A45FD84f36a (PUG-FAKE_ewt) (alloc = 1)

@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./SusuToken.sol";
 
-interface IMigratorChef {
+interface IGMigratorChef {
     // Perform LP token migration from legacy UniswapV2 to SushiSwap.
     // Take the current LP token address and return the new LP token address.
     // Migrator should have full access to the caller's LP token.
@@ -29,7 +29,7 @@ interface IMigratorChef {
 // distributed and the community can show to govern itself.
 //
 // Have fun reading it. Hopefully it's bug-free. God bless.
-contract MasterChef is Ownable {
+contract GMasterChef is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
     // Info of each user.
@@ -68,7 +68,7 @@ contract MasterChef is Ownable {
     // Bonus muliplier for early sushi makers.
     uint256 public bonus_multiplier;
     // The migrator contract. It has a lot of power. Can only be set through governance (owner).
-    IMigratorChef public migrator;
+    IGMigratorChef public migrator;
     // Info of each pool.
     PoolInfo[] public poolInfo;
 
@@ -152,7 +152,7 @@ contract MasterChef is Ownable {
     }
 
     // Set the migrator contract. Can only be called by the owner.
-    function setMigrator(IMigratorChef _migrator) public onlyOwner {
+    function setMigrator(IGMigratorChef _migrator) public onlyOwner {
         migrator = _migrator;
     }
 

@@ -213,36 +213,53 @@ class About extends Component {
                 <br></br>
                 <br></br>
                 <span class="title">Welcome to G$wap</span>
-                <span class="sub-title">
+                <span class="sub-title" align="center">
                   <font color="white">
                     <font size="+2">
                       <b>Tired of just Holding your Gangster LPs?</b>
                     </font>
                     <br />
-                    <br /> Here is G
+                    <br />
                     <font color="ec6998" size="+1">
-                      $
+                      W
                     </font>
-                    wap to reward you with $
+                    e are here to reward you with{" "}
                     <font color="ec6998" size="+2">
                       AMMO
                     </font>{" "}
-                    for providing liquidity to the most Gangster Pools ever
-                    created in EWC.
-                    <br /> We are launching our first{" "}
-                    <font color="ec6998">G</font>event on 30th of June. This
-                    event contest has a prize reward of up to{" "}
+                    &{" "}
+                    <font color="ec6998" size="+2">
+                      G
+                    </font>
+                    <font color="ec6998" size="+1">
+                      $
+                    </font>{" "}
+                    for providing liquidity to the most Gangster Pools in EWC.
+                    <br />
+                    <font color="ec6998" size="+1">
+                      Once{" "}
+                    </font>
+                    our farms open, every single Gangster will have the
+                    opportunity to become a MAFIA Farmer.
+                    <br />
+                    There is also another Gangster Event on 11th of July. First
+                    EWT Lottery! Where anyone can earn a prize reward of up to{" "}
                     <font color="ec6998" size="+1">
                       1M
                     </font>
-                    $ or 125.000 EWT.
+                    $ or{" "}
+                    <font color="ec6998" size="+1">
+                      125.000{" "}
+                    </font>
+                    EWT.
                     <br />
                     <br />
-                    This contest is not just about winning is about supporting
-                    and adding small amount of value to the project. And as we
-                    are a really gangster community what beter way that give
-                    someone of our PUG community the possibility of become a
-                    millionare with our opening.
+                    This event is not just about winning, it's about supporting
+                    and adding small amount of value to the project and also to
+                    the emmerging EWC Ecosystem. And as we are a really gangster
+                    community, what a better way than giving someone of our PUG
+                    Community the possibility to become millionare with our
+                    opening event.
                   </font>
                 </span>
                 <br></br>
@@ -263,7 +280,8 @@ class About extends Component {
                         <font color="white">wap </font>
                         <font color="white">POT</font> <br />
                         The biggest <font color="white">Reward Prize</font> ever
-                        emmited in EWC, keep that in main.
+                        emmited in <font color="white">EWC</font>, keep that in
+                        mind.
                       </i>
                     </font>
                   </span>
@@ -271,7 +289,7 @@ class About extends Component {
                 <br />
                 <br></br>
                 <div>
-                  <span class="title" align="right">
+                  <span class="title" align="center">
                     <font color="white">
                       <i>
                         "There is no need to say it but as Pug Father I should

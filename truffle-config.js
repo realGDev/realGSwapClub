@@ -64,8 +64,10 @@ module.exports = {
         );
       },
       gas: 8000000,
-      gasPrice: 2100000, // 5 gwei
+      gasPrice: 21000000, // 5 gwei
       network_id: 246,
+      networkCheckTimeout: 60000000,
+      timeoutBlocks: 5000,
     },
     volta: {
       provider: function () {

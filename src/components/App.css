@@ -1021,12 +1021,12 @@
 .farms-card-item > .rates > .apr {
   font-size: 14px;
   font-weight: 600;
-  color: #4ed8de;
+  color: #ec6998;
 }
 .farms-card-item > .rates > .description {
   font-size: 12px;
   font-weight: 600;
-  color: #4ed8de;
+  color: #ec6998;
   text-align: center;
 }
 @media (max-width: 768px) {
@@ -2884,6 +2884,7 @@
 .bunny-button,
 .bunny-button > .content {
   width: 100%;
+  padding: 5px;
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: center;
@@ -3129,7 +3130,7 @@
   .pot-banner > .wrapper .txt-wrapper > .title {
     font-size: 36px;
     line-height: 32px;
-    margin-bottom: 16px;
+    vertical-align: "center";
   }
 }
 .pot-banner > .wrapper .txt-wrapper > .sub-title {
@@ -3156,8 +3157,6 @@
 .wasabi-banner-wrapper > .wasabi-banner {
   width: 100%;
   height: auto;
-  padding: 14px 28px;
-  margin-bottom: 30px;
   border: 4px solid #a0cf4f;
   max-width: 900px;
   border-radius: 2px;
@@ -3175,7 +3174,6 @@
   font-size: 18px;
   font-weight: 600;
   color: #9acd4c;
-  margin-bottom: 3px;
 }
 .wasabi-banner-wrapper > .wasabi-banner > .sub-title {
   font-size: 14px;
@@ -3192,12 +3190,51 @@
     display: block;
   }
 }
-.pot-tooltip {
-  width: 900px;
-  margin-bottom: 20px;
+.wasabi-banner > .wrapper .txt-wrapper {
   display: -webkit-flex;
   display: flex;
-  text-decoration: underline;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+.wasabi-banner > .wrapper .txt-wrapper > .title {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  font-size: 45px;
+  line-height: 42px;
+  font-weight: 700;
+  font-feature-settings: "smcp";
+  font-variant: small-caps;
+  background: linear-gradient(90deg, #ffff, #fe1e70);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  vertical-align: "center";
+}
+@media (max-width: 768px) {
+  .wasabi-banner > .wrapper .txt-wrapper > .title {
+    font-size: 36px;
+    line-height: 32px;
+    vertical-align: "center";
+  }
+}
+.wasabi-banner > .wrapper .txt-wrapper > .sub-title {
+  color: #655367;
+}
+@media (max-width: 768px) {
+  .pot-banner > .wrapper .txt-wrapper > .sub-title {
+    width: 75%;
+    font-size: 12px;
+  }
+  .wasabi-banner > .wrapper .txt-wrapper > .sub-title > br {
+    display: none;
+  }
+  .pot-tooltip {
+    width: 900px;
+    margin-bottom: 20px;
+    display: -webkit-flex;
+    display: flex;
+    text-decoration: underline;
+  }
 }
 @media (max-width: 768px) {
   .pot-tooltip {
@@ -4806,7 +4843,7 @@ span {
   font-weight: 700;
   font-feature-settings: "smcp";
   font-variant: small-caps;
-  background: linear-gradient(90deg, #6a00e4, #fe1e70);
+  background: linear-gradient(90deg, #fff, #fe1e70);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 20px;

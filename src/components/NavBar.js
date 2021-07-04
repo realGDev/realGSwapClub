@@ -1,36 +1,10 @@
 import React, { Component } from "react";
 
-// import { Line, Circle } from "rc-progress";
-// import Countdown from "react-countdown";
-
 import Web3 from "web3";
 import { useHistory } from "react-router-dom";
 
 import pug from "./assets/gangster.png";
-import { Switch } from "antd";
 
-// import LotteryContract from "../../abis/Lottery.json";
-
-// import pug from "../assets/pug.png";
-// import ewt from "../assets/ewt.png";
-// import ammo from "../assets/ammo.png";
-// import gngLotto from "../assets/gngLotto.png";
-// import premium from "../assets/app/premium.png";
-
-// const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-
-// const startContest_0 = new Date(2021, 6, 29);
-// const startContest_1 = new Date(2021, 6, 29);
-
-// const endContest_0 = new Date(2021, 7, 5);
-// const endContest_1 = new Date(2021, 7, 10);
-
-// var now = Date.now();
-// let dif = Math.round((endContest_0 - now) / oneDay);
-// let openContest_0 = false;
-// if (dif > 0) {
-//   openContest_0 = true;
-// }
 const tokenABI = [
   {
     name: "Transfer",
@@ -179,10 +153,27 @@ const tokenABI = [
   },
 ];
 
+const pugContractAddress = "0x6E2aF40FDa1656Cdf48A079a06c8501D687fa1b8";
+
 class NavBar extends Component {
   async componentWillMount() {
     await this.loadBlockchainData(this.props.dispatch);
+    await this.loadUrlPrice(
+      "https://us-central1-gswap-27c0a.cloudfunctions.net/pugPrice"
+    );
     //!CARREGAR INITIAL DATA;
+  }
+
+  async loadUrlPrice(url) {
+    const response = await fetch(
+      "https://us-central1-gswap-27c0a.cloudfunctions.net/pugPrice"
+    );
+    const fetchJson = await response.json();
+    const pugPrice = fetchJson.toString();
+
+    this.setState({
+      pugPrice: fetchJson,
+    });
   }
 
   async loadBlockchainData(dispatch) {
@@ -192,42 +183,31 @@ class NavBar extends Component {
     if (typeof window.ethereum !== "undefined") {
       const web3 = new Web3(window.ethereum);
       const netId = await web3.eth.net.getId();
-      // const pugAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
       const blockAc = await web3.eth.getBlockNumber();
-      // const pugContract = new web3.eth.Contract(tokenABI, pugAddress);
-      let pugPrice;
-      await fetch("https://us-central1-gswap-27c0a.cloudfunctions.net/pugPrice")
-        .then((res) => res.json())
-        .then((data) => {
-          pugPrice = data;
-        });
+      const pugContract = new web3.eth.Contract(tokenABI, pugContractAddress);
 
-      console.log(netId);
-      console.log(`Block: ${blockAc}`);
-      // const algo = await web3.eth.Contract(dbank.abi,dbank.address);
-      // console.log(algo.toString());
       const accounts = await web3.eth.getAccounts();
 
       //load balance
       if (typeof accounts[0] !== "undefined") {
         const balance = await web3.eth.getBalance(accounts[0]);
-        // const pugBalance = await pugContract.methods
-        //   .balanceOf(accounts[0])
-        //   .call();
-        // const pgBal = web3.utils.fromWei(pugBalance);
-        // const round_pug_balance = (+pgBal).toFixed(2);
-        // const gangster_pug_balance =
-        //   round_pug_balance / 100000 > 1
-        //     ? (+(round_pug_balance / 1000)).toFixed(2)
-        //     : 0;
+        const pugBalance = await pugContract.methods
+          .balanceOf(accounts[0])
+          .call();
+        const pgBal = web3.utils.fromWei(pugBalance);
+        const round_pug_balance = (+pgBal).toFixed(2);
+
+        const gangster_pug_balance =
+          round_pug_balance / 1000 > 1
+            ? (+(round_pug_balance / 1000)).toFixed(2)
+            : 0;
 
         this.setState({
           account: accounts[0],
           balance: web3.utils.fromWei(balance),
           web3: web3,
-          pugPrice: pugPrice,
-          // round_pug_balance: round_pug_balance,
-          // gangster_pug_balance: gangster_pug_balance,
+          round_pug_balance: round_pug_balance,
+          gangster_pug_balance: gangster_pug_balance,
         });
       } else {
         window.alert("Please login with MetaMask");
@@ -241,17 +221,7 @@ class NavBar extends Component {
       }
     } else {
       const result = await window.ethereum.enable();
-      // console.log(result);
-      // console.log(result);
-      // console.log(result);
-      // console.log(result);
-      // console.log(result);
-      // console.log(result);
-      // console.log(result);
       window.location.reload();
-
-      //! AQUI
-      // window.alert("Please install MetaMask");
     }
   }
   constructor(props) {
@@ -263,20 +233,13 @@ class NavBar extends Component {
       contest_0_winner: null,
       account: "",
       web3: "undefined",
-      farm: "about",
-      // pugBalance: 0,
-      // round_pug_balance: 0,
-      // gangster_pug_balance: 0,
+
+      pugPrice: "99.999",
+      pugBalance: 0,
+      round_pug_balance: 0,
+      gangster_pug_balance: 0,
     };
   }
-
-  isFarm = (e, farm) => {
-    if (farm) {
-      this.setState({ farm: true });
-    } else {
-      this.setState({ famr: false });
-    }
-  };
 
   render() {
     return (
@@ -287,23 +250,51 @@ class NavBar extends Component {
             "radial-gradient(100% 100% at 0px 0px, black, transparent), orange",
         }}
       >
-        <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
+        <div
+          className="row"
+          style={{
+            paddingLeft: 15,
+            paddingTop: 7.5,
+          }}
+        >
           <img src={pug} className="App-logo" alt="logo" height="70" />
-          <b>
-            {" "}
-            G<font color="ex6998">$</font>
-            wap
-          </b>
-          <div className="content"></div>
-        </a>
+          <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
+            <div class="wasabi-banner">
+              <div
+                class="wrapper"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  class="wasabi-banner-wrapper"
+                  style={{
+                    verticalAlign: "center",
+                  }}
+                >
+                  <div class="txt-wrapper">
+                    <span class="title">
+                      <font size="+3">G</font>
+                      <font size="+2">$</font>
+                      <font size="+1">wap</font>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div className="content"></div>
+
         <div className="nav-wrapper">
           <div className="topbar-nav no-select">
-            <a class={"item clickable "} href="#/stake">
+            {/* <a class={"item clickable "} href="#/stake">
               <font color="ec6998">
                 G<font size="1">$</font>
               </font>
               Stake
-            </a>
+            </a> */}
             <a class={"item clickable "} href="#/farms">
               <font color="ec6998">
                 G<font size="1">$</font>
@@ -348,21 +339,15 @@ class NavBar extends Component {
           rel="noopener noreferrer"
         >
           <div>
-            {this.farm ? (
-              <div class="bunny-price clickable">
-                <Switch />
-              </div>
-            ) : (
-              <div class="bunny-price clickable">
-                <font color="white">
-                  <b>
-                    <font color="ec6998">PUG:</font>
-                  </b>{" "}
-                  {this.pugPrice}
-                  <b>$</b>
-                </font>
-              </div>
-            )}
+            <div class="bunny-price clickable">
+              <font color="white">
+                <b>
+                  <font color="ec6998">PUG:</font>
+                </b>{" "}
+                {this.state.pugPrice}
+                <b>$</b>
+              </font>
+            </div>
           </div>
 
           <div class="account-button no-select"></div>
@@ -379,9 +364,19 @@ class NavBar extends Component {
               }}
             >
               <b>
-                <font color="ec6998">Pollazzo</font>{" "}
+                <font color="ec6998">
+                  {this.state.gangster_pug_balance != 0 ? (
+                    <div>
+                      <font>{this.state.gangster_pug_balance}</font>
+                      <i>
+                        <font color="white">K</font>
+                      </i>
+                    </div>
+                  ) : (
+                    <div>{this.state.round_pug_balance}</div>
+                  )}
+                </font>{" "}
               </b>
-              ,<i></i>
             </div>
           </span>
         </div>

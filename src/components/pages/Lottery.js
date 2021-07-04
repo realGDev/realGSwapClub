@@ -28,20 +28,9 @@ const endContest_0 = new Date(2021, 6, 11, 23, 0, 0, 0);
 
 const Completionist = () => <span>Time is over, let's check you gLOTTO!</span>;
 
-var now = new Date();
+var now = Date.now();
 let dif = endContest_0 - now;
 let difDate = Math.round(dif / oneDay);
-console.log(difDate);
-console.log(difDate);
-console.log(dif);
-console.log(dif);
-console.log(dif);
-console.log(dif);
-
-let openContest_0 = false;
-if (dif > 0) {
-  openContest_0 = true;
-}
 
 const renderer_f_0 = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -161,16 +150,11 @@ class Lottery extends Component {
         }
         allTickets++;
       }
-      console.log(leng);
-      console.log(allTickets);
       pot = await this.state.web3.eth.getBalance(lottery.options.address);
       pot = await this.state.web3.utils.fromWei(pot);
-      console.log(gLotto);
       probability = (gLotto / (leng == 0 ? 1 : leng)) * 100;
-      console.log(probability);
       probability = Math.round(probability * 100) / 100;
     } catch (e) {
-      console.log("console.log()");
       console.log(e.toString());
     }
     this.setState({
@@ -182,7 +166,7 @@ class Lottery extends Component {
   }
 
   async Buy_gLotto_0() {
-    if (this.state.openContest_0 != true) {
+    if (endContest_0 - Date.now() > 0) {
       const id = await this.state.web3.eth.net.getId();
       const lottery = new this.state.web3.eth.Contract(
         LotteryContract.abi,
@@ -198,7 +182,6 @@ class Lottery extends Component {
           value: buyingAmount,
           gas: gas,
         });
-        console.log("should be bought!!");
         window.location.reload();
       } catch (error) {
         console.log(error.toString());
@@ -223,7 +206,6 @@ class Lottery extends Component {
         const resposta = await lottery.methods
           .winnings(this.state.account)
           .call();
-        console.log(resposta);
         if (resposta != 0) {
           const gas = new this.state.web3.utils.BN("6000000");
           const gasPrice = new this.state.web3.utils.BN("100000");
@@ -258,7 +240,7 @@ class Lottery extends Component {
         }
         contest_0_winner = false;
 
-        console.log(resposta);
+        // console.log(resposta);
       } catch (error) {
         console.log(error.toString());
         this.setState({ contest_0_winner: false });
@@ -397,11 +379,20 @@ class Lottery extends Component {
                   <font size="1">EWT</font>
                 </div>
               </div>
-              <div class="bunny-button" onClick={(e) => this.Buy_gLotto_0(e)}>
-                <div class="token-input-max clickable">
-                  <font color="ec6998">BUY gLOTTO</font>
+
+              {endContest_0 - Date.now() >= 0 ? (
+                <div class="bunny-button" onClick={(e) => this.Buy_gLotto_0(e)}>
+                  <div class="token-input-max clickable">
+                    <font color="ec6998">BUY gLOTTO</font>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div class="bunny-button">
+                  <div class="token-input-max clickable">
+                    <font color="ec6998">POT CLOSED</font>
+                  </div>
+                </div>
+              )}
             </div>
             <span class="pot-item farming jackpot" style={{ width: "200%" }}>
               <Line
@@ -464,7 +455,7 @@ class Lottery extends Component {
               </div>
               <div>{/* Operating BOX */}</div>
               <span class="pot-timestamp">
-                {difDate <= 0 ? (
+                {this.state.endContest_0 <= 0 ? (
                   <div>
                     <span class="pot-timestamp">
                       <font color="ec6998">
@@ -488,7 +479,7 @@ class Lottery extends Component {
                   </div>
                 ) : (
                   <span class="pot-timestamp">
-                    Countdown to Pot Closes:{" "}
+                    Countdown for Pot to be Closed:{" "}
                     <Countdown date={Date.now() + dif} />
                   </span>
                 )}

@@ -26,9 +26,9 @@ class App extends React.Component {
             <Route path="/" exact>
               <About />
             </Route>
-            <Route path="/stake" exact>
+            {/* <Route path="/stake" exact>
               <Stake />
-            </Route>
+            </Route> */}
             <Route path="/farms" exact>
               <Home />
             </Route>
