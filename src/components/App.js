@@ -390,14 +390,22 @@ class Home extends Component {
         //   .call();
 
         //* Deposited on PUG
-        const depo_clp_pug_ewt_amount = web3.utils.fromWei(user_farm_0.amount);
-        const depo_clp_pug_susu_amount = web3.utils.fromWei(user_farm_1.amount);
-        const depo_clp_pug_usdc_amount = web3.utils.fromWei(user_farm_2.amount);
-        const depo_clp_pug_bnb_amount = web3.utils.fromWei(user_farm_3.amount);
+        let depo_clp_pug_ewt_amount = web3.utils.fromWei(user_farm_0.amount);
+        let depo_clp_pug_susu_amount = web3.utils.fromWei(user_farm_1.amount);
+        let depo_clp_pug_usdc_amount = web3.utils.fromWei(user_farm_2.amount);
+        let depo_clp_pug_bnb_amount = web3.utils.fromWei(user_farm_3.amount);
+
+        depo_clp_pug_ewt_amount = (+depo_clp_pug_ewt_amount).toFixed(4);
+        depo_clp_pug_susu_amount = (+depo_clp_pug_susu_amount).toFixed(4);
+        depo_clp_pug_usdc_amount = (+depo_clp_pug_usdc_amount).toFixed(4);
+        depo_clp_pug_bnb_amount = (+depo_clp_pug_bnb_amount).toFixed(4);
 
         //* Deposited on GS
+
         //TODO: AQUI
+
         // const depo_clp_ammo_usdc_amount = web3.utils.fromWei(
+
         //   user_gs_farm_0.amount
         // );
 
