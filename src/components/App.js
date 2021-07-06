@@ -390,24 +390,36 @@ class Home extends Component {
         //   .call();
 
         //* Deposited on PUG
-        let depo_clp_pug_ewt_amount = web3.utils.fromWei(user_farm_0.amount);
-        let depo_clp_pug_susu_amount = web3.utils.fromWei(user_farm_1.amount);
-        let depo_clp_pug_usdc_amount = web3.utils.fromWei(user_farm_2.amount);
-        let depo_clp_pug_bnb_amount = web3.utils.fromWei(user_farm_3.amount);
+        let depo_clp_pug_ewt_amount_precision = web3.utils.fromWei(
+          user_farm_0.amount
+        );
+        let depo_clp_pug_susu_amount_precision = web3.utils.fromWei(
+          user_farm_1.amount
+        );
+        let depo_clp_pug_usdc_amount_precision = web3.utils.fromWei(
+          user_farm_2.amount
+        );
+        let depo_clp_pug_bnb_amount_precision = web3.utils.fromWei(
+          user_farm_3.amount
+        );
 
-        depo_clp_pug_ewt_amount = (+depo_clp_pug_ewt_amount).toFixed(4);
-        depo_clp_pug_susu_amount = (+depo_clp_pug_susu_amount).toFixed(4);
-        depo_clp_pug_usdc_amount = (+depo_clp_pug_usdc_amount).toFixed(4);
-        depo_clp_pug_bnb_amount = (+depo_clp_pug_bnb_amount).toFixed(4);
+        const depo_clp_pug_ewt_amount =
+          (+depo_clp_pug_ewt_amount_precision).toFixed(4);
+        const depo_clp_pug_susu_amount =
+          (+depo_clp_pug_susu_amount_precision).toFixed(4);
+        const depo_clp_pug_usdc_amount =
+          (+depo_clp_pug_usdc_amount_precision).toFixed(4);
+        const depo_clp_pug_bnb_amount =
+          (+depo_clp_pug_bnb_amount_precision).toFixed(4);
 
         //* Deposited on GS
 
         //TODO: AQUI
-
         // const depo_clp_ammo_usdc_amount = web3.utils.fromWei(
-
         //   user_gs_farm_0.amount
         // );
+        // const depo_clp_ammo_usdc_amount =
+        //   (+depo_clp_ammo_usdc_amount_precision).toFixed(4);
 
         //* Rewards
         let containReward_0 = web3.utils.fromWei(pdt_rewards_0);
@@ -479,20 +491,26 @@ class Home extends Component {
           //?Farm_0
           reward_pug_ewt_pdt_ammo: reward_farm_0,
           depo_clp_pug_ewt_amount: depo_clp_pug_ewt_amount,
+          depo_clp_pug_ewt_amount_precision: depo_clp_pug_ewt_amount_precision,
           //?Farm_1
           reward_pug_susu_pdt_ammo: reward_farm_1,
           depo_clp_pug_susu_amount: depo_clp_pug_susu_amount,
+          depo_clp_pug_susu_amount_precision:
+            depo_clp_pug_susu_amount_precision,
           //?Farm_2
           reward_pug_usdc_pdt_ammo: reward_farm_2,
           depo_clp_pug_usdc_amount: depo_clp_pug_usdc_amount,
+          depo_clp_pug_usdc_amount_precision:
+            depo_clp_pug_usdc_amount_precision,
           //?Farm_3
           reward_pug_bnb_pdt_ammo: reward_farm_3,
-          depo_clp_pug_bnb_amount: depo_clp_pug_bnb_amount,
+          depo_clp_pug_bnb_amount_precision: depo_clp_pug_bnb_amount_precision,
 
           //TODO: AQUI
           // //* GS FARMS
           // reward_ammo_usdc_pdt_gs: reward_gs_farm_0,
           // depo_clp_ammo_usdc_amount: depo_clp_ammo_usdc_amount,
+          // depo_clp_ammo_usdc_amount_precision: depo_clp_ammo_usdc_amount_precision,
 
           //? User Globals
           pug_ewt_clp_wallet_balance: pug_ewt_clp_wallet_balance,
@@ -753,7 +771,7 @@ class Home extends Component {
   //! WITHDRAW GS  FARMS
 
   async withdraw_ammo_usdc_clp(e) {
-    if (this.state.depo_clp_ammo_usdc_amount > 0) {
+    if (this.state.depo_clp_ammo_usdc_amount_precision > 0) {
       const user_farm_0_gs = await this.state.gMasterChef.methods
         .userInfo(0, this.state.account)
         .call();
@@ -800,7 +818,7 @@ class Home extends Component {
   //! WITHDRAW PUG FARMS
 
   async withdraw_pug_ewt_clp(e) {
-    if (this.state.depo_clp_pug_ewt_amount > 0) {
+    if (this.state.depo_clp_pug_ewt_amount_precision > 0) {
       const user_farm_0 = await this.state.pMasterChef.methods
         .userInfo(0, this.state.account)
         .call();
@@ -846,7 +864,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_susu_clp(e) {
-    if (this.state.depo_clp_pug_susu_amount > 0) {
+    if (this.state.depo_clp_pug_susu_amount_precision > 0) {
       const user_farm_1 = await this.state.pMasterChef.methods
         .userInfo(1, this.state.account)
         .call();
@@ -891,7 +909,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_usdc_clp(e) {
-    if (this.state.depo_clp_pug_usdc_amount > 0.0000000000000001) {
+    if (this.state.depo_clp_pug_usdc_amount_precision > 0) {
       const user_farm_2 = await this.state.pMasterChef.methods
         .userInfo(2, this.state.account)
         .call();
@@ -936,7 +954,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_bnb_clp(e) {
-    if (this.state.depo_clp_pug_bnb_amount > 0) {
+    if (this.state.depo_clp_pug_bnb_amount_precision > 0) {
       const user_farm_3 = await this.state.pMasterChef.methods
         .userInfo(3, this.state.account)
         .call();
