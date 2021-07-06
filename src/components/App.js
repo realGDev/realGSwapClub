@@ -753,7 +753,7 @@ class Home extends Component {
   //! WITHDRAW GS  FARMS
 
   async withdraw_ammo_usdc_clp(e) {
-    if (this.state.depo_clp_ammo_usdc_amount != 0) {
+    if (this.state.depo_clp_ammo_usdc_amount > 0) {
       const user_farm_0_gs = await this.state.gMasterChef.methods
         .userInfo(0, this.state.account)
         .call();
@@ -800,7 +800,7 @@ class Home extends Component {
   //! WITHDRAW PUG FARMS
 
   async withdraw_pug_ewt_clp(e) {
-    if (this.state.depo_clp_pug_ewt_amount != 0) {
+    if (this.state.depo_clp_pug_ewt_amount > 0) {
       const user_farm_0 = await this.state.pMasterChef.methods
         .userInfo(0, this.state.account)
         .call();
@@ -846,7 +846,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_susu_clp(e) {
-    if (this.state.depo_clp_pug_susu_amount != 0) {
+    if (this.state.depo_clp_pug_susu_amount > 0) {
       const user_farm_1 = await this.state.pMasterChef.methods
         .userInfo(1, this.state.account)
         .call();
@@ -891,7 +891,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_usdc_clp(e) {
-    if (this.state.depo_clp_pug_usdc_amount != 0) {
+    if (this.state.depo_clp_pug_usdc_amount > 0) {
       const user_farm_2 = await this.state.pMasterChef.methods
         .userInfo(2, this.state.account)
         .call();
@@ -936,7 +936,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_bnb_clp(e) {
-    if (this.state.depo_clp_pug_bnb_amount != 0) {
+    if (this.state.depo_clp_pug_bnb_amount > 0) {
       const user_farm_3 = await this.state.pMasterChef.methods
         .userInfo(3, this.state.account)
         .call();
