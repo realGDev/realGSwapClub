@@ -32,7 +32,7 @@ import ammoUsdc from "./assets/ammoUsdc.png";
 import pugUsdc from "./assets/pugUsdc.png";
 import pugBnb from "./assets/pugBnb.png";
 
-const farm_opening = new Date(2021, 6, 6, 19, 0, 0, 0);
+const farm_opening = new Date(2021, 6, 5, 19, 0, 0, 0);
 
 const gs_pair_0 = "AMMO-USDC";
 const pair_0 = "PUG-EWT";
