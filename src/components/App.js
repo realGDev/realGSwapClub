@@ -891,7 +891,7 @@ class Home extends Component {
   }
 
   async withdraw_pug_usdc_clp(e) {
-    if (this.state.depo_clp_pug_usdc_amount > 0) {
+    if (this.state.depo_clp_pug_usdc_amount > 0.0000000000000001) {
       const user_farm_2 = await this.state.pMasterChef.methods
         .userInfo(2, this.state.account)
         .call();
