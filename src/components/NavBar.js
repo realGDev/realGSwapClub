@@ -289,12 +289,12 @@ class NavBar extends Component {
 
         <div className="nav-wrapper">
           <div className="topbar-nav no-select">
-            {/* <a class={"item clickable "} href="#/stake">
+            <a class={"item clickable "} href="#/stake">
               <font color="ec6998">
                 G<font size="1">$</font>
               </font>
               Stake
-            </a> */}
+            </a>
             <a class={"item clickable "} href="#/farms">
               <font color="ec6998">
                 G<font size="1">$</font>

@@ -31,6 +31,7 @@ import pugAmmo from "./assets/pugAmmo.png";
 import ammoUsdc from "./assets/ammoUsdc.png";
 import pugUsdc from "./assets/pugUsdc.png";
 import pugBnb from "./assets/pugBnb.png";
+import gngLotto from "./assets/gngLotto.png";
 
 const farm_opening = new Date(2021, 6, 5, 19, 0, 0, 0);
 
@@ -40,7 +41,7 @@ const pair_1 = "PUG-SUSU";
 const pair_3 = "PUG-USDC";
 const pair_4 = "PUG-BNB";
 const pug_ewt_contract_address = "0xc61500fa1bfa61312c71393a202149bac9ce1de4";
-const ammo_usdc_contract_address = "";
+const ammo_usdc_contract_address = "0x20ae3646e74dfec646b2788286065f642245ca5f";
 const pug_susu_contract_address = "0x6a6a9a7215b402771d2a35866a2c445cdc2a4019";
 const pug_usdc_contract_address = "0xdc3323a7cd9bd55660f6a461cd14f91c2668de27";
 const pug_bnb_contract_address = "0x9bdb88dff2d0639d4824512152794114f557d411";
@@ -210,6 +211,55 @@ const tokenABI = [
 class Home extends Component {
   async componentWillMount() {
     await this.loadBlockchainData(this.props.dispatch);
+    //* G$ Rewards Reload
+    this.AmmoUsdcRewardDisplay().then(() => {
+      const ammo_usdc_interval = setInterval(
+        () => this.AmmoUsdcRewardDisplay(),
+        10 * 1000
+      );
+      this.ammo_usdc_interval = ammo_usdc_interval;
+    });
+
+    //* $AMMO Rewards Reload
+    this.PugEwtRewardDisplay().then(() => {
+      const pug_ewt_interval = setInterval(
+        () => this.PugEwtRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_ewt_interval = pug_ewt_interval;
+    });
+    this.PugSusuRewardDisplay().then(() => {
+      const pug_susu_interval = setInterval(
+        () => this.PugSusuRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_susu_interval = pug_susu_interval;
+    });
+    this.PugUsdcRewardDisplay().then(() => {
+      const pug_usdc_interval = setInterval(
+        () => this.PugUsdcRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_usdc_interval = pug_usdc_interval;
+    });
+    this.PugBnbRewardDisplay().then(() => {
+      const pug_bnb_interval = setInterval(
+        () => this.PugBnbRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_bnb_interval = pug_bnb_interval;
+    });
+
+    //*Interval ends
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.ammo_usdc_interval);
+    clearInterval(this.pug_ewt_interval);
+    clearInterval(this.pug_susu_interval);
+    clearInterval(this.pug_usdc_interval);
+    clearInterval(this.pug_bnb_interval);
+    // this._isMounted = false;  <----- tried
   }
 
   async loadBlockchainData(dispatch) {
@@ -286,14 +336,14 @@ class Home extends Component {
         });
 
         //TODO: AQUI
-        // const ammo_usdc_contract = new web3.eth.Contract(
-        //   tokenABI,
-        //   ammo_usdc_contract_address
-        // );
-        // const ammo_usdc_clp = await ammo_usdc_contract.methods
-        //   .balanceOf(accounts[0])
-        //   .call();
-        // const ammo_usdc_clp_wallet_balance = web3.utils.fromWei(ammo_usdc_clp);
+        const ammo_usdc_contract = new web3.eth.Contract(
+          tokenABI,
+          ammo_usdc_contract_address
+        );
+        const ammo_usdc_clp = await ammo_usdc_contract.methods
+          .balanceOf(accounts[0])
+          .call();
+        const ammo_usdc_clp_wallet_balance = web3.utils.fromWei(ammo_usdc_clp);
 
         const pug_ewt_contract = new web3.eth.Contract(
           tokenABI,
@@ -370,24 +420,24 @@ class Home extends Component {
           .call();
 
         //TODO: AQUI
-        // const gMasterChef = new web3.eth.Contract(
-        //   GMasterChef.abi,
-        //   GMasterChef.networks[netId].address
-        // );
-        // const gs_wallet_wei = await ammoContract.methods
-        //   .balanceOf(this.state.account)
-        //   .call();
-        // const gSAddress = Token.networks[netId].address;
-        // const gS_wallet_balance = web3.utils.fromWei(gs_wallet_wei);
+        const gMasterChef = new web3.eth.Contract(
+          GMasterChef.abi,
+          GMasterChef.networks[netId].address
+        );
+        const gs_wallet_wei = await ammoContract.methods
+          .balanceOf(this.state.account)
+          .call();
+        const gSAddress = Token.networks[netId].address;
+        const gS_wallet_balance = web3.utils.fromWei(gs_wallet_wei);
         //TODO: AQUI
-        // // const gSFeeAddress = await gMasterChef.methods.getFeeAddress().call();
+        const gSFeeAddress = await gMasterChef.methods.getFeeAddress().call();
 
-        // let user_gs_farm_0 = await gMasterChef.methods
-        //   .userInfo(0, this.state.account)
-        //   .call();
-        // let pdt_gs_rewards_0 = await gMasterChef.methods
-        //   .pendingSushi(0, this.state.account)
-        //   .call();
+        let user_gs_farm_0 = await gMasterChef.methods
+          .userInfo(0, this.state.account)
+          .call();
+        let pdt_gs_rewards_0 = await gMasterChef.methods
+          .pendingSushi(0, this.state.account)
+          .call();
 
         //* Deposited on PUG
         let depo_clp_pug_ewt_amount_precision = web3.utils.fromWei(
@@ -415,11 +465,11 @@ class Home extends Component {
         //* Deposited on GS
 
         //TODO: AQUI
-        // const depo_clp_ammo_usdc_amount = web3.utils.fromWei(
-        //   user_gs_farm_0.amount
-        // );
-        // const depo_clp_ammo_usdc_amount =
-        //   (+depo_clp_ammo_usdc_amount_precision).toFixed(4);
+        const depo_clp_ammo_usdc_amount_precision = web3.utils.fromWei(
+          user_gs_farm_0.amount
+        );
+        const depo_clp_ammo_usdc_amount =
+          (+depo_clp_ammo_usdc_amount_precision).toFixed(5);
 
         //* Rewards
         let containReward_0 = web3.utils.fromWei(pdt_rewards_0);
@@ -428,7 +478,7 @@ class Home extends Component {
         let containReward_3 = web3.utils.fromWei(pdt_rewards_3);
 
         //TODO: AQUI
-        // let containGsReward_0 = web3.utils.fromWei(pdt_gs_rewards_0);
+        let containGsReward_0 = web3.utils.fromWei(pdt_gs_rewards_0);
 
         let reward_farm_0 = (+containReward_0).toFixed(2);
         let reward_farm_1 = (+containReward_1).toFixed(2);
@@ -436,7 +486,7 @@ class Home extends Component {
         let reward_farm_3 = (+containReward_3).toFixed(2);
 
         //TODO: AQUI
-        // let reward_gs_farm_0 = (+containGsReward_0).toFixed(2);
+        let reward_gs_farm_0 = (+containGsReward_0).toFixed(2);
 
         reward_farm_0 = reward_farm_0
           .toString()
@@ -452,9 +502,9 @@ class Home extends Component {
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         //TODO: AQUI
-        // reward_gs_farm_0 = reward_gs_farm_0
-        //   .toString()
-        //   .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        reward_gs_farm_0 = reward_gs_farm_0
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         const farmContracts = [
           pug_ewt_contract,
@@ -464,26 +514,26 @@ class Home extends Component {
         ];
 
         //TODO: AQUI
-        // const gfarmContracts = [ammo_usdc_contract];
+        const gfarmContracts = [ammo_usdc_contract];
         this.setState({
           //! AMMO
           ammo: ammoContract,
           ammoAddress: ammoAddress,
 
           //TODO: AQUI
-          // gs: gsContract,
-          // gSAddress: gSAddress,
-          // gfarmContracts: gfarmContracts,
+          gs: gsContract,
+          gSAddress: gSAddress,
+          gfarmContracts: gfarmContracts,
 
           //! PugMasterChef
           pMasterChef: pMasterChef,
           pmasterChefAddress: PugMasterChef.networks[netId].address,
           //TODO: AQUI
-          // gMasterChef: gMasterChef,
+          gMasterChef: gMasterChef,
           gmasterChefAddress: GMasterChef.networks[netId].address,
           feeAddres: ammoFeeAddress,
           //TODO: AQUI
-          // gSfeeAddres: gSFeeAddress,
+          gSfeeAddres: gSFeeAddress,
           //! All_Farms
           farmContracts: farmContracts,
 
@@ -508,20 +558,21 @@ class Home extends Component {
 
           //TODO: AQUI
           // //* GS FARMS
-          // reward_ammo_usdc_pdt_gs: reward_gs_farm_0,
-          // depo_clp_ammo_usdc_amount: depo_clp_ammo_usdc_amount,
-          // depo_clp_ammo_usdc_amount_precision: depo_clp_ammo_usdc_amount_precision,
+          reward_ammo_usdc_pdt_gs: reward_gs_farm_0,
+          depo_clp_ammo_usdc_amount: depo_clp_ammo_usdc_amount,
+          depo_clp_ammo_usdc_amount_precision:
+            depo_clp_ammo_usdc_amount_precision,
 
           //? User Globals
           pug_ewt_clp_wallet_balance: pug_ewt_clp_wallet_balance,
           pug_susu_clp_wallet_balance: pug_susu_clp_wallet_balance,
           //TODO: AQUI
-          // ammo_usdc_clp_wallet_balance: ammo_usdc_clp_wallet_balance,
+          ammo_usdc_clp_wallet_balance: ammo_usdc_clp_wallet_balance,
           pug_usdc_clp_wallet_balance: pug_usdc_clp_wallet_balance,
           pug_bnb_clp_wallet_balance: pug_bnb_clp_wallet_balance,
           ammo_wallet_balance: ammo_wallet_balance,
           //TODO: AQUI
-          // gs_wallet_balance: gS_wallet_balance,
+          gs_wallet_balance: gS_wallet_balance,
 
           //* Progra Globals
           web3: web3,
@@ -534,6 +585,138 @@ class Home extends Component {
     } else {
       window.alert("Please install MetaMask");
     }
+  }
+
+  //! REWARDS IN FARMS (G$)
+
+  async AmmoUsdcRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+
+    try {
+      console.log("AMMO-USDC REFRESH");
+      const pdt_rewards_0 = await this.state.gMasterChef.methods
+        .pendingSushi(0, this.state.account)
+        .call();
+      const containGsReward_0 = this.state.web3.utils.fromWei(pdt_rewards_0);
+      const reward_ammo_usdc_pdt_gs_precision =
+        this.state.web3.utils.fromWei(pdt_rewards_0);
+      let reward_farm_0 = (+containGsReward_0).toFixed(5);
+      reward_farm_0 = reward_farm_0
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_ammo_usdc_pdt_gs: reward_farm_0,
+        reward_ammo_usdc_pdt_gs_precision: reward_ammo_usdc_pdt_gs_precision,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  //! REWARDS IN FARMS ($AMMO)
+  async PugEwtRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_0 = await this.state.pMasterChef.methods
+        .pendingSushi(0, this.state.account)
+        .call();
+      const containReward_0 = this.state.web3.utils.fromWei(pdt_rewards_0);
+      let reward_farm_0 = (+containReward_0).toFixed(2);
+      reward_farm_0 = reward_farm_0
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_ewt_pdt_ammo: reward_farm_0,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  async PugSusuRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_1 = await this.state.pMasterChef.methods
+        .pendingSushi(1, this.state.account)
+        .call();
+      const containReward_1 = this.state.web3.utils.fromWei(pdt_rewards_1);
+      let reward_farm_1 = (+containReward_1).toFixed(2);
+      reward_farm_1 = reward_farm_1
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_susu_pdt_ammo: reward_farm_1,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  async PugUsdcRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_2 = await this.state.pMasterChef.methods
+        .pendingSushi(2, this.state.account)
+        .call();
+      const containReward_2 = this.state.web3.utils.fromWei(pdt_rewards_2);
+      let reward_farm_2 = (+containReward_2).toFixed(2);
+      reward_farm_2 = reward_farm_2
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_usdc_pdt_ammo: reward_farm_2,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  async PugBnbRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_3 = await this.state.pMasterChef.methods
+        .pendingSushi(3, this.state.account)
+        .call();
+      const containReward_3 = this.state.web3.utils.fromWei(pdt_rewards_3);
+      let reward_farm_3 = (+containReward_3).toFixed(2);
+      reward_farm_3 = reward_farm_3
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_bnb_pdt_ammo: reward_farm_3,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
   }
 
   //! DEPOSIT IN FARMS (G$)
@@ -562,6 +745,7 @@ class Home extends Component {
               from: this.state.account,
             });
 
+          //TODO: 2
           //* Fee GS
           // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
@@ -608,6 +792,7 @@ class Home extends Component {
             .approve(this.state.pmasterChefAddress, allow)
             .send({ from: this.state.account });
 
+          //TODO: 2
           //* Fee (AMMO)
           // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
           //   from: this.state.account,
@@ -1009,7 +1194,7 @@ class Home extends Component {
       netId: null,
       ammoFeeAddress: null,
       //TODO: AQUI
-      // gFeeAddress: null,
+      gFeeAddress: null,
       //?UserGlobals
       account: "",
       ewt_balance: 0,
@@ -1017,10 +1202,11 @@ class Home extends Component {
 
       //* AMMO_USDC
       //TODO: AQUI
-      // ammo_usdc_clp_wallet_balance: 0,
-      // reward_ammo_usdc_pdt_gs: 0.0,
-      // depo_clp_ammo_usdc_amount: 0,
-      // input_lp_ammo_usdc: 0,
+      ammo_usdc_clp_wallet_balance: 0,
+      reward_ammo_usdc_pdt_gs: 0.0,
+      reward_ammo_usdc_pdt_gs_precision: 0.0,
+      depo_clp_ammo_usdc_amount: 0,
+      input_lp_ammo_usdc: 0,
 
       //* PUG_EWT
       pug_ewt_clp_wallet_balance: 0,
@@ -1049,12 +1235,12 @@ class Home extends Component {
       //! Contracts&Addresses
       farmContracts: [],
       //TODO: AQUI
-      // gfarmContracts: [],
+      gfarmContracts: [],
       ammo: null,
       gs: null,
       pmasterChefAddress: null,
       //TODO: AQUI
-      // gmasterChefAddress: null,
+      gmasterChefAddress: null,
 
       //?* State Management
       pair: null,
@@ -1235,11 +1421,11 @@ class Home extends Component {
                         </font>{" "}
                       </span>
                       {/* TODO: AQUI */}
-                      {/* <span class="value">
+                      <span class="value">
                         <font color="white">
                           {this.state.ammo_usdc_clp_wallet_balance}
                         </font>
-                      </span> */}
+                      </span>
                     </div>
 
                     <div class="row">
@@ -1256,25 +1442,33 @@ class Home extends Component {
                           </div>
                         </div>
                         <div></div>
-                        <div class="label" align="right">
+                        <div
+                          class="label"
+                          style={{
+                            alignItems: "center",
+                          }}
+                        >
                           <span>
                             <i>$</i>
                             <font color="white">{gs_pair_0}</font>
                           </span>{" "}
+                          <span>
+                            <font color="white" size="1">
+                              G
+                            </font>
+                            <font color="fe1e70" size="1">
+                              <i>$wap Booster</i>
+                            </font>
+                          </span>
                         </div>
                         <div class="rates">
                           <span class="apy">
                             {/* TODO: REMOVE THIS AND UNCOMMENT OTHER */}
-                            <font>
-                              {this.state.gs_supply_apy}
-                              <i>
-                                <font size="+1">%</font>
-                              </i>
-                            </font>
 
                             {/* TODO: AQUI */}
 
-                            {/* {this.state.reward_ammo_usdc_pdt_gs == 0 ? (
+                            {this.state.reward_ammo_usdc_pdt_gs_precision <
+                            0.000001 ? (
                               <font>
                                 {this.state.gs_supply_apy}
                                 <i>
@@ -1291,12 +1485,12 @@ class Home extends Component {
                                   <font size="+1">$</font>
                                 </i>
                               </font>
-                            )} */}
+                            )}
                           </span>
                           <span class="apr">
                             <font>
                               <font size="+1">
-                                <i>COMMING SOON</i>
+                                <i>APY</i>
                               </font>
                             </font>
                             {/* {this.state.reward_ammo_usdc_pdt_gs == 0 ? (
@@ -1327,7 +1521,10 @@ class Home extends Component {
                               </font>
 
                               <font size="1">
-                                + G<i>$</i>
+                                + G
+                                <i>
+                                  <font color="ec6998">$</font>
+                                </i>
                               </font>
                               <div class="subfont"></div>
                             </div>
@@ -1335,15 +1532,15 @@ class Home extends Component {
                         </div>
                         <div class="details" align="right">
                           {/* TODO: AQUI */}
-                          {/* <span class="label">Deposited:</span> */}
-                          <span class="label">Earn:</span>
+                          <span class="label">Deposited:</span>
+                          {/* <span class="label">Earn:</span> */}
 
                           <span class="value">
-                            {/* {this.state.depo_clp_ammo_usdc_amount} {gs_pair_0} */}
-                            <font size="+1">G</font>
+                            {this.state.depo_clp_ammo_usdc_amount} {gs_pair_0}
+                            {/* <font size="+1">G</font>
                             <font size="+1" color="ec6998">
                               <i>$</i>
-                            </font>
+                            </font> */}
                           </span>
                         </div>
                       </div>
@@ -1361,7 +1558,7 @@ class Home extends Component {
                   >
                     {/* TODO: AQUI */}
 
-                    {/* <div class="token-input-wrapper" style={{ width: "55%" }}>
+                    <div class="token-input-wrapper" style={{ width: "55%" }}>
                       <input
                         class="token-input"
                         placeholder={
@@ -1380,12 +1577,12 @@ class Home extends Component {
                       >
                         MAX
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                   <br />
                   {/* TODO: AQUI */}
 
-                  {/* <div class="card-content">
+                  <div class="card-content">
                     <div
                       class="farm-detail-control-action-wrapper"
                       style={{ height: "5px" }}
@@ -1406,7 +1603,7 @@ class Home extends Component {
                         </div>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
                   {/* EWT-PUG FARM */}
                   <div class="ewt_balance" align="left">
                     <span class="label">
@@ -1437,9 +1634,21 @@ class Home extends Component {
                               </div>
                             </div>
                             <div></div>
-                            <div class="label" align="right">
+                            <div
+                              class="label"
+                              style={{
+                                alignItems: "center",
+                              }}
+                            >
                               <span>
-                                $<font color="white">{pair_0}</font>
+                                <i>$</i>
+                                <font color="white">{pair_0}</font>
+                              </span>{" "}
+                              <span>
+                                <font color="white" size="1"></font>
+                                <font color="800080" size="1">
+                                  <i>PUG Father Choice</i>
+                                </font>
                               </span>
                             </div>
                             <div class="rates">
@@ -2020,6 +2229,35 @@ class Home extends Component {
               </div>
             </div>
 
+            {/* EXTRA COMMENT END */}
+            <br></br>
+            <div class="container pg">
+              <div
+                class="pot-list"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  class="pot-item empty"
+                  style={{ width: "90%", height: "70%" }}
+                >
+                  <img src={gngLotto} alt="cooking" />
+                  <font color="grey">
+                    <span>More Coming Soon</span>
+                  </font>
+                  <font color="grey">
+                    <span>If you want to add a New Pair,</span>
+                    <span>
+                      <font color="fe1e70"> Contact G$wap Devs</font>
+                    </span>
+                  </font>
+                </div>
+              </div>
+            </div>
+            <br></br>
             {/* WBNB-PUG FARM */}
 
             {/* <main role="main" className="farm-list">

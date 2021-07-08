@@ -195,6 +195,9 @@ class Lottery extends Component {
     //! Si es ell, probar de fer un withdraw
     if (dif > 0) {
       contest_0_winner = null;
+      this.setState({
+        firstTime: false,
+      });
     } else {
       const id = await this.state.web3.eth.net.getId();
       const lottery = new this.state.web3.eth.Contract(
@@ -259,7 +262,7 @@ class Lottery extends Component {
       contest_0_winner: null,
       account: "",
       web3: "undefined",
-
+      firstTime: true,
       //TODO: End Lottery state
       //   //*Globals
       //   web3: "undefined",
@@ -536,6 +539,8 @@ class Lottery extends Component {
                   <i>"Sorry, better Luck next time"</i>
                 ) : this.state.contest_0_winner == true ? (
                   <i>"Good Luck, you're a gangster, BUY some $PUG"</i>
+                ) : this.state.firstTime == true ? (
+                  <i></i>
                 ) : (
                   <i>
                     "Pot is not closed yet, buy more to increase your
