@@ -488,7 +488,9 @@ class Home extends Component {
         //TODO: AQUI
         let reward_gs_farm_0 = (+containGsReward_0).toFixed(5);
         //TODO: AQUI
-        // reward_gs_farm_0 = reward_gs_farm_0.toString();
+        reward_gs_farm_0 = reward_gs_farm_0
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         reward_farm_0 = reward_farm_0
           .toString()

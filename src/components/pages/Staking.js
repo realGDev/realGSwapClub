@@ -443,7 +443,7 @@ class Stake extends Component {
     console.log(event.target.value);
     if (event.target.value == undefined) {
       this.setState({
-        input_lp_pug_bnb: this.state.gs_wallet_balance,
+        input_gs_staking: this.state.gs_wallet_balance,
       });
     } else {
       this.setState({ input_gs_staking: event.target.value });
