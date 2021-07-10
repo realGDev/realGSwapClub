@@ -253,6 +253,7 @@ class Stake extends Component {
           .call();
 
         const gS_wallet_balance = web3.utils.fromWei(gs_wallet_wei);
+        console.log(`My G$ Wallet Balance: ${gS_wallet_balance}`);
         //TODO: AQUI
         const gSFeeAddress = await gMasterChef.methods.getFeeAddress().call();
 

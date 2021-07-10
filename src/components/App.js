@@ -1246,17 +1246,17 @@ class Home extends Component {
     };
   }
 
-  // ChangeCLP_AMMO_USDC_Amount = (event) => {
-  //   console.log(event.target.value);
-  //   if (event.target.value == undefined) {
-  //     this.setState({
-  //       input_lp_ammo_usdc: this.state.ammo_usdc_clp_wallet_balance,
-  //     });
-  //   } else {
-  //     //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
-  //     this.setState({ input_lp_ammo_usdc: event.target.value });
-  //   }
-  // };
+  ChangeCLP_AMMO_USDC_Amount = (event) => {
+    console.log(event.target.value);
+    if (event.target.value == undefined) {
+      this.setState({
+        input_lp_ammo_usdc: this.state.ammo_usdc_clp_wallet_balance,
+      });
+    } else {
+      //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
+      this.setState({ input_lp_ammo_usdc: event.target.value });
+    }
+  };
 
   ChangeCLP_PUG_EWT_Amount = (event) => {
     console.log(event.target.value == undefined);
