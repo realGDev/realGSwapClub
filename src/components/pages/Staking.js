@@ -341,7 +341,7 @@ class Stake extends Component {
 
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
-      const fee = new this.state.web3.utils.BN("500000000000000000");
+      const fee = new this.state.web3.utils.BN("65000000000000000");
 
       if (this.state.GMasterChef !== "undefined") {
         try {
@@ -387,7 +387,7 @@ class Stake extends Component {
       );
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("20000");
-      const fee = new this.state.web3.utils.BN("500000000000000000");
+      const fee = new this.state.web3.utils.BN("65000000000000000");
 
       const currentGSBalance = await this.state.gs.methods
         .balanceOf(this.state.account)
@@ -401,11 +401,11 @@ class Stake extends Component {
             .call();
 
           //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.gMasterChef.methods
             .withdraw(1, withdraw)

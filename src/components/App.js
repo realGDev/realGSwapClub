@@ -780,7 +780,7 @@ class Home extends Component {
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
 
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
       if (this.state.pMasterChef !== "undefined") {
         try {
           const gFeeAddress = await this.state.gMasterChef.methods
@@ -825,7 +825,7 @@ class Home extends Component {
 
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       if (this.state.pMasterChef !== "undefined") {
         try {
@@ -870,7 +870,7 @@ class Home extends Component {
 
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       if (this.state.pMasterChef !== "undefined") {
         try {
@@ -916,7 +916,7 @@ class Home extends Component {
 
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       if (this.state.pMasterChef !== "undefined") {
         try {
@@ -966,7 +966,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("20000");
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       const currentGSBalance = await this.state.gs.methods
         .balanceOf(this.state.account)
@@ -1017,7 +1017,7 @@ class Home extends Component {
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
         .call();
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
@@ -1059,7 +1059,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1104,7 +1104,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1149,7 +1149,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1529,17 +1529,10 @@ class Home extends Component {
                             </div>
                           </div>
                         </div>
-                        <div class="details" align="right">
-                          {/* TODO: AQUI */}
+                        <div class="details total" align="right">
                           <span class="label">Deposited:</span>
-                          {/* <span class="label">Earn:</span> */}
-
                           <span class="value">
                             {this.state.depo_clp_ammo_usdc_amount} {gs_pair_0}
-                            {/* <font size="+1">G</font>
-                            <font size="+1" color="ec6998">
-                              <i>$</i>
-                            </font> */}
                           </span>
                         </div>
                       </div>
