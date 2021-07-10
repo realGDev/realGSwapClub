@@ -746,11 +746,11 @@ class Home extends Component {
 
           //TODO: 2
           //* Fee GS
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.gMasterChef.methods.deposit(0, deposit).send({
             from: this.state.account,
