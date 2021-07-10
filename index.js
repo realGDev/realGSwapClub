@@ -424,8 +424,13 @@ const addPugPool = async (poolAd, alloc) => {
   console.log(`Nº Pools (Post-Addition): ${poolLength}`);
 };
 
-const addGangsterPool = async (poolAd, alloc) => {
-  const web3 = new Web3("http://localhost:9545");
+const addGSPool = async (poolAd, alloc) => {
+  let provider = new HDWalletProvider(
+    [process.env.MNEMONIC],
+    "https://rpc.energyweb.org"
+  );
+
+  const web3 = new Web3(provider);
 
   const poolAddress = poolAd;
   console.log(poolAddress);
@@ -443,7 +448,7 @@ const addGangsterPool = async (poolAd, alloc) => {
 
   //! Deployer address --> change to REAL address
   const addresses = await web3.eth.getAccounts();
-  console.log(`Managing Deployment through Address: ${addresses[2]}`);
+  console.log(`Managing Deployment through Address: ${addresses[0]}`);
   const deployer = addresses[0];
 
   const poolLength_0 = await masterContract.methods.poolLength().call();
@@ -727,7 +732,12 @@ const interactWithLottery = async () => {
 // change_PUG_MasterChefMultiplier(1);
 
 //!----end_PUG MasterChef
+
+//!G$ MasterChef
 // addGSPool("", 1); //? (FUNCTION)  Add Pools (ADDRESS pool)
+//TODO pid --> (0): '0x20ae3646e74dfec646b2788286065f642245ca5f','AMMO-USDC', 2
+//TODO pid --> (1): '0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb','G$ Staking', 1
+//!---end G$ MasterChef
 
 //! (end) Mainnet
 

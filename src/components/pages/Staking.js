@@ -27,7 +27,7 @@ const EWT_Blocks_Day = (60 * 60 * 24) / EWT_Block_Time;
 const days_year = 365;
 const ttl_gs = 3;
 const gs_alloc = 1;
-const gsStakingContractAddress = "POOL_1 (GmasterChef)";
+const gsStakingContractAddress = "0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb";
 
 const tokenABI = [
   {
@@ -433,7 +433,7 @@ class Stake extends Component {
       gmasterChefAddress: null,
       gStakingContracts: [],
       input_gs_staking: 0,
-      depo_gs_staking: 20.0,
+      depo_gs_staking: 0.0,
       reward_gs_staking: 0.0,
     };
   }
