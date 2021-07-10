@@ -744,13 +744,13 @@ class Home extends Component {
               from: this.state.account,
             });
 
-          //TODO: 2
           //* Fee GS
-          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+          //TODO: Fee GS
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.gMasterChef.methods.deposit(0, deposit).send({
             from: this.state.account,
@@ -792,7 +792,7 @@ class Home extends Component {
             .send({ from: this.state.account });
 
           //TODO: 2
-          //* Fee GS
+          //TODO: Fee GS
           // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
