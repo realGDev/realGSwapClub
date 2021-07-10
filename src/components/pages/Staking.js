@@ -433,7 +433,8 @@ class Stake extends Component {
       gmasterChefAddress: null,
       gStakingContracts: [],
       input_gs_staking: 0,
-      depo_gs_staking: 0,
+      depo_gs_staking: 20.0,
+      reward_gs_staking: 0.0,
     };
   }
 
@@ -500,30 +501,35 @@ class Stake extends Component {
                     {this.state.depo_gs_staking == 0 ? (
                       <font color="fe1e70">
                         <i>
-                          $<font size="+1">take</font>
+                          <font size="+2">$</font>
+
+                          <font size="+1">take</font>
                         </i>{" "}
                       </font>
                     ) : (
                       <font color="fe1e70">
                         <i>
-                          $
+                          <font size="+1">$</font>
                           <font size="+1" color="white">
                             taked:{" "}
                           </font>
                         </i>{" "}
                         <i>
-                          <font size="+1">{this.state.depo_gs_staking}G</font>
+                          <font size="+2">{this.state.depo_gs_staking}</font>
+                          <font size="+1" color="white">
+                            G
+                          </font>
                           <font size="1">$</font>{" "}
                         </i>{" "}
                         <i>
                           {" "}
-                          R
+                          <font size="+1">R</font>
                           <font size="+1" color="white">
                             ewards:{" "}
                           </font>
                         </i>{" "}
                         <i>
-                          <font size="24px" color="4ed8de">
+                          <font size="+3" color="fe1e70">
                             {this.state.reward_gs_staking}
                             <font size="+1" color="white">
                               G
