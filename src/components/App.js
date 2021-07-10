@@ -731,7 +731,7 @@ class Home extends Component {
 
       const deposit = new this.state.web3.utils.BN(dep_amount);
       const allow = dep_amount;
-      const fee = new this.state.web3.utils.BN("5000000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
 
       if (this.state.GMasterChef !== "undefined") {
         try {
