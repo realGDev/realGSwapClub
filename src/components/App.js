@@ -529,7 +529,7 @@ class Home extends Component {
           pmasterChefAddress: PugMasterChef.networks[netId].address,
           //TODO: AQUI
           gMasterChef: gMasterChef,
-          gmasterChefAddress: gMasterChef.networks[netId].address,
+          gmasterChefAddress: GMasterChef.networks[netId].address,
           feeAddres: ammoFeeAddress,
           //TODO: AQUI
           gSfeeAddres: gSFeeAddress,

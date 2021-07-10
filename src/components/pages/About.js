@@ -10,6 +10,11 @@ import ewt from "../assets/ewt.png";
 import ammo from "../assets/ammo.png";
 import gngLotto from "../assets/gngLotto.png";
 import promoAbout from "../assets/promoAbout.png";
+
+const pugContractAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
+const gsContractAddress = "0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb";
+const ammoContractAddress = "0x83Ed545185E1480411771FFDb62510f3939f9d9e";
+
 // import LotteryContract from "../../abis/Lottery.json";
 
 // import gangster from "../assets/gangster.png";
@@ -71,10 +76,18 @@ class About extends Component {
         //     //? Podria solucionarse, subiendo el contrato a la EWC (P.e. REMIX)
         //     //* Seria igual pero el Token.abi --> subido en la red EWC (deployed smart contract)
         //     // const PugInst = new web3.eth.Contract(Token.abi, PUG.address);
-        //     const ammoContract = new web3.eth.Contract(
-        //       Token.abi,
-        //       Token.networks[netId].address
-        //     );
+        // const ammoContract = new web3.eth.Contract(
+        //   Token.abi,
+        //   Token.networks[netId].address
+        // );
+        // const gsContract = new web3.eth.Contract(
+        //   Token.abi,
+        //   GS.networks[netId].address
+        // );
+        // const pugContract = new web3.eth.Contract(
+        //   Token.abi,
+        //   Token.networks[netId].address
+        // );
         //     //* FAKE PUG_EWT
         //     const fake_ewt_contract = new web3.eth.Contract(
         //       Ewt_Fake.abi,
@@ -254,38 +267,11 @@ class About extends Component {
                     EWT.
                     <br />
                     <br />
-                    This event is not just about winning, it's about supporting
-                    and adding small amount of value to the project and also to
-                    the emmerging EWC Ecosystem. And as we are a really gangster
-                    community, what a better way than giving someone of our PUG
-                    Community the possibility to become millionare with our
-                    opening event.
                   </font>
                 </span>
                 <br></br>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span class="title" align="center">
-                    <font color="ec6998">
-                      <i>
-                        Participating is just{" "}
-                        <font color="white">0,5 EWT </font> (less than 2,75$) so
-                        the contribution is small compared with the{" "}
-                        <font color="white">G</font>$
-                        <font color="white">wap </font>
-                        <font color="white">POT</font> <br />
-                        The biggest <font color="white">Reward Prize</font> ever
-                        emmited in <font color="white">EWC</font>, keep that in
-                        mind.
-                      </i>
-                    </font>
-                  </span>
-                </div>
+                <br />
+
                 <br />
                 <br></br>
                 <div>

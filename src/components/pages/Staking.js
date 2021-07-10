@@ -623,9 +623,16 @@ class Stake extends Component {
                           }
                         >
                           <div class="content">
-                            <font color="white" size="1">
+                            <font
+                              color={
+                                this.state.depo_gs_staking != 0
+                                  ? "white"
+                                  : "gray"
+                              }
+                            >
                               DEPOSIT
                             </font>
+
                             <div class="subfont"></div>
                           </div>
                         </div>
@@ -642,9 +649,8 @@ class Stake extends Component {
                           >
                             <div class="content">
                               <font
-                                size="1"
                                 color={
-                                  this.state.depo_clp_pug_bnb_amount != 0
+                                  this.state.depo_gs_staking != 0
                                     ? "white"
                                     : "gray"
                                 }
@@ -652,6 +658,12 @@ class Stake extends Component {
                                 WITHDRAW
                               </font>
 
+                              <font size="1">
+                                + G
+                                <i>
+                                  <font color="ec6998">$</font>
+                                </i>
+                              </font>
                               <div class="subfont"></div>
                             </div>
                           </div>
