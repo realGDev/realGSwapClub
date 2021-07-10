@@ -349,7 +349,10 @@ class Stake extends Component {
             .getFeeAddress()
             .call();
           const allowed = await this.state.gStakingContracts[0].methods
-            .approve(this.state.gmasterChefAddress, allow)
+            .approve(
+              this.state.gMasterChef.networks[this.state.netId].address,
+              allow
+            )
             .send({
               from: this.state.account,
             });
