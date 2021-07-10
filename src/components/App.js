@@ -486,7 +486,7 @@ class Home extends Component {
         let reward_farm_3 = (+containReward_3).toFixed(2);
 
         //TODO: AQUI
-        let reward_gs_farm_0 = (+containGsReward_0).toFixed(2);
+        let reward_gs_farm_0 = (+containGsReward_0).toFixed(5);
         //TODO: AQUI
         reward_gs_farm_0 = reward_gs_farm_0
           .toString()
