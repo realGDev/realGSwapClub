@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 
 import Web3 from "web3";
 import { useHistory } from "react-router-dom";
@@ -224,6 +224,7 @@ class NavBar extends Component {
       window.location.reload();
     }
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -238,6 +239,7 @@ class NavBar extends Component {
       pugBalance: 0,
       round_pug_balance: 0,
       gangster_pug_balance: 0,
+      screenWidth: window.innerWidth,
     };
   }
 
@@ -257,37 +259,48 @@ class NavBar extends Component {
             paddingTop: 7.5,
           }}
         >
-          <img src={pug} className="App-logo" alt="logo" height="70" />
-          <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
-            <div class="wasabi-banner">
-              <div
-                class="wrapper"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <div
-                  class="wasabi-banner-wrapper"
-                  style={{
-                    verticalAlign: "center",
-                  }}
-                >
-                  <div class="txt-wrapper">
-                    <span class="title">
-                      <font size="+3">G</font>
-                      <font size="+2">$</font>
-                      <font size="+1">wap</font>
-                    </span>
+          {this.state.screenWidth >= 900 ? (
+            <div>
+              <img src={pug} className="App-logo" alt="logo" height="70" />
+              <a className="navbar-brand col-sm-2 col-md-2 mr-0" href="#/about">
+                <div class="wasabi-banner">
+                  <div
+                    class="wrapper"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <div
+                      class="wasabi-banner-wrapper"
+                      style={{
+                        verticalAlign: "center",
+                      }}
+                    >
+                      <div class="txt-wrapper">
+                        <span class="title">
+                          <font size="+3">G</font>
+                          <font size="+2">$</font>
+                          <font size="+1">wap</font>
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
-          </a>
+          ) : (
+            <div></div>
+          )}
         </div>
         <div className="content"></div>
 
-        <div className="nav-wrapper">
+        <div
+          className="nav-wrapper"
+          style={{
+            padding: "10px",
+          }}
+        >
           <div className="topbar-nav no-select">
             <a class={"item clickable "} href="#/stake">
               <font color="ec6998">
@@ -338,48 +351,56 @@ class NavBar extends Component {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <div>
-            <div class="bunny-price clickable">
-              <font color="white">
-                <b>
-                  <font color="ec6998">PUG:</font>
-                </b>{" "}
-                {this.state.pugPrice}
-                <b>$</b>
-              </font>
+          {this.state.screenWidth >= 900 ? (
+            <div>
+              <div class="bunny-price clickable">
+                <font color="white">
+                  <b>
+                    <font color="ec6998">PUG:</font>
+                  </b>{" "}
+                  {this.state.pugPrice}
+                  <b>$</b>
+                </font>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div></div>
+          )}
 
           <div class="account-button no-select"></div>
         </div>
-        <div>
-          <span>
-            <font color="ec6998"> M</font>
-            <font color="white">y PUG</font>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <b>
-                <font color="ec6998">
-                  {this.state.gangster_pug_balance != 0 ? (
-                    <div>
-                      <font>{this.state.gangster_pug_balance}</font>
-                      <i>
-                        <font color="white">K</font>
-                      </i>
-                    </div>
-                  ) : (
-                    <div>{this.state.round_pug_balance}</div>
-                  )}
-                </font>{" "}
-              </b>
-            </div>
-          </span>
-        </div>
+        {this.state.screenWidth >= 900 ? (
+          <div>
+            <span>
+              <font color="ec6998"> M</font>
+              <font color="white">y PUG</font>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <b>
+                  <font color="ec6998">
+                    {this.state.gangster_pug_balance != 0 ? (
+                      <div>
+                        <font>{this.state.gangster_pug_balance}</font>
+                        <i>
+                          <font color="white">K</font>
+                        </i>
+                      </div>
+                    ) : (
+                      <div>{this.state.round_pug_balance}</div>
+                    )}
+                  </font>{" "}
+                </b>
+              </div>
+            </span>
+          </div>
+        ) : (
+          <div></div>
+        )}
         {/* <div>
           <span>
             <font color="ec6998"> M</font>

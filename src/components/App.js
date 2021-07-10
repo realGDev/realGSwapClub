@@ -783,7 +783,7 @@ class Home extends Component {
       const fee = new this.state.web3.utils.BN("5000000000000000000");
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
 
@@ -792,8 +792,8 @@ class Home extends Component {
             .send({ from: this.state.account });
 
           //TODO: 2
-          //* Fee (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* Fee GS
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -829,7 +829,7 @@ class Home extends Component {
 
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
           const allowed = await this.state.farmContracts[1].methods
@@ -837,8 +837,8 @@ class Home extends Component {
             .send({
               from: this.state.account,
             });
-          //* FEE (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -874,7 +874,7 @@ class Home extends Component {
 
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
           const allowed = await this.state.farmContracts[2].methods
@@ -883,8 +883,8 @@ class Home extends Component {
               from: this.state.account,
             });
 
-          //* Fee (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -920,7 +920,7 @@ class Home extends Component {
 
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
           const allowed = await this.state.farmContracts[3].methods
@@ -929,8 +929,8 @@ class Home extends Component {
               from: this.state.account,
             });
 
-          //* FEE (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -1022,15 +1022,15 @@ class Home extends Component {
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
 
-          //* Fee (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
-          //   gasPrice: gasPrice
+          //   gasPrice: gasPrice,
           // });
 
           await this.state.pMasterChef.methods
@@ -1068,12 +1068,12 @@ class Home extends Component {
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
 
-          //* FEE (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -1113,12 +1113,12 @@ class Home extends Component {
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
 
-          //* FEE (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
@@ -1158,12 +1158,12 @@ class Home extends Component {
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
         try {
-          const ammoFeeAddress = await this.state.pMasterChef.methods
+          const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
             .call();
 
-          //* FEE (AMMO)
-          // await this.state.ammo.methods.transfer(ammoFeeAddress, fee).send({
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
           //   gas: gas,
           //   gasPrice: gasPrice,
