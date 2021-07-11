@@ -22,14 +22,15 @@ const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 // const startContest_0 = new Date(2021, 6, 27);
 const startContest_1 = new Date(2021, 6, 28, 5, 30, 0, 0);
 
-const endContest_0 = new Date(2021, 6, 11, 23, 0, 0, 0);
+const endContest_0 = new Date(2021, 6, 11, 23, 30, 0, 0);
+const ended = Date.now() > endContest_0;
 // const endContest_0 = new Date(2021, 5, 10, 0, 0, 0, 0);
 // const endContest_1 = new Date(2021, 7, 10);
 
 const Completionist = () => <span>Time is over, let's check you gLOTTO!</span>;
 
 var now = Date.now();
-let dif = endContest_0 - now;
+let dif = 0;
 let difDate = Math.round(dif / oneDay);
 
 const renderer_f_0 = ({ hours, minutes, seconds, completed }) => {
@@ -166,7 +167,7 @@ class Lottery extends Component {
   }
 
   async Buy_gLotto_0() {
-    if (endContest_0 - Date.now() > 0) {
+    if (dif != 0) {
       const id = await this.state.web3.eth.net.getId();
       const lottery = new this.state.web3.eth.Contract(
         LotteryContract.abi,
@@ -193,7 +194,7 @@ class Lottery extends Component {
     let contest_0_winner;
     //! Fer call a winner i mirar si es ell
     //! Si es ell, probar de fer un withdraw
-    if (dif > 0) {
+    if (ended == false) {
       contest_0_winner = null;
       this.setState({
         firstTime: false,
@@ -384,7 +385,7 @@ class Lottery extends Component {
                 </div>
               </div>
 
-              {endContest_0 - Date.now() >= 0 ? (
+              {ended != true ? (
                 <div class="bunny-button" onClick={(e) => this.Buy_gLotto_0(e)}>
                   <div class="token-input-max clickable">
                     <font color="ec6998">BUY gLOTTO</font>
@@ -461,7 +462,7 @@ class Lottery extends Component {
                 </div>
                 <div>{/* Operating BOX */}</div>
                 <span class="pot-timestamp">
-                  {this.state.endContest_0 <= 0 ? (
+                  {ended == true ? (
                     <div>
                       <span class="pot-timestamp">
                         <font color="ec6998">
@@ -486,7 +487,7 @@ class Lottery extends Component {
                   ) : (
                     <span class="pot-timestamp">
                       Countdown for Pot to be Closed:{" "}
-                      <Countdown date={Date.now() + dif} />
+                      <Countdown date={endContest_0} />
                     </span>
                   )}
                 </span>
@@ -538,9 +539,9 @@ class Lottery extends Component {
                   </div>
                 </div>
                 <div>
-                  {this.state.contest_0_winner == false ? (
+                  {this.state.contest_0_winner == false && ended == true ? (
                     <i>"Sorry, better Luck next time"</i>
-                  ) : this.state.contest_0_winner == true ? (
+                  ) : this.state.contest_0_winner == true && ended == true ? (
                     <i>"Good Luck, you're a gangster, BUY some $PUG"</i>
                   ) : this.state.firstTime == true ? (
                     <i></i>
@@ -639,7 +640,7 @@ class Lottery extends Component {
                   ) : (
                     <span class="pot-timestamp">
                       Countdown for Pot to be Closed:{" "}
-                      <Countdown date={Date.now() + dif} />
+                      <Countdown date={endContest_0} />
                     </span>
                   )}
                 </span>
