@@ -1487,7 +1487,7 @@ class Home extends Component {
                             )}
                           </span>
                           {this.state.reward_ammo_usdc_pdt_gs_precision <=
-                          0.0 ? (
+                          0.000001 ? (
                             <span class="apr">
                               <font>
                                 <font size="+1">

@@ -356,12 +356,12 @@ class Stake extends Component {
             });
 
           //TODO: 2
-          //* Fee GS
-          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+          //* Fee GS deposit
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.gMasterChef.methods.deposit(1, deposit).send({
             from: this.state.account,
@@ -625,7 +625,7 @@ class Stake extends Component {
                           <div class="content">
                             <font
                               color={
-                                this.state.depo_gs_staking != 0
+                                this.state.depo_gs_staking == 0
                                   ? "white"
                                   : "gray"
                               }
