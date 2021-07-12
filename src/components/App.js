@@ -979,12 +979,12 @@ class Home extends Component {
             .getFeeAddress()
             .call();
 
-          //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          //* FEE (G$) withdraw
+          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.gMasterChef.methods
             .withdraw(0, withdraw)
