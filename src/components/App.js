@@ -1486,13 +1486,15 @@ class Home extends Component {
                               </font>
                             )}
                           </span>
-                          <span class="apr">
-                            <font>
-                              <font size="+1">
-                                <i>APY</i>
+                          {this.state.reward_ammo_usdc_pdt_gs_precision <=
+                          0.0 ? (
+                            <span class="apr">
+                              <font>
+                                <font size="+1">
+                                  <i>APY</i>
+                                </font>
                               </font>
-                            </font>
-                            {/* {this.state.reward_ammo_usdc_pdt_gs == 0 ? (
+                              {/* {this.state.reward_ammo_usdc_pdt_gs == 0 ? (
                               <font>
                                 <font size="+1">
                                   <i>APY</i>
@@ -1501,7 +1503,10 @@ class Home extends Component {
                             ) : (
                               ""
                             )} */}
-                          </span>
+                            </span>
+                          ) : (
+                            <span class="apr"></span>
+                          )}
                         </div>
                         <div class="details return" align="right">
                           <div

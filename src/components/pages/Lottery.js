@@ -23,15 +23,15 @@ const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
 const startContest_1 = new Date(2021, 6, 28, 5, 30, 0, 0);
 
 const endContest_0 = new Date(2021, 6, 11, 23, 30, 0, 0);
-const ended = Date.now() > endContest_0;
+const ended = true;
 // const endContest_0 = new Date(2021, 5, 10, 0, 0, 0, 0);
 // const endContest_1 = new Date(2021, 7, 10);
 
 const Completionist = () => <span>Time is over, let's check you gLOTTO!</span>;
 
 var now = Date.now();
-let dif = 0;
-let difDate = Math.round(dif / oneDay);
+// let dif = 0;
+// let difDate = Math.round(dif / oneDay);
 
 const renderer_f_0 = ({ hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -167,7 +167,7 @@ class Lottery extends Component {
   }
 
   async Buy_gLotto_0() {
-    if (dif != 0) {
+    if (ended == false) {
       const id = await this.state.web3.eth.net.getId();
       const lottery = new this.state.web3.eth.Contract(
         LotteryContract.abi,
