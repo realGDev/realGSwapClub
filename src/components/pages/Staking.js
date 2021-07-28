@@ -25,10 +25,10 @@ const GS_Block = 0.001074735449735;
 const EWT_Block_Time = 5.8;
 const EWT_Blocks_Day = (60 * 60 * 24) / EWT_Block_Time;
 const days_year = 365;
-const ttl_gs = 3;
-const gs_alloc = 1;
-const gsStakingContractAddress = "0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb";
+const ttl_gs_allo = 5;
+const gs_staking_alloc = 3;
 
+const gsStakingContractAddress = "0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb";
 const tokenABI = [
   {
     name: "Transfer",
@@ -240,6 +240,14 @@ class Stake extends Component {
           GS.abi,
           GS.networks[netId].address
         );
+        const totalSupply = await gsContract.methods.totalSupply().call();
+
+        const gs_supply_apy =
+          (100 * ((GS_Block / totalSupply) * (GS_Block * EWT_Blocks_Day) + 1)) ^
+          (days_year - 1 - 1); //!  G$ SUPPLY APY
+        gs_supply_apy = (gs_supply_apy * gs_staking_alloc) / ttl_gs_allo;
+        gs_supply_apy = (+gs_supply_apy).toFixed(2);
+
         const gsStakingContract = new web3.eth.Contract(
           tokenABI,
           gsStakingContractAddress
@@ -271,11 +279,12 @@ class Stake extends Component {
         const depo_gs_staking = (+depo_gs_staking_precision).toFixed(5);
 
         // //! APYsss G$
-        const totalSupply = await gsContract.methods.totalSupply().call();
-        const gs_supply_apy =
+        gs_supply_apy =
           (100 * ((GS_Block / totalSupply) * (GS_Block * EWT_Blocks_Day) + 1)) ^
           (days_year - 1 - 1); //!  G$ SUPPLY APY
+        gs_supply_apy = (gs_supply_apy * gs_staking_alloc) / ttl_gs_allo;
 
+        gs_supply_apy = (+gs_supply_apy).toFixed(2);
         const gStakingContracts = [gsStakingContract];
 
         this.setState({
@@ -288,6 +297,7 @@ class Stake extends Component {
           gSfeeAddres: gSFeeAddress,
           depo_gs_staking: depo_gs_staking,
           depo_gs_staking_precision: depo_gs_staking_precision,
+          gs_supply_apy: gs_supply_apy,
         });
 
         //! AQUI-end-
@@ -355,7 +365,7 @@ class Stake extends Component {
               from: this.state.account,
             });
 
-          //TODO: 2
+          //TODO: 3
           //* Fee GS deposit
           // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
           //   from: this.state.account,
@@ -388,7 +398,7 @@ class Stake extends Component {
       );
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("20000");
-      const fee = new this.state.web3.utils.BN("50000000000000000");
+      const fee = new this.state.web3.utils.BN("5000000000000000");
 
       const currentGSBalance = await this.state.gs.methods
         .balanceOf(this.state.account)
@@ -401,12 +411,13 @@ class Stake extends Component {
             .getFeeAddress()
             .call();
 
+          //TODO: 3
           //* FEE (G$)
-          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-            from: this.state.account,
-            gas: gas,
-            gasPrice: gasPrice,
-          });
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
 
           await this.state.gMasterChef.methods
             .withdraw(1, withdraw)
@@ -479,6 +490,13 @@ class Stake extends Component {
             </div>
 
             <div class="wrapper">
+              <div
+                class="container apy"
+                style={{ width: "100%", alignItems: "center" }}
+              >
+                <i>{this.state.gs_supply_apy}%</i>
+                <font size="1">APY</font>
+              </div>
               <a>
                 <div
                   class="container pg"
@@ -544,7 +562,6 @@ class Stake extends Component {
                       </font>
                     )}
                   </h3>
-
                   <div>
                     <div
                       class="token-input"
@@ -673,7 +690,6 @@ class Stake extends Component {
                   </div>
                 </div>
               </a>
-
               <br></br>
               <br></br>
               <div class="container pg">

@@ -926,7 +926,7 @@
   background-color: #262626;
 }
 .farms-card-item.boost {
-  /* background-image: url(/assets/app/premium.png); */
+  /* background-image: url("assets/gsBack.png"); */
   background-position: 50%;
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -934,16 +934,24 @@
   box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
 }
 .farms-card-item.boost-subimp {
-  /* background-image: url(/assets/app/premium.png); */
+  background-image: url("assets/gsBack.png");
   background-position: 50%;
   background-size: 100% auto;
   background-repeat: no-repeat;
   border: 2px solid #fe1e70;
   box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
 }
+.farms-card-item.boost-new {
+  background-image: url("assets/new.png");
+  background-position: 50%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  border: 2px solid #640b76;
+  box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
+}
 @media (max-width: 768px) {
   .farms-card-item.boost {
-    background-image: url(/assets/app/premium.png);
+    /* background-image: url("assets/gsBack.png"); */
   }
 }
 .farms-card-item > .icon {
@@ -2907,6 +2915,36 @@
   color: #fff;
   background-color: #ec6998;
 }
+.bunny-button.primGS {
+  color: #fff;
+  background-image: url("assets/Opgs.png");
+  background-position: 50%;
+  background-size: 105% auto;
+  background-repeat: no-repeat;
+  border: 2px solid #fe1e70;
+  box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
+  background-color: #ec6998;
+}
+.bunny-button.primAMMO {
+  color: #fff;
+  background-image: url("assets/Opammo.png");
+  background-position: 50%;
+  background-size: 105% auto;
+  background-repeat: no-repeat;
+  border: 2px solid #fe1e70;
+  box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
+  background-color: #ec6998;
+}
+.bunny-button.primPUG {
+  color: #fff;
+  background-position: 50%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  border: 2px solid #fe1e70;
+  box-shadow: inset 0 1 2px 0 #fe1e70, 0 0 1px 0 #fe1e70;
+  background-image: url("assets/Oppug.png");
+  background-color: #ec6998;
+}
 .bunny-button.secondary {
   color: #262626;
   background-color: #f9fafb;
@@ -4583,6 +4621,14 @@ span {
 }
 .container.pg {
   max-width: 900px;
+}
+.container.apy {
+  max-width: 1200px;
+  font-size: 24px;
+  font-weight: 600;
+  text-shadow: 0 0 12px #4ed8de;
+  text-align: end;
+  color: #4ed8de;
 }
 .container.md {
   max-width: 800px;

@@ -176,6 +176,100 @@ class About extends Component {
       window.alert("Please install MetaMask");
     }
   }
+
+  async addGS(dispatch) {
+    const tokenAddress = "0x41c49ef86f513498D9Be19F4E920a6Afbe8Af4Cb";
+    const tokenSymbol = "G$";
+    const tokenDecimals = 18;
+    const tokenImage =
+      "https://firebasestorage.googleapis.com/v0/b/gswap-27c0a.appspot.com/o/bigGS.png?alt=media&token=e3d9ffc8-938f-441f-aa97-d0d373419eb7";
+
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: tokenDecimals, // The number of decimals in the token
+            image: tokenImage, // A string url of the token logo
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Thanks for your interest!");
+      } else {
+        console.log("Your loss!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async addPUG(dispatch) {
+    const tokenAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
+    const tokenSymbol = "PUG";
+    const tokenDecimals = 18;
+    const tokenImage =
+      "https://firebasestorage.googleapis.com/v0/b/gswap-27c0a.appspot.com/o/bigPUG.png?alt=media&token=985d66d2-3dde-4768-b974-b0cea8cdf04c";
+
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: tokenDecimals, // The number of decimals in the token
+            image: tokenImage, // A string url of the token logo
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Thanks for your interest!");
+      } else {
+        console.log("Your loss!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async addAMMO(dispatch) {
+    const tokenAddress = "0x83Ed545185E1480411771FFDb62510f3939f9d9e";
+    const tokenSymbol = "AMMO";
+    const tokenDecimals = 18;
+    const tokenImage =
+      "https://firebasestorage.googleapis.com/v0/b/gswap-27c0a.appspot.com/o/bigAMMO.png?alt=media&token=c9396456-bd0b-4be3-beab-4087def82f07";
+
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: tokenDecimals, // The number of decimals in the token
+            image: tokenImage, // A string url of the token logo
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Thanks for your interest!");
+      } else {
+        console.log("Your loss!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -229,50 +323,54 @@ class About extends Component {
                 <span class="sub-title" align="center">
                   <font color="white">
                     <font size="+2">
-                      <b>Tired of just Holding your Gangster LPs?</b>
+                      <b>Official gTokens on MetaMask</b>
                     </font>
-                    <br />
-                    <br />
-                    <font color="ec6998" size="+1">
-                      W
-                    </font>
-                    e are here to reward you with{" "}
-                    <font color="ec6998" size="+2">
-                      AMMO
-                    </font>{" "}
-                    &{" "}
-                    <font color="ec6998" size="+2">
-                      G
-                    </font>
-                    <font color="ec6998" size="+1">
-                      $
-                    </font>{" "}
-                    for providing liquidity to the most Gangster Pools in EWC.
-                    <br />
-                    <font color="ec6998" size="+1">
-                      Once{" "}
-                    </font>
-                    our farms open, every single Gangster will have the
-                    opportunity to become a MAFIA Farmer.
-                    <br />
-                    There is also another Gangster Event on 11th of July. First
-                    EWT Lottery! Where anyone can earn a prize reward of up to{" "}
-                    <font color="ec6998" size="+1">
-                      1M
-                    </font>
-                    $ or{" "}
-                    <font color="ec6998" size="+1">
-                      125.000{" "}
-                    </font>
-                    EWT.
-                    <br />
-                    <br />
                   </font>
                 </span>
                 <br></br>
+                <br></br>
+                <div
+                  class="row"
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <a>
+                    {" "}
+                    <div
+                      class="bunny-button primGS clickable no-select no-wrap"
+                      onClick={(e) => this.addGS(e)}
+                    >
+                      <div class="content">Add G$</div>
+                    </div>
+                  </a>
+                  <div style={{ width: "5px" }}></div>
+
+                  <a>
+                    {" "}
+                    <div
+                      class="bunny-button primPUG clickable no-select no-wrap"
+                      onClick={(e) => this.addPUG(e)}
+                    >
+                      <div class="content">Add PUG</div>
+                    </div>
+                  </a>
+                  <div style={{ width: "5px" }}></div>
+
+                  <a>
+                    {" "}
+                    <div
+                      class="bunny-button primAMMO clickable no-select no-wrap"
+                      onClick={(e) => this.addAMMO(e)}
+                    >
+                      <div class="content">Add AMMO</div>
+                    </div>
+                  </a>
+                </div>
+                <br></br>
                 <br />
 
-                <br />
                 <br></br>
                 <div>
                   <span class="title" align="center">

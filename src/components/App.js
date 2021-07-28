@@ -27,38 +27,51 @@ import GS from "../abis/GSToken.json";
 
 import pugSusu from "./assets/pugSusu.png";
 import pugEwtt from "./assets/pugEwtt.png";
-import pugAmmo from "./assets/pugAmmo.png";
 import ammoUsdc from "./assets/ammoUsdc.png";
+import gsUsdc from "./assets/gsUsdc.png";
 import pugUsdc from "./assets/pugUsdc.png";
 import pugBnb from "./assets/pugBnb.png";
+import slrPug from "./assets/slrPug.png";
+import pugAmmo from "./assets/pugAmmo.png";
 import gngLotto from "./assets/gngLotto.png";
 
 const farm_opening = new Date(2021, 6, 5, 19, 0, 0, 0);
 
 const gs_pair_0 = "AMMO-USDC";
+const gs_pair_1 = "G$-USDC";
 const pair_0 = "PUG-EWT";
 const pair_1 = "PUG-SUSU";
 const pair_3 = "PUG-USDC";
 const pair_4 = "PUG-BNB";
+const pair_5 = "PUG-SLR";
+const pair_6 = "PUG-AMMO";
 const pug_ewt_contract_address = "0xc61500fa1bfa61312c71393a202149bac9ce1de4";
 const ammo_usdc_contract_address = "0x20ae3646e74dfec646b2788286065f642245ca5f";
+const gs_usdc_contract_address = "0xc6838a932e29283aa3b286306b3d3656748832f9";
 const pug_susu_contract_address = "0x6a6a9a7215b402771d2a35866a2c445cdc2a4019";
 const pug_usdc_contract_address = "0xdc3323a7cd9bd55660f6a461cd14f91c2668de27";
 const pug_bnb_contract_address = "0x9bdb88dff2d0639d4824512152794114f557d411";
+const pug_slr_contract_address = "0xc376a565e670a31516bf81339f09153466b8f196";
+const pug_ammo_contract_address = "0xE99bDF79cB46416E28BBFd2dc9c8f8454D7bDC09";
+
+const pugContractAddress = "0x59b6196e41c118dfF75961257b882e86b915a0e8";
 const GS_Block = 0.001074735449735;
 const gsPrice = 1;
 const AMMO_per_Block = 5.642364376368273;
 const EWT_Block_Time = 5.8;
 const EWT_Blocks_Day = (60 * 60 * 24) / EWT_Block_Time;
 const days_year = 365;
-const ttl_gs = 2;
-const ammo_usdc_allo = 2;
+const ttl_gs_allo = 5;
+const ammo_usdc_allo = 1;
+const gs_usdc_allo = 4;
 
 const ttl_pugs_allo = 7;
 const pug_ewt_allo = 3;
 const pug_susu_allo = 2;
 const pug_usdc_allo = 1;
 const pug_bnb_allo = 1;
+const pug_slr_allo = 2;
+const pug_ammo_allo = 3;
 
 const tokenABI = [
   {
@@ -219,6 +232,13 @@ class Home extends Component {
       );
       this.ammo_usdc_interval = ammo_usdc_interval;
     });
+    this.GsUsdcRewardDisplay().then(() => {
+      const gs_usdc_interval = setInterval(
+        () => this.GsUsdcRewardDisplay(),
+        10 * 1000
+      );
+      this.gs_usdc_interval = gs_usdc_interval;
+    });
 
     //* $AMMO Rewards Reload
     this.PugEwtRewardDisplay().then(() => {
@@ -249,16 +269,33 @@ class Home extends Component {
       );
       this.pug_bnb_interval = pug_bnb_interval;
     });
+    this.PugSlrRewardDisplay().then(() => {
+      const pug_slr_interval = setInterval(
+        () => this.PugSlrRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_slr_interval = pug_slr_interval;
+    });
+    this.PugAmmoRewardDisplay().then(() => {
+      const pug_ammo_interval = setInterval(
+        () => this.PugAmmoRewardDisplay(),
+        10 * 1000
+      );
+      this.pug_ammo_interval = pug_ammo_interval;
+    });
 
     //*Interval ends
   }
 
   componentWillUnmount() {
     clearInterval(this.ammo_usdc_interval);
+    clearInterval(this.gs_usdc_interval);
     clearInterval(this.pug_ewt_interval);
     clearInterval(this.pug_susu_interval);
     clearInterval(this.pug_usdc_interval);
     clearInterval(this.pug_bnb_interval);
+    clearInterval(this.pug_slr_interval);
+    clearInterval(this.pug_ammo_interval);
     // this._isMounted = false;  <----- tried
   }
 
@@ -298,12 +335,19 @@ class Home extends Component {
           GS.abi,
           GS.networks[netId].address
         );
+        const pugContract = new web3.eth.Contract(tokenABI, pugContractAddress);
 
         // //! APYsss G$
         const totalSupply = await gsContract.methods.totalSupply().call();
         const gs_supply_apy =
           (100 * ((GS_Block / totalSupply) * (GS_Block * EWT_Blocks_Day) + 1)) ^
           (days_year - 1 - 1); //!  G$ SUPPLY APY
+
+        let ammo_usdc_supply_apy =
+          (gs_supply_apy * ammo_usdc_allo) / ttl_gs_allo;
+        ammo_usdc_supply_apy = (+ammo_usdc_supply_apy).toFixed(2);
+        let gs_usdc_supply_apy = (gs_supply_apy * gs_usdc_allo) / ttl_gs_allo;
+        gs_usdc_supply_apy = (+gs_usdc_supply_apy).toFixed(2);
 
         const ammo_totalSupply = await ammoContract.methods
           .totalSupply()
@@ -318,6 +362,8 @@ class Home extends Component {
         let pug_susu_apy = (ammo_supply_apy * pug_susu_allo) / ttl_pugs_allo;
         let pug_usdc_apy = (ammo_supply_apy * pug_usdc_allo) / ttl_pugs_allo;
         let pug_bnb_apy = (ammo_supply_apy * pug_bnb_allo) / ttl_pugs_allo;
+        let pug_slr_apy = (ammo_supply_apy * pug_slr_allo) / ttl_pugs_allo;
+        let pug_ammo_apy = (ammo_supply_apy * pug_ammo_allo) / ttl_pugs_allo;
 
         pug_ewt_apy = (+pug_ewt_apy).toFixed(2);
 
@@ -326,13 +372,18 @@ class Home extends Component {
         pug_usdc_apy = (+pug_usdc_apy).toFixed(2);
 
         pug_bnb_apy = (+pug_bnb_apy).toFixed(2);
+        pug_slr_apy = (+pug_slr_apy).toFixed(2);
+        pug_ammo_apy = (+pug_slr_apy).toFixed(2);
 
         this.setState({
-          gs_supply_apy: gs_supply_apy,
+          ammo_usdc_supply_apy: ammo_usdc_supply_apy,
+          gs_usdc_supply_apy: gs_usdc_supply_apy,
           pug_ewt_apy: pug_ewt_apy,
           pug_susu_apy: pug_susu_apy,
           pug_usdc_apy: pug_usdc_apy,
           pug_bnb_apy: pug_bnb_apy,
+          pug_slr_apy: pug_slr_apy,
+          pug_ammo_apy: pug_ammo_apy,
         });
 
         //TODO: AQUI
@@ -344,6 +395,14 @@ class Home extends Component {
           .balanceOf(accounts[0])
           .call();
         const ammo_usdc_clp_wallet_balance = web3.utils.fromWei(ammo_usdc_clp);
+        const gs_usdc_contract = new web3.eth.Contract(
+          tokenABI,
+          gs_usdc_contract_address
+        );
+        const gs_usdc_clp = await gs_usdc_contract.methods
+          .balanceOf(accounts[0])
+          .call();
+        const gs_usdc_clp_wallet_balance = web3.utils.fromWei(gs_usdc_clp);
 
         const pug_ewt_contract = new web3.eth.Contract(
           tokenABI,
@@ -367,6 +426,22 @@ class Home extends Component {
           tokenABI,
           pug_usdc_contract_address
         );
+        const pug_slr_contract = new web3.eth.Contract(
+          tokenABI,
+          pug_slr_contract_address
+        );
+        const pug_slr_clp = await pug_slr_contract.methods
+          .balanceOf(accounts[0])
+          .call();
+        const pug_slr_clp_wallet_balance = web3.utils.fromWei(pug_slr_clp);
+        const pug_ammo_contract = new web3.eth.Contract(
+          tokenABI,
+          pug_ammo_contract_address
+        );
+        const pug_ammo_clp = await pug_ammo_contract.methods
+          .balanceOf(accounts[0])
+          .call();
+        const pug_ammo_clp_wallet_balance = web3.utils.fromWei(pug_ammo_clp);
         const pug_usdc_clp = await pug_usdc_contract.methods
           .balanceOf(accounts[0])
           .call();
@@ -405,6 +480,12 @@ class Home extends Component {
         let user_farm_3 = await pMasterChef.methods
           .userInfo(3, this.state.account)
           .call();
+        let user_farm_4 = await pMasterChef.methods
+          .userInfo(4, this.state.account)
+          .call();
+        let user_farm_5 = await pMasterChef.methods
+          .userInfo(5, this.state.account)
+          .call();
 
         let pdt_rewards_0 = await pMasterChef.methods
           .pendingSushi(0, this.state.account)
@@ -417,6 +498,12 @@ class Home extends Component {
           .call();
         let pdt_rewards_3 = await pMasterChef.methods
           .pendingSushi(3, this.state.account)
+          .call();
+        let pdt_rewards_4 = await pMasterChef.methods
+          .pendingSushi(4, this.state.account)
+          .call();
+        let pdt_rewards_5 = await pMasterChef.methods
+          .pendingSushi(5, this.state.account)
           .call();
 
         //TODO: AQUI
@@ -439,6 +526,13 @@ class Home extends Component {
           .pendingSushi(0, this.state.account)
           .call();
 
+        let user_gs_farm_1 = await gMasterChef.methods
+          .userInfo(2, this.state.account)
+          .call();
+        let pdt_gs_rewards_1 = await gMasterChef.methods
+          .pendingSushi(2, this.state.account)
+          .call();
+
         //* Deposited on PUG
         let depo_clp_pug_ewt_amount_precision = web3.utils.fromWei(
           user_farm_0.amount
@@ -452,6 +546,12 @@ class Home extends Component {
         let depo_clp_pug_bnb_amount_precision = web3.utils.fromWei(
           user_farm_3.amount
         );
+        let depo_clp_pug_slr_amount_precision = web3.utils.fromWei(
+          user_farm_4.amount
+        );
+        let depo_clp_pug_ammo_amount_precision = web3.utils.fromWei(
+          user_farm_5.amount
+        );
 
         const depo_clp_pug_ewt_amount =
           (+depo_clp_pug_ewt_amount_precision).toFixed(4);
@@ -461,6 +561,10 @@ class Home extends Component {
           (+depo_clp_pug_usdc_amount_precision).toFixed(4);
         const depo_clp_pug_bnb_amount =
           (+depo_clp_pug_bnb_amount_precision).toFixed(4);
+        const depo_clp_pug_slr_amount =
+          (+depo_clp_pug_slr_amount_precision).toFixed(4);
+        const depo_clp_pug_ammo_amount =
+          (+depo_clp_pug_ammo_amount_precision).toFixed(4);
 
         //* Deposited on GS
 
@@ -470,23 +574,34 @@ class Home extends Component {
         );
         const depo_clp_ammo_usdc_amount =
           (+depo_clp_ammo_usdc_amount_precision).toFixed(5);
+        const depo_clp_gs_usdc_amount_precision = web3.utils.fromWei(
+          user_gs_farm_1.amount
+        );
+        const depo_clp_gs_usdc_amount =
+          (+depo_clp_gs_usdc_amount_precision).toFixed(5);
 
         //* Rewards
         let containReward_0 = web3.utils.fromWei(pdt_rewards_0);
         let containReward_1 = web3.utils.fromWei(pdt_rewards_1);
         let containReward_2 = web3.utils.fromWei(pdt_rewards_2);
         let containReward_3 = web3.utils.fromWei(pdt_rewards_3);
+        let containReward_4 = web3.utils.fromWei(pdt_rewards_4);
+        let containReward_5 = web3.utils.fromWei(pdt_rewards_5);
 
         //TODO: AQUI
         let containGsReward_0 = web3.utils.fromWei(pdt_gs_rewards_0);
+        let containGsReward_1 = web3.utils.fromWei(pdt_gs_rewards_1);
 
         let reward_farm_0 = (+containReward_0).toFixed(2);
         let reward_farm_1 = (+containReward_1).toFixed(2);
         let reward_farm_2 = (+containReward_2).toFixed(2);
         let reward_farm_3 = (+containReward_3).toFixed(2);
+        let reward_farm_4 = (+containReward_4).toFixed(2);
+        let reward_farm_5 = (+containReward_5).toFixed(2);
 
         //TODO: AQUI
         let reward_gs_farm_0 = (+containGsReward_0).toFixed(5);
+        let reward_gs_farm_1 = (+containGsReward_1).toFixed(5);
         //TODO: AQUI
         reward_gs_farm_0 = reward_gs_farm_0
           .toString()
@@ -504,22 +619,31 @@ class Home extends Component {
         reward_farm_3 = reward_farm_3
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        reward_farm_4 = reward_farm_4
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        reward_farm_5 = reward_farm_5
+          .toString()
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         const farmContracts = [
           pug_ewt_contract,
           pug_susu_contract,
           pug_usdc_contract,
           pug_bnb_contract,
+          pug_slr_contract,
+          pug_ammo_contract,
         ];
 
         //TODO: AQUI
-        const gfarmContracts = [ammo_usdc_contract];
+        const gfarmContracts = [ammo_usdc_contract, gs_usdc_contract];
         this.setState({
           //! AMMO
           ammo: ammoContract,
           ammoAddress: ammoAddress,
 
           //TODO: AQUI
+          pug: pugContract,
           gs: gsContract,
           gSAddress: gSAddress,
           gfarmContracts: gfarmContracts,
@@ -553,20 +677,39 @@ class Home extends Component {
             depo_clp_pug_usdc_amount_precision,
           //?Farm_3
           reward_pug_bnb_pdt_ammo: reward_farm_3,
+          depo_clp_pug_bnb_amount: depo_clp_pug_bnb_amount,
           depo_clp_pug_bnb_amount_precision: depo_clp_pug_bnb_amount_precision,
+          //?Farm_4
+          reward_pug_slr_pdt_ammo: reward_farm_4,
+          depo_clp_pug_slr_amount: depo_clp_pug_slr_amount,
+          depo_clp_pug_slr_amount_precision: depo_clp_pug_slr_amount_precision,
+          //?Farm_5
+          reward_pug_ammo_pdt_ammo: reward_farm_5,
+          depo_clp_pug_ammo_amount: depo_clp_pug_ammo_amount,
+          depo_clp_pug_ammo_amount_precision:
+            depo_clp_pug_ammo_amount_precision,
 
           //TODO: AQUI
           // //* GS FARMS
+          //?Farm_AMMO_USDC
           reward_ammo_usdc_pdt_gs: reward_gs_farm_0,
           depo_clp_ammo_usdc_amount: depo_clp_ammo_usdc_amount,
           depo_clp_ammo_usdc_amount_precision:
             depo_clp_ammo_usdc_amount_precision,
 
+          //?Farm_GS_USDC
+          reward_gs_usdc_pdt_gs: reward_gs_farm_0,
+          depo_clp_gs_usdc_amount: depo_clp_gs_usdc_amount,
+          depo_clp_gs_usdc_amount_precision: depo_clp_gs_usdc_amount_precision,
+
           //? User Globals
           pug_ewt_clp_wallet_balance: pug_ewt_clp_wallet_balance,
           pug_susu_clp_wallet_balance: pug_susu_clp_wallet_balance,
+          pug_slr_clp_wallet_balance: pug_slr_clp_wallet_balance,
+          pug_ammo_clp_wallet_balance: pug_ammo_clp_wallet_balance,
           //TODO: AQUI
           ammo_usdc_clp_wallet_balance: ammo_usdc_clp_wallet_balance,
+          gs_usdc_clp_wallet_balance: gs_usdc_clp_wallet_balance,
           pug_usdc_clp_wallet_balance: pug_usdc_clp_wallet_balance,
           pug_bnb_clp_wallet_balance: pug_bnb_clp_wallet_balance,
           ammo_wallet_balance: ammo_wallet_balance,
@@ -608,6 +751,35 @@ class Home extends Component {
       this.setState({
         reward_ammo_usdc_pdt_gs: reward_farm_0,
         reward_ammo_usdc_pdt_gs_precision: reward_ammo_usdc_pdt_gs_precision,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  async GsUsdcRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+
+    try {
+      console.log("GS-USDC REFRESH");
+      const pdt_rewards_0 = await this.state.gMasterChef.methods
+        .pendingSushi(2, this.state.account)
+        .call();
+      const containGsReward_0 = this.state.web3.utils.fromWei(pdt_rewards_0);
+      const reward_gs_usdc_pdt_gs_precision =
+        this.state.web3.utils.fromWei(pdt_rewards_0);
+      let reward_farm_0 = (+containGsReward_0).toFixed(5);
+      reward_farm_0 = reward_farm_0
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_gs_usdc_pdt_gs: reward_farm_0,
+        reward_gs_usdc_pdt_gs_precision: reward_gs_usdc_pdt_gs_precision,
       });
     } catch (e) {
       console.log(e);
@@ -718,6 +890,56 @@ class Home extends Component {
     // }
   }
 
+  async PugSlrRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_4 = await this.state.pMasterChef.methods
+        .pendingSushi(4, this.state.account)
+        .call();
+      const containReward_4 = this.state.web3.utils.fromWei(pdt_rewards_4);
+      let reward_farm_4 = (+containReward_4).toFixed(2);
+      reward_farm_4 = reward_farm_4
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_slr_pdt_ammo: reward_farm_4,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
+  async PugAmmoRewardDisplay() {
+    //TODO: This is my own implementation of FARMING MODE
+    // if (this.state.farmMode == true) {
+    try {
+      console.log("trying");
+      const pdt_rewards_5 = await this.state.pMasterChef.methods
+        .pendingSushi(5, this.state.account)
+        .call();
+      const containReward_5 = this.state.web3.utils.fromWei(pdt_rewards_5);
+      let reward_farm_5 = (+containReward_5).toFixed(2);
+      reward_farm_5 = reward_farm_5
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      this.setState({
+        reward_pug_ammo_pdt_ammo: reward_farm_5,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+    // } else {
+
+    // }
+  }
+
   //! DEPOSIT IN FARMS (G$)
   async deposit_ammo_usdc_clp(amount) {
     if (amount != 0) {
@@ -753,6 +975,53 @@ class Home extends Component {
           // });
 
           await this.state.gMasterChef.methods.deposit(0, deposit).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, deposit: ", e);
+        }
+      }
+    } else {
+    }
+  }
+
+  async deposit_gs_usdc_clp(amount) {
+    if (amount != 0) {
+      const user_gs_farm_0 = await this.state.gfarmContracts[1].methods
+        .balanceOf(this.state.account)
+        .call();
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("2");
+
+      const dep_amount = this.state.web3.utils.toWei(amount);
+
+      const deposit = new this.state.web3.utils.BN(dep_amount);
+      const allow = dep_amount;
+      const fee = new this.state.web3.utils.BN("50000000000000000");
+
+      if (this.state.GMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+          const allowed = await this.state.gfarmContracts[1].methods
+            .approve(this.state.gmasterChefAddress, allow)
+            .send({
+              from: this.state.account,
+            });
+
+          //* Fee GS
+          //TODO: Fee GS
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
+
+          await this.state.gMasterChef.methods.deposit(2, deposit).send({
             from: this.state.account,
             gas: gas,
             gasPrice: gasPrice,
@@ -950,6 +1219,98 @@ class Home extends Component {
     }
   }
 
+  async deposit_pug_slr_clp(amount) {
+    if (amount != 0) {
+      const user_farm_4 = await this.state.farmContracts[4].methods
+        .balanceOf(this.state.account)
+        .call();
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("20000");
+
+      const dep_amount = this.state.web3.utils.toWei(amount);
+
+      const deposit = new this.state.web3.utils.BN(dep_amount);
+      const allow = dep_amount;
+      const fee = new this.state.web3.utils.BN("50000000000000000");
+
+      if (this.state.pMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+          const allowed = await this.state.farmContracts[4].methods
+            .approve(this.state.pmasterChefAddress, allow)
+            .send({
+              from: this.state.account,
+            });
+
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
+
+          await this.state.pMasterChef.methods.deposit(4, deposit).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, deposit: ", e);
+        }
+      }
+    } else {
+    }
+  }
+
+  async deposit_pug_ammo_clp(amount) {
+    if (amount != 0) {
+      const user_farm_5 = await this.state.farmContracts[5].methods
+        .balanceOf(this.state.account)
+        .call();
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("20000");
+
+      const dep_amount = this.state.web3.utils.toWei(amount);
+
+      const deposit = new this.state.web3.utils.BN(dep_amount);
+      const allow = dep_amount;
+      const fee = new this.state.web3.utils.BN("50000000000000000");
+
+      if (this.state.pMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+          const allowed = await this.state.farmContracts[5].methods
+            .approve(this.state.pmasterChefAddress, allow)
+            .send({
+              from: this.state.account,
+            });
+
+          //* FEE (G$)
+          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+          //   from: this.state.account,
+          //   gas: gas,
+          //   gasPrice: gasPrice,
+          // });
+
+          await this.state.pMasterChef.methods.deposit(5, deposit).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, deposit: ", e);
+        }
+      }
+    } else {
+    }
+  }
+
   //! END: DEPOSIT IN FARMS
 
   //! WITHDRAW GS  FARMS
@@ -973,7 +1334,7 @@ class Home extends Component {
         .call();
 
       e.preventDefault();
-      if (this.state.pMasterChef !== "undefined") {
+      if (this.state.gMasterChef !== "undefined") {
         try {
           const gFeeAddress = await this.state.gMasterChef.methods
             .getFeeAddress()
@@ -988,6 +1349,50 @@ class Home extends Component {
 
           await this.state.gMasterChef.methods
             .withdraw(0, withdraw)
+            .send({ from: this.state.account });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, withdraw: ", e);
+        }
+      }
+    } else {
+      return;
+    }
+  }
+
+  async withdraw_gs_usdc_clp(e) {
+    if (this.state.depo_clp_gs_usdc_amount_precision > 0) {
+      const user_farm_1_gs = await this.state.gMasterChef.methods
+        .userInfo(2, this.state.account)
+        .call();
+      const maxAmount = this.state.web3.utils.fromWei(user_farm_1_gs.amount);
+      const withdraw = new this.state.web3.utils.BN(
+        this.state.web3.utils.toWei(maxAmount)
+      );
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("20000");
+      const fee = new this.state.web3.utils.BN("50000000000000000");
+
+      const currentGSBalance = await this.state.gs.methods
+        .balanceOf(this.state.account)
+        .call();
+
+      e.preventDefault();
+      if (this.state.gMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+
+          //* FEE (G$) withdraw
+          await this.state.gs.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+
+          await this.state.gMasterChef.methods
+            .withdraw(2, withdraw)
             .send({ from: this.state.account });
           window.location.reload();
         } catch (e) {
@@ -1017,7 +1422,7 @@ class Home extends Component {
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
         .call();
-      const fee = new this.state.web3.utils.BN("50000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
 
       e.preventDefault();
       if (this.state.pMasterChef !== "undefined") {
@@ -1026,12 +1431,12 @@ class Home extends Component {
             .getFeeAddress()
             .call();
 
-          //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          //* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.pMasterChef.methods
             .withdraw(0, withdraw)
@@ -1059,7 +1464,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("50000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1072,12 +1477,12 @@ class Home extends Component {
             .getFeeAddress()
             .call();
 
-          //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          ///* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.pMasterChef.methods
             .withdraw(1, withdraw)
@@ -1104,7 +1509,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("50000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1117,12 +1522,12 @@ class Home extends Component {
             .getFeeAddress()
             .call();
 
-          //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          //* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.pMasterChef.methods
             .withdraw(2, withdraw)
@@ -1149,7 +1554,7 @@ class Home extends Component {
       const ammoAddress = this.state.ammoAddress;
       const gas = new this.state.web3.utils.BN("1000000");
       const gasPrice = new this.state.web3.utils.BN("200000");
-      const fee = new this.state.web3.utils.BN("50000000000000000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
 
       const currentAmmoBalance = await this.state.ammo.methods
         .balanceOf(this.state.account)
@@ -1162,15 +1567,105 @@ class Home extends Component {
             .getFeeAddress()
             .call();
 
-          //* FEE (G$)
-          // await this.state.gs.methods.transfer(gFeeAddress, fee).send({
-          //   from: this.state.account,
-          //   gas: gas,
-          //   gasPrice: gasPrice,
-          // });
+          //* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
 
           await this.state.pMasterChef.methods
             .withdraw(3, withdraw)
+            .send({ from: this.state.account });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, withdraw: ", e);
+        }
+      }
+    } else {
+      return;
+    }
+  }
+
+  async withdraw_pug_slr_clp(e) {
+    if (this.state.depo_clp_pug_slr_amount_precision > 0) {
+      const user_farm_4 = await this.state.pMasterChef.methods
+        .userInfo(4, this.state.account)
+        .call();
+      const maxAmount = this.state.web3.utils.fromWei(user_farm_4.amount);
+      const withdraw = new this.state.web3.utils.BN(
+        this.state.web3.utils.toWei(maxAmount)
+      );
+      const ammoAddress = this.state.ammoAddress;
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("200000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
+
+      const currentAmmoBalance = await this.state.ammo.methods
+        .balanceOf(this.state.account)
+        .call();
+
+      e.preventDefault();
+      if (this.state.pMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+
+          //* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+
+          await this.state.pMasterChef.methods
+            .withdraw(4, withdraw)
+            .send({ from: this.state.account });
+          window.location.reload();
+        } catch (e) {
+          console.log("Error, withdraw: ", e);
+        }
+      }
+    } else {
+      return;
+    }
+  }
+
+  async withdraw_pug_ammo_clp(e) {
+    if (this.state.depo_clp_pug_ammo_amount_precision > 0) {
+      const user_farm_5 = await this.state.pMasterChef.methods
+        .userInfo(5, this.state.account)
+        .call();
+      const maxAmount = this.state.web3.utils.fromWei(user_farm_5.amount);
+      const withdraw = new this.state.web3.utils.BN(
+        this.state.web3.utils.toWei(maxAmount)
+      );
+      const ammoAddress = this.state.ammoAddress;
+      const gas = new this.state.web3.utils.BN("1000000");
+      const gasPrice = new this.state.web3.utils.BN("200000");
+      const fee = new this.state.web3.utils.BN("50000000000000000000");
+
+      const currentAmmoBalance = await this.state.ammo.methods
+        .balanceOf(this.state.account)
+        .call();
+
+      e.preventDefault();
+      if (this.state.pMasterChef !== "undefined") {
+        try {
+          const gFeeAddress = await this.state.gMasterChef.methods
+            .getFeeAddress()
+            .call();
+
+          //* FEE (PUG)
+          await this.state.pug.methods.transfer(gFeeAddress, fee).send({
+            from: this.state.account,
+            gas: gas,
+            gasPrice: gasPrice,
+          });
+
+          await this.state.pMasterChef.methods
+            .withdraw(5, withdraw)
             .send({ from: this.state.account });
           window.location.reload();
         } catch (e) {
@@ -1207,6 +1702,14 @@ class Home extends Component {
       depo_clp_ammo_usdc_amount: 0,
       input_lp_ammo_usdc: 0,
 
+      //* GS_USDC
+      //TODO: AQUI
+      gs_usdc_clp_wallet_balance: 0,
+      reward_gs_usdc_pdt_gs: 0.0,
+      reward_gs_usdc_pdt_gs_precision: 0.0,
+      depo_clp_gs_usdc_amount: 0,
+      input_lp_gs_usdc: 0,
+
       //* PUG_EWT
       pug_ewt_clp_wallet_balance: 0,
       reward_pug_ewt_pdt_ammo: 0.0,
@@ -1230,6 +1733,18 @@ class Home extends Component {
       reward_pug_bnb_pdt_ammo: 0.0,
       depo_clp_pug_bnb_amount: 0,
       input_lp_pug_bnb: 0,
+
+      //* PUG_SLR
+      pug_slr_clp_wallet_balance: 0,
+      reward_pug_slr_pdt_ammo: 0.0,
+      depo_clp_pug_slr_amount: 0,
+      input_lp_pug_slr: 0,
+
+      //* PUG_AMMO
+      pug_ammo_clp_wallet_balance: 0,
+      reward_pug_ammo_pdt_ammo: 0.0,
+      depo_clp_pug_ammo_amount: 0,
+      input_lp_pug_ammo: 0,
 
       //! Contracts&Addresses
       farmContracts: [],
@@ -1255,6 +1770,18 @@ class Home extends Component {
     } else {
       //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
       this.setState({ input_lp_ammo_usdc: event.target.value });
+    }
+  };
+
+  ChangeCLP_GS_USDC_Amount = (event) => {
+    console.log(event.target.value);
+    if (event.target.value == undefined) {
+      this.setState({
+        input_lp_gs_usdc: this.state.gs_usdc_clp_wallet_balance,
+      });
+    } else {
+      //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
+      this.setState({ input_lp_gs_usdc: event.target.value });
     }
   };
 
@@ -1305,6 +1832,30 @@ class Home extends Component {
     }
   };
 
+  ChangeCLP_PUG_SLR_Amount = (event) => {
+    console.log(event.target.value);
+    if (event.target.value == undefined) {
+      this.setState({
+        input_lp_pug_slr: this.state.pug_slr_clp_wallet_balance,
+      });
+    } else {
+      this.setState({ input_lp_pug_slr: event.target.value });
+      //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
+    }
+  };
+
+  ChangeCLP_PUG_AMMO_Amount = (event) => {
+    console.log(event.target.value);
+    if (event.target.value == undefined) {
+      this.setState({
+        input_lp_pug_ammo: this.state.pug_ammo_clp_wallet_balance,
+      });
+    } else {
+      this.setState({ input_lp_pug_ammo: event.target.value });
+      //this opens in a new tab (believe that is what the owner of the question wanted if not you can do window.location.href = "/insert/your/path/here".
+    }
+  };
+
   //*Navigation
 
   //* END: Navigation
@@ -1333,38 +1884,7 @@ class Home extends Component {
                       </font>
                     </span>
                     <br></br>
-                    <div align="center">
-                      <span class="title">
-                        {farm_opening - Date.now() >= 0 ? (
-                          <font color="ec6998">
-                            <b>
-                              <span class="pot-timestamp">
-                                <font size="+1">Starts in: </font>
-                                <font color="white" size="+1">
-                                  <i>
-                                    <Countdown date={farm_opening} />{" "}
-                                    <font color="white" size="1">
-                                      (block:12650236)
-                                    </font>
-                                  </i>
-                                </font>
-                              </span>
-                            </b>
-                          </font>
-                        ) : (
-                          <font color="ec6998">
-                            <b>
-                              <span class="pot-timestamp">
-                                <font size="+1">
-                                  Farms are ready to reward you
-                                </font>
-                              </span>
-                            </b>
-                          </font>
-                        )}
-                      </span>
-                    </div>
-                    <br></br>
+                    <div align="center"></div>
                     {farm_opening - Date.now() >= 0 ? (
                       <div align="center">
                         <span class="title" size="1">
@@ -1408,7 +1928,7 @@ class Home extends Component {
                 <div class="farms-list-wrapper">
                   {/* FIRST FARM */}
                   {/* TODO: AQUI */}
-                  {/* AMMO-USDC FARM GS */}
+                  {/* G$ - USDC FARM */}
 
                   <main role="main" className="farm-list">
                     <div class="ewt_balance" align="left">
@@ -1422,7 +1942,7 @@ class Home extends Component {
                       {/* TODO: AQUI */}
                       <span class="value">
                         <font color="white">
-                          {this.state.ammo_usdc_clp_wallet_balance}
+                          {this.state.gs_usdc_clp_wallet_balance}
                         </font>
                       </span>
                     </div>
@@ -1437,7 +1957,7 @@ class Home extends Component {
                               width: "120px",
                             }}
                           >
-                            <img src={ammoUsdc} alt="icon" />
+                            <img src={gsUsdc} alt="icon" />
                           </div>
                         </div>
                         <div></div>
@@ -1448,8 +1968,9 @@ class Home extends Component {
                           }}
                         >
                           <span>
+                            <font color="white">G</font>
                             <i>$</i>
-                            <font color="white">{gs_pair_0}</font>
+                            <font color="white">-USDC</font>
                           </span>{" "}
                           <span>
                             <font color="white" size="1">
@@ -1466,19 +1987,17 @@ class Home extends Component {
 
                             {/* TODO: AQUI */}
 
-                            {this.state.reward_ammo_usdc_pdt_gs_precision <
+                            {this.state.reward_gs_usdc_pdt_gs_precision <
                             0.000001 ? (
                               <font>
-                                {this.state.gs_supply_apy}
+                                {this.state.gs_usdc_supply_apy}
                                 <i>
                                   <font size="+1">%</font>
                                 </i>
                               </font>
                             ) : (
                               <font>
-                                <font>
-                                  {this.state.reward_ammo_usdc_pdt_gs}
-                                </font>{" "}
+                                <font>{this.state.reward_gs_usdc_pdt_gs}</font>{" "}
                                 G
                                 <i>
                                   <font size="+1">$</font>
@@ -1486,7 +2005,7 @@ class Home extends Component {
                               </font>
                             )}
                           </span>
-                          {this.state.reward_ammo_usdc_pdt_gs_precision <=
+                          {this.state.reward_gs_usdc_pdt_gs_precision <=
                           0.000001 ? (
                             <span class="apr">
                               <font>
@@ -1511,12 +2030,13 @@ class Home extends Component {
                         <div class="details return" align="right">
                           <div
                             class="bunny-button clickable no-select"
-                            onClick={(e) => this.withdraw_ammo_usdc_clp(e)}
+                            onClick={(e) => this.withdraw_gs_usdc_clp(e)}
                           >
                             <div class="content">
                               <font
                                 color={
-                                  this.state.depo_clp_ammo_usdc_amount != 0
+                                  this.state.depo_clp_gs_usdc_amount >=
+                                  0.0000001
                                     ? "white"
                                     : "gray"
                                 }
@@ -1537,7 +2057,7 @@ class Home extends Component {
                         <div class="details total" align="right">
                           <span class="label">Deposited:</span>
                           <span class="value">
-                            {this.state.depo_clp_ammo_usdc_amount} {gs_pair_0}
+                            {this.state.depo_clp_gs_usdc_amount} {gs_pair_1}
                           </span>
                         </div>
                       </div>
@@ -1559,18 +2079,18 @@ class Home extends Component {
                       <input
                         class="token-input"
                         placeholder={
-                          this.state.input_lp_ammo_usdc == 0
+                          this.state.input_lp_gs_usdc == 0
                             ? "0.0"
-                            : this.state.input_lp_ammo_usdc
+                            : this.state.input_lp_gs_usdc
                         }
-                        onChange={this.ChangeCLP_AMMO_USDC_Amount}
+                        onChange={this.ChangeCLP_GS_USDC_Amount}
                       />
                       <span class="token-input-symbol no-select">
-                        {gs_pair_0} CLP
+                        {gs_pair_1} CLP
                       </span>
                       <div
                         class="token-input-max clickable"
-                        onClick={(e) => this.ChangeCLP_AMMO_USDC_Amount(e)}
+                        onClick={(e) => this.ChangeCLP_GS_USDC_Amount(e)}
                       >
                         MAX
                       </div>
@@ -1588,8 +2108,8 @@ class Home extends Component {
                         <div
                           class="bunny-button clickable no-select"
                           onClick={(e) =>
-                            this.deposit_ammo_usdc_clp(
-                              this.state.input_lp_ammo_usdc
+                            this.deposit_gs_usdc_clp(
+                              this.state.input_lp_gs_usdc
                             )
                           }
                         >
@@ -1687,7 +2207,8 @@ class Home extends Component {
                                 <div class="content">
                                   <font
                                     color={
-                                      this.state.depo_clp_pug_ewt_amount != 0
+                                      this.state.depo_clp_pug_ewt_amount >=
+                                      0.0000001
                                         ? "white"
                                         : "gray"
                                     }
@@ -1843,7 +2364,8 @@ class Home extends Component {
                               <div class="content">
                                 <font
                                   color={
-                                    this.state.depo_clp_pug_susu_amount != 0
+                                    this.state.depo_clp_pug_susu_amount >=
+                                    0.0000001
                                       ? "white"
                                       : "gray"
                                   }
@@ -1925,7 +2447,539 @@ class Home extends Component {
                     </div>
                   </div>
                 </div>
+                {/* PUG-AMMO FARM GS */}
 
+                <main role="main" className="farm-list">
+                  <div class="ewt_balance" align="left">
+                    <span class="label">
+                      <font color="640b76">
+                        <b>
+                          WALLET <font color="white"></font> BALANCE:
+                        </b>
+                      </font>{" "}
+                    </span>
+                    {/* TODO: AQUI */}
+                    <span class="value">
+                      <font color="white">
+                        {this.state.pug_ammo_clp_wallet_balance}
+                      </font>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <div class="farms-card-item clickable boost-new">
+                      <div class="icon">
+                        <div
+                          class="card-icon no-select"
+                          style={{
+                            height: "120px",
+                            width: "120px",
+                          }}
+                        >
+                          <img src={pugAmmo} alt="icon" />
+                        </div>
+                      </div>
+                      <div></div>
+                      <div
+                        class="label"
+                        style={{
+                          alignItems: "center",
+                        }}
+                      >
+                        <span>
+                          <i>$</i>
+                          <font color="white">{pair_6}</font>
+                        </span>
+                        <span>
+                          <font color="fe1e70" size="1">
+                            <i>New </i>
+                          </font>
+                          <font color="white" size="1">
+                            <i>Farm </i>
+                          </font>
+                        </span>
+                      </div>
+                      <div class="rates">
+                        <span class="apy">
+                          {this.state.reward_pug_ammo_pdt_ammo == 0 ? (
+                            <font>
+                              {this.state.pug_ammo_apy}
+                              <i>
+                                <font size="+1">%</font>
+                              </i>
+                            </font>
+                          ) : (
+                            <font>
+                              <font>
+                                <i>$</i>
+                                {this.state.reward_pug_ammo_pdt_ammo}
+                              </font>
+                            </font>
+                          )}
+                        </span>
+                        <span class="apr">
+                          {this.state.reward_pug_ammo_pdt_ammo == 0 ? (
+                            <font>
+                              <font size="+1">
+                                <i>APY</i>
+                              </font>
+                            </font>
+                          ) : (
+                            `AMMO`
+                          )}
+                        </span>
+                      </div>
+                      <div class="details return" align="right">
+                        <div
+                          class="bunny-button clickable no-select"
+                          onClick={(e) => this.withdraw_pug_ammo_clp(e)}
+                        >
+                          <div class="content">
+                            <font
+                              color={
+                                this.state.depo_clp_pug_ammo_amount_precision >=
+                                0.0000001
+                                  ? "white"
+                                  : "gray"
+                              }
+                            >
+                              WITHDRAW
+                            </font>
+
+                            <font size="1">
+                              + <i>$</i>AMMO
+                            </font>
+                            <div class="subfont"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="details total" align="right">
+                        <span class="label">Deposited:</span>
+                        <span class="value">
+                          {this.state.depo_clp_pug_ammo_amount} {pair_6}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                </main>
+                {/* Operating BOX */}
+                <div
+                  class="token-input"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* TODO: AQUI */}
+                  <div class="token-input-wrapper" style={{ width: "75%" }}>
+                    <input
+                      class="token-input"
+                      placeholder={
+                        this.state.input_lp_pug_ammo == 0
+                          ? "0.0"
+                          : this.state.input_lp_pug_ammo
+                      }
+                      onChange={this.ChangeCLP_PUG_AMMO_Amount}
+                    />
+                    <span class="token-input-symbol no-select">
+                      {pair_6} CLP
+                    </span>
+                    <div
+                      class="token-input-max clickable"
+                      onClick={(e) => this.ChangeCLP_PUG_AMMO_Amount(e)}
+                    >
+                      MAX
+                    </div>
+                  </div>
+                </div>
+                <br />
+                {/* TODO: AQUI */}
+
+                <div class="card-content">
+                  <div
+                    class="farm-detail-control-action-wrapper"
+                    style={{ height: "5px" }}
+                  >
+                    <div class="row">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) =>
+                          this.deposit_pug_ammo_clp(
+                            this.state.input_lp_pug_ammo
+                          )
+                        }
+                      >
+                        <div class="content">
+                          <font color="white">DEPOSIT</font>
+                          <div class="subfont"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* SLR-PUG FARM GS */}
+
+                <main role="main" className="farm-list">
+                  <div class="ewt_balance" align="left">
+                    <span class="label">
+                      <font color="640b76">
+                        <b>
+                          WALLET <font color="white"></font> BALANCE:
+                        </b>
+                      </font>{" "}
+                    </span>
+                    {/* TODO: AQUI */}
+                    <span class="value">
+                      <font color="white">
+                        {this.state.pug_slr_clp_wallet_balance}
+                      </font>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <div class="farms-card-item clickable boost-new">
+                      <div class="icon">
+                        <div
+                          class="card-icon no-select"
+                          style={{
+                            height: "120px",
+                            width: "120px",
+                          }}
+                        >
+                          <img src={slrPug} alt="icon" />
+                        </div>
+                      </div>
+                      <div></div>
+                      <div
+                        class="label"
+                        style={{
+                          alignItems: "center",
+                        }}
+                      >
+                        <span>
+                          <i>$</i>
+                          <font color="white">{pair_5}</font>
+                        </span>
+                        <span>
+                          <font color="fe1e70" size="1">
+                            <i>New </i>
+                          </font>
+                          <font color="white" size="1">
+                            <i>Farm </i>
+                          </font>
+                        </span>
+                      </div>
+                      <div class="rates">
+                        <span class="apy">
+                          {this.state.reward_pug_slr_pdt_ammo == 0 ? (
+                            <font>
+                              {this.state.pug_slr_apy}
+                              <i>
+                                <font size="+1">%</font>
+                              </i>
+                            </font>
+                          ) : (
+                            <font>
+                              <font>
+                                <i>$</i>
+                                {this.state.reward_pug_slr_pdt_ammo}
+                              </font>
+                            </font>
+                          )}
+                        </span>
+                        <span class="apr">
+                          {this.state.reward_pug_slr_pdt_ammo == 0 ? (
+                            <font>
+                              <font size="+1">
+                                <i>APY</i>
+                              </font>
+                            </font>
+                          ) : (
+                            `AMMO`
+                          )}
+                        </span>
+                      </div>
+                      <div class="details return" align="right">
+                        <div
+                          class="bunny-button clickable no-select"
+                          onClick={(e) => this.withdraw_pug_slr_clp(e)}
+                        >
+                          <div class="content">
+                            <font
+                              color={
+                                this.state.depo_clp_pug_slr_amount >= 0.0000001
+                                  ? "white"
+                                  : "gray"
+                              }
+                            >
+                              WITHDRAW
+                            </font>
+
+                            <font size="1">
+                              + <i>$</i>AMMO
+                            </font>
+                            <div class="subfont"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="details total" align="right">
+                        <span class="label">Deposited:</span>
+                        <span class="value">
+                          {this.state.depo_clp_pug_slr_amount} {pair_5}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                </main>
+                {/* Operating BOX */}
+                <div
+                  class="token-input"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* TODO: AQUI */}
+                  <div class="token-input-wrapper" style={{ width: "75%" }}>
+                    <input
+                      class="token-input"
+                      placeholder={
+                        this.state.input_lp_pug_slr == 0
+                          ? "0.0"
+                          : this.state.input_lp_pug_slr
+                      }
+                      onChange={this.ChangeCLP_PUG_SLR_Amount}
+                    />
+                    <span class="token-input-symbol no-select">
+                      {pair_5} CLP
+                    </span>
+                    <div
+                      class="token-input-max clickable"
+                      onClick={(e) => this.ChangeCLP_PUG_SLR_Amount(e)}
+                    >
+                      MAX
+                    </div>
+                  </div>
+                </div>
+                <br />
+                {/* TODO: AQUI */}
+
+                <div class="card-content">
+                  <div
+                    class="farm-detail-control-action-wrapper"
+                    style={{ height: "5px" }}
+                  >
+                    <div class="row">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) =>
+                          this.deposit_pug_slr_clp(this.state.input_lp_pug_slr)
+                        }
+                      >
+                        <div class="content">
+                          <font color="white">DEPOSIT</font>
+                          <div class="subfont"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* AMMO-USDC FARM GS */}
+
+                <main role="main" className="farm-list">
+                  <div class="ewt_balance" align="left">
+                    <span class="label">
+                      <font color="ec6998">
+                        <b>
+                          WALLET <font color="white"></font> BALANCE:
+                        </b>
+                      </font>{" "}
+                    </span>
+                    {/* TODO: AQUI */}
+                    <span class="value">
+                      <font color="white">
+                        {this.state.ammo_usdc_clp_wallet_balance}
+                      </font>
+                    </span>
+                  </div>
+
+                  <div class="row">
+                    <div class="farms-card-item clickable boost-subimp">
+                      <div class="icon">
+                        <div
+                          class="card-icon no-select"
+                          style={{
+                            height: "120px",
+                            width: "120px",
+                          }}
+                        >
+                          <img src={ammoUsdc} alt="icon" />
+                        </div>
+                      </div>
+                      <div></div>
+                      <div
+                        class="label"
+                        style={{
+                          alignItems: "center",
+                        }}
+                      >
+                        <span>
+                          <i>$</i>
+                          <font color="white">{gs_pair_0}</font>
+                        </span>{" "}
+                        <span>
+                          <font color="white" size="1">
+                            G
+                          </font>
+                          <font color="fe1e70" size="1">
+                            <i>$wap Booster</i>
+                          </font>
+                        </span>
+                      </div>
+                      <div class="rates">
+                        <span class="apy">
+                          {/* TODO: REMOVE THIS AND UNCOMMENT OTHER */}
+
+                          {/* TODO: AQUI */}
+
+                          {this.state.reward_ammo_usdc_pdt_gs_precision <
+                          0.000001 ? (
+                            <font>
+                              {this.state.ammo_usdc_supply_apy}
+                              <i>
+                                <font size="+1">%</font>
+                              </i>
+                            </font>
+                          ) : (
+                            <font>
+                              <font>{this.state.reward_ammo_usdc_pdt_gs}</font>{" "}
+                              G
+                              <i>
+                                <font size="+1">$</font>
+                              </i>
+                            </font>
+                          )}
+                        </span>
+                        {this.state.reward_ammo_usdc_pdt_gs_precision <=
+                        0.000001 ? (
+                          <span class="apr">
+                            <font>
+                              <font size="+1">
+                                <i>APY</i>
+                              </font>
+                            </font>
+                            {/* {this.state.reward_ammo_usdc_pdt_gs == 0 ? (
+                              <font>
+                                <font size="+1">
+                                  <i>APY</i>
+                                </font>
+                              </font>
+                            ) : (
+                              ""
+                            )} */}
+                          </span>
+                        ) : (
+                          <span class="apr"></span>
+                        )}
+                      </div>
+                      <div class="details return" align="right">
+                        <div
+                          class="bunny-button clickable no-select"
+                          onClick={(e) => this.withdraw_ammo_usdc_clp(e)}
+                        >
+                          <div class="content">
+                            <font
+                              color={
+                                this.state.depo_clp_ammo_usdc_amount >=
+                                0.0000001
+                                  ? "white"
+                                  : "gray"
+                              }
+                            >
+                              WITHDRAW
+                            </font>
+
+                            <font size="1">
+                              + G
+                              <i>
+                                <font color="ec6998">$</font>
+                              </i>
+                            </font>
+                            <div class="subfont"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="details total" align="right">
+                        <span class="label">Deposited:</span>
+                        <span class="value">
+                          {this.state.depo_clp_ammo_usdc_amount} {gs_pair_0}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <br></br>
+                </main>
+                {/* Operating BOX */}
+                <div
+                  class="token-input"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {/* TODO: AQUI */}
+                  <div class="token-input-wrapper" style={{ width: "75%" }}>
+                    <input
+                      class="token-input"
+                      placeholder={
+                        this.state.input_lp_ammo_usdc == 0
+                          ? "0.0"
+                          : this.state.input_lp_ammo_usdc
+                      }
+                      onChange={this.ChangeCLP_AMMO_USDC_Amount}
+                    />
+                    <span class="token-input-symbol no-select">
+                      {gs_pair_0} CLP
+                    </span>
+                    <div
+                      class="token-input-max clickable"
+                      onClick={(e) => this.ChangeCLP_AMMO_USDC_Amount(e)}
+                    >
+                      MAX
+                    </div>
+                  </div>
+                </div>
+                <br />
+                {/* TODO: AQUI */}
+
+                <div class="card-content">
+                  <div
+                    class="farm-detail-control-action-wrapper"
+                    style={{ height: "5px" }}
+                  >
+                    <div class="row">
+                      <div
+                        class="bunny-button clickable no-select"
+                        onClick={(e) =>
+                          this.deposit_ammo_usdc_clp(
+                            this.state.input_lp_ammo_usdc
+                          )
+                        }
+                      >
+                        <div class="content">
+                          <font color="white">DEPOSIT</font>
+                          <div class="subfont"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 {/* USDC-PUG FARM */}
 
                 <main role="main" className="farm-list">
@@ -1998,7 +3052,7 @@ class Home extends Component {
                           <div class="content">
                             <font
                               color={
-                                this.state.depo_clp_pug_usdc_amount != 0
+                                this.state.depo_clp_pug_usdc_amount >= 0.0000001
                                   ? "white"
                                   : "gray"
                               }
@@ -2150,7 +3204,7 @@ class Home extends Component {
                       <div class="content">
                         <font
                           color={
-                            this.state.depo_clp_pug_bnb_amount != 0
+                            this.state.depo_clp_pug_bnb_amount >= 0.0000001
                               ? "white"
                               : "gray"
                           }
